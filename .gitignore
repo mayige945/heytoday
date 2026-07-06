@@ -1,0 +1,22 @@
+# Local secrets
+.env
+tts/.env
+
+# Local agent/editor state
+.claude/
+
+# Python caches
+__pycache__/
+*.py[cod]
+
+# Generated audio and local voice samples
+音频/
+tts/voices/
+*.mp3
+*.wav
+*.m4a
+*.flac
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
