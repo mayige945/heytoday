@@ -2,9 +2,6 @@
 .env
 tts/.env
 
-# Local agent/editor state
-.claude/
-
 # Python caches
 __pycache__/
 *.py[cod]

@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash \"C:/Users/13881/.claude/plugins/cache/compound-engineering-plugin/compound-engineering/3.11.2/skills/ce-update/scripts/upstream-version.sh\")",
+      "WebSearch"
+    ]
+  }
+}
