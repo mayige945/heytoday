@@ -26,6 +26,7 @@ import glob
 import shutil
 import subprocess
 import json
+import time
 from pathlib import Path
 
 import numpy as np
@@ -815,6 +816,7 @@ def synth_minimax(lines, mp3_out):
     }
     same_ms = int(os.environ.get("MINIMAX_PAUSE_SAME_MS", str(MINIMAX_PAUSE_SAME_MS)))
     switch_ms = int(os.environ.get("MINIMAX_PAUSE_SWITCH_MS", str(MINIMAX_PAUSE_SWITCH_MS)))
+    request_interval_sec = env_float("MINIMAX_REQUEST_INTERVAL_SEC", 0.0)
 
     session = requests.Session()
     tmp_dir = mp3_out.parent / f"{mp3_out.stem}.line_parts"
@@ -835,6 +837,8 @@ def synth_minimax(lines, mp3_out):
         active_endpoint_idx = request_minimax_audio_with_fallback(
             session, key, endpoints, payload, part_path, active_endpoint_idx
         )
+        if request_interval_sec > 0:
+            time.sleep(request_interval_sec)
         if prev_sp is not None:
             gap_ms = switch_ms if sp != prev_sp else same_ms
             part_paths.append(ensure_silence_mp3(tmp_dir, gap_ms))
