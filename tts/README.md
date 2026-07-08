@@ -22,7 +22,7 @@ D:/project-script/VoxCPM/.venv/Scripts/python.exe tts/出音频.py 稿子/2026-0
 
 - `CFG_VALUE`：嗓音发紧就调低（更松弛自然）。
 - `INFERENCE_TIMESTEPS`：越高越精细越慢。
-- `PAUSE_SAME` / `PAUSE_SWITCH`：嫌太赶就加大（早餐桌慢聊感）。
+- `PAUSE_SAME` / `PAUSE_SWITCH`：嫌太赶就加大（家庭收听时的慢聊感）。
 - `MP3_BITRATE`：语音 96k 足够。
 
 ## 环境（已就绪，留档）
@@ -85,7 +85,8 @@ MiniMax 后端只使用 Speech-2.8 原生控制；原生多说话人能力需另
 - 舞台提示 `（音色=male-qn-qingse）` → 覆盖本句 `voice_setting.voice_id`，用于快速试听系统音色。
 - 舞台提示 `（更低沉/更明亮/浑厚/清脆/柔和/有力）` → 转为 `voice_modify.pitch/timbre/intensity`。
 - 舞台提示 `（音效=spacious_echo）/（音效=lofi_telephone）/（音效=robotic）` → 转为 `voice_modify.sound_effects`。
-- 请求里固定带 `language_boost=Chinese`、mp3/32k/128k，以及一个小的 `pronunciation_dict` 测试。
+- 请求里固定带 `language_boost=Chinese`、mp3/32k/128k，并带 `pronunciation_dict.tone`。这里不再只是测试项：专名、外文名、品牌名和关键多音字短语可以写入字典；临时补充可用 `MINIMAX_PRONUNCIATION_TONE` 注入，最终以 `.minimax-request.json` 里的 `payload_features.pronunciation_dict` 为核对依据。
+- 不建议在导演正文里直接塞 `(shu3)` 这类拼音括号；当前脚本会清理普通括号舞台提示，正式主线优先用 `pronunciation_dict.tone` 留痕。
 - `timbre_weights` 是文档里的 legacy 字段；当前用系统音色实测返回 `voice id not exist`，先保留脚本解析能力，但不放进主测试音频。
 
 高情绪能力短测：
