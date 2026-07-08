@@ -138,6 +138,19 @@ MINIMAX_SOUND_EFFECTS = {
     "电话": "lofi_telephone",
     "机器人": "robotic", "电音": "robotic",
 }
+MINIMAX_PRONUNCIATION_TONE = [
+    "Pando/(pan1)(duo1)",
+    "MiniMax/(mi2)(ni3)(mai4)(ke4)(si1)",
+    # 只修正短语，不全局改“数”，避免把“数字”的 shu4 误改成 shu3。
+    "一只只数/(yi4)(zhi1)(zhi1)(shu3)",
+    "一只一只数/(yi4)(zhi1)(yi4)(zhi1)(shu3)",
+    "数虫子/(shu3)(chong2)(zi5)",
+    "认真数/(ren4)(zhen1)(shu3)",
+    "数完/(shu3)(wan2)",
+    "数清楚/(shu3)(qing1)(chu3)",
+    "数不清/(shu3)(bu4)(qing1)",
+    "数不完/(shu3)(bu4)(wan2)",
+]
 
 
 def load_env_file():
@@ -333,6 +346,13 @@ class MiniMaxRequestError(Exception):
 
 def split_env_list(value):
     return [item.strip() for item in re.split(r"[,，;；\s]+", value or "") if item.strip()]
+
+
+def minimax_pronunciation_tone():
+    """MiniMax pronunciation_dict.tone entries; env can add comma/semicolon separated rules."""
+    entries = list(MINIMAX_PRONUNCIATION_TONE)
+    entries.extend(split_env_list(os.environ.get("MINIMAX_PRONUNCIATION_TONE", "")))
+    return entries
 
 
 def minimax_endpoint_candidates():
@@ -563,10 +583,7 @@ def minimax_payload(text, voice_id, model_name, speaker, line_controls=None, lin
         "stream": False,
         "voice_setting": voice_setting,
         "pronunciation_dict": {
-            "tone": [
-                "Pando/(pan1)(duo1)",
-                "MiniMax/(mi2)(ni3)(mai4)(ke4)(si1)",
-            ]
+            "tone": minimax_pronunciation_tone()
         },
         "audio_setting": {
             "sample_rate": env_int("MINIMAX_SAMPLE_RATE", MINIMAX_SAMPLE_RATE),
@@ -872,7 +889,7 @@ def synth_minimax(lines, mp3_out):
                     "text_pause_tag": "<#x#>",
                     "paragraph_marker": "\\n",
                     "native_tags": sorted(MINIMAX_NATIVE_TAGS),
-                    "pronunciation_dict": ["Pando/(pan1)(duo1)", "MiniMax/(mi2)(ni3)(mai4)(ke4)(si1)"],
+                    "pronunciation_dict": minimax_pronunciation_tone(),
                     "language_boost": os.environ.get("MINIMAX_LANGUAGE_BOOST", "Chinese").strip(),
                     "subtitle_enable": os.environ.get("MINIMAX_SUBTITLE_ENABLE", "").strip().lower() == "true",
                     "subtitle_type": os.environ.get("MINIMAX_SUBTITLE_TYPE", "sentence").strip(),
