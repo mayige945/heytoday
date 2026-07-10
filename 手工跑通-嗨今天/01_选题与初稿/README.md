@@ -6,7 +6,8 @@
 
 ## 输入
 
-- `PRD_v0.7.md`
+- `PRD_v0.8.md`
+- `新闻采集/output/` 中人工复核通过的合格新闻池（如本轮已运行；没有则继续使用人工材料）
 - `Content_Safety_Policy_v0.1.md`
 - `prompts/小学高年级_写稿提示词_当前最高版本.md`（当前运行版：`v0.14`）
 - 当天新闻材料和家长选择结果
@@ -39,4 +40,4 @@
 
 ## 沉淀位置
 
-稳定经验写回 `prompts/`；产品级决策才写回 `PRD_v0.7.md` 或 `Content_Safety_Policy_v0.1.md`。
+稳定经验写回 `prompts/`；产品级决策才写回 `PRD_v0.8.md` 或 `Content_Safety_Policy_v0.1.md`。
