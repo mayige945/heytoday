@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>「喂今天」手工播客对话自然度改进方向</title>
+<style>
+:root{--bg:#f5f1e8;--paper:#fffdf8;--ink:#24211d;--muted:#6d665d;--accent:#9a4f32;--soft:#f4dfd2;--blue:#315f68;--blue-soft:#dcebed;--line:#d9d0c3}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.72 system-ui,"Microsoft YaHei",sans-serif}main{max-width:1020px;margin:auto;padding:48px 24px 80px}header,section{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:28px;margin:0 0 20px}h1{font-size:2.2rem;line-height:1.2;margin:.2em 0}.eyebrow{color:var(--accent);font-size:.78rem;font-weight:700;letter-spacing:.12em}.meta{color:var(--muted)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}.stat{background:var(--soft);border-radius:12px;padding:14px}.stat b{display:block;font-size:1.4rem}.callout{background:var(--blue-soft);padding:16px 18px;border-radius:12px}.idea{border:1px solid var(--line);border-radius:14px;padding:20px;margin:14px 0}.idea h3{margin:0 0 6px}.chips{display:flex;gap:8px;flex-wrap:wrap}.chip{background:var(--soft);color:#6d321e;border-radius:999px;padding:3px 10px;font-size:.8rem}.fields{display:grid;grid-template-columns:140px 1fr;gap:7px 14px}.fields dt{font-weight:700;color:var(--blue)}.fields dd{margin:0}table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}a{color:var(--blue)}@media(max-width:700px){.stats{grid-template-columns:1fr}.fields{grid-template-columns:1fr}main{padding:20px 12px}header,section{padding:20px}}
+</style>
+</head>
+<body><main>
+<header>
+  <div class="eyebrow">IDEATION · 手工跑通-嗨今天</div>
+  <h1>别再把“自然”当成口语词：先拆掉完美论证链</h1>
+  <p>目标：在不搭系统的前提下，改进手写正文、导演稿、TTS 短测和孩子复听，使双人新闻播客更像两个有关系的人正在共同发现，而不是两个声音轮流朗读同一篇文章。</p>
+  <p class="meta">日期：2026-07-10 · 状态：方向筛选，不是产品决策 · 范围：仅手工跑通主线</p>
+  <div class="stats"><div class="stat"><b>31</b>原始方向</div><div class="stat"><b>7</b>保留方向</div><div class="stat"><b>4</b>建议先测的变量</div></div>
+</header>
+
+<section id="grounding"><div class="eyebrow">GROUNDING CONTEXT</div><h2>问题不是“台词不够像口语”，而是互动太正确</h2>
+<p>当前样稿的突出特征是：爸爸负责搭台阶，孩子几乎每次都给出正好推进主论点的回答；爸爸极少误解、被带偏、改口或暴露真实偏好。两人说的是不同台词，承担的却是同一个作者意图。导演层已认真加入快慢、停顿和情绪曲线，但它主要改变“怎么念”，没有改变“为什么此刻由这个人说这句话”。</p>
+<div class="callout"><strong>关键诊断：</strong>真人感来自“彼此造成下一句话”。当前更多是“大纲造成下一句话”。</div>
+<p>仓库直接信号：孩子对「机器人上学考证」给 7/10，但反馈是“像念稿”、中段分神、没有主动追问；「VAR 争议」在题材入口处掉线。外部研究也支持把注意力从表面语气词移向互动动力：自然对话包含 backchannel、重叠、修复和动态轮次；AI 对话与真人对话的感知差异集中在语言多样性、语气参与感和行为动力；仅把单口换成双人格式并不自动提升沉浸或兴趣。</p>
+</section>
+
+<section id="axes"><div class="eyebrow">TOPIC AXES</div><h2>改进面</h2>
+<p>① 角色关系与权力；② 轮次因果与不可预测性；③ 口语节奏与声学连接；④ 信息结构与注意力；⑤ 手工验证与复听。</p>
+</section>
+
+<section id="ideas"><div class="eyebrow">RANKED IDEAS</div><h2>保留的 7 个方向</h2>
+
+<article class="idea" id="idea-1"><div class="chips"><span class="chip">#1</span><span class="chip">高信心</span><span class="chip">小成本</span></div><h3>先录“真聊毛坯”，再写稿</h3>
+<p>写正文前，家长拿 5 个事实卡和孩子真聊 6–10 分钟，录音并只摘取意外回答、误解、笑点、孩子自己的比喻和真正追问。正式稿再围绕这些真实互动搭结构，而不是让模型预测一个理想孩子。</p>
+<dl class="fields"><dt>轴</dt><dd>轮次因果与手工验证</dd><dt>依据</dt><dd><strong>直接：</strong>反应日志明确缺少主动追问，而现稿孩子持续给出成熟、恰好的总结。<strong>外部：</strong>会话分析强调自然发生的儿童参与，孩子是共同生产者而非脚本功能位。</dd><dt>为什么重要</dt><dd>它把最难伪造的部分——孩子会怎么偏、怎么误会、被什么逗到——变成原材料。</dd><dt>代价</dt><dd>每天多 10–20 分钟；并非每期都能让孩子先知道新闻，可先由家长或另一成人做毛坯对聊。</dd><dt>明日测试</dt><dd>同一选题做 A“纯写稿”和 B“先真聊再改写”，盲听前 90 秒。</dd></dl></article>
+
+<article class="idea" id="idea-2"><div class="chips"><span class="chip">#2</span><span class="chip">高信心</span><span class="chip">小成本</span></div><h3>给两人“私有脑子”，禁止完美接球</h3>
+<p>写稿前分别写角色卡：爸爸今天真实不知道什么、偏爱什么、会误判什么；孩子知道什么、不耐烦什么、可能抓住哪个歪点。每 60–90 秒至少出现一次非合作性偏差：没接住、纠正前一句、换例子、坚持自己的小观点或要求说人话。</p>
+<dl class="fields"><dt>轴</dt><dd>角色关系</dd><dt>依据</dt><dd><strong>直接：</strong>白玉船稿里孩子依次完成分类、证据边界、古今分层和总结，功能过密；爸爸几乎只负责精准递球。</dd><dt>为什么重要</dt><dd>角色不再是“提问器/答案器”，而是两个局部知道、局部在乎的人。</dd><dt>风险</dt><dd>硬塞冲突会变戏剧腔；偏差必须来自角色兴趣，而非为了显得乱。</dd></dl></article>
+
+<article class="idea" id="idea-3"><div class="chips"><span class="chip">#3</span><span class="chip">高信心</span><span class="chip">中成本</span></div><h3>从“逐字双人稿”改成“半脚本会话”</h3>
+<p>每段只锁三件事：必须准确的事实句、这一段的关系动作、必须落到的听觉画面。普通承接句只写意图或给 2–3 个可选说法，录制/生成时允许自然变体。若暂时全 TTS，则先人工口述一遍再按口述回写。</p>
+<dl class="fields"><dt>轴</dt><dd>轮次因果</dd><dt>依据</dt><dd><strong>推理：</strong>逐字稿把下一句完全预定，天然压平在线组织语言的痕迹；事实句需锁定，但所有承接句都锁定没有同等收益。</dd><dt>为什么重要</dt><dd>把准确性和即兴性从“一刀切”改为分区控制。</dd><dt>风险</dt><dd>当前 TTS 不能真正即兴；因此近期版本是“先说后写”，不是交给模型随机发挥。</dd></dl></article>
+
+<article class="idea" id="idea-4"><div class="chips"><span class="chip">#4</span><span class="chip">中高信心</span><span class="chip">小成本</span></div><h3>用“互动动作谱”替代情绪曲线</h3>
+<p>现有情绪曲线保留，但导演稿新增一层：每个 turn 标注它对上一句做了什么——接住、怀疑、误解、补完、抢答、回避、修复、拉回、翻译、逗弄。若连续 5 轮只有“问—答—确认”，就重写互动关系，而非再调快慢。</p>
+<dl class="fields"><dt>轴</dt><dd>轮次与声学连接</dd><dt>依据</dt><dd><strong>外部：</strong>自然度研究把 backchannel、打断、双起和修复视为轮次组织的一部分；仅 prosody 不足以解释互动。</dd><dt>为什么重要</dt><dd>它直接检查“上一句有没有改变下一句”，比情绪标签更贴近对话。</dd><dt>手工产物</dt><dd>在导演稿旁加一列即可，无需新工具。</dd></dl></article>
+
+<article class="idea" id="idea-5"><div class="chips"><span class="chip">#5</span><span class="chip">中高信心</span><span class="chip">小成本</span></div><h3>把“聪明孩子”降级为“具体孩子”</h3>
+<p>删除孩子承担的抽象总结和连续正确推理，让孩子更多使用自身尺度：学校、游戏、身体感觉、嫌麻烦、怕无聊、喜欢某物。允许孩子只抓住局部，爸爸也不必立刻把它翻译成主题。</p>
+<dl class="fields"><dt>轴</dt><dd>角色关系与信息结构</dd><dt>依据</dt><dd><strong>直接：</strong>“它不是古人的消夏办法，是我们现在看展的办法”等台词清晰但偏成年编辑语言；反应日志显示“当考官”这种具体位置更有效。</dd><dt>为什么重要</dt><dd>可信的局部感受比正确的抽象概念更像真实儿童，也更容易让听众代入。</dd></dl></article>
+
+<article class="idea" id="idea-6"><div class="chips"><span class="chip">#6</span><span class="chip">中信心</span><span class="chip">小成本</span></div><h3>设计“微重叠”，不要撒口头禅</h3>
+<p>每 2–3 分钟安排一次有功能的短重叠：抢答半句、重复关键词、爸爸还没说完孩子已猜到、短促“等等”。另放少量不抢话权的 backchannel。重叠位置要在可预测的词尾或语义节点，避免两个完整句同时说。</p>
+<dl class="fields"><dt>轴</dt><dd>声学连接</dd><dt>依据</dt><dd><strong>外部：</strong>重叠、backchannel 和短间隔是人类轮次的固有现象，也会提升增量对话系统的响应感。</dd><dt>为什么重要</dt><dd>当前 line_concat 的换人边界过于干净，形成“交接麦克风”感。</dd><dt>风险</dt><dd>拼接和可懂度变差；必须短测，且总量少。</dd></dl></article>
+
+<article class="idea" id="idea-7"><div class="chips"><span class="chip">#7</span><span class="chip">高信心</span><span class="chip">小成本</span></div><h3>自然度评估改成“下一句归因测试”</h3>
+<p>成人复听时增加三问：这句是因为对方刚才那句才会出现吗？换到别一期还能原样用吗？这个角色不说、换另一个角色说，会有损失吗？同时让孩子只答两个简单问题：“哪句最像背的？”“哪句像他们真在说话？”</p>
+<dl class="fields"><dt>轴</dt><dd>手工验证</dd><dt>依据</dt><dd><strong>直接：</strong>现有复听表有“像真人/像对话”，但缺少可定位的因果诊断；MOS、ASR、情绪识别也无法判断角色是否在共同生成对话。</dd><dt>为什么重要</dt><dd>把模糊听感变成能回写某一轮台词的证据。</dd></dl></article>
+</section>
+
+<section id="experiment"><div class="eyebrow">FIRST MANUAL EXPERIMENT</div><h2>先做一个 90 秒四版本盲测</h2>
+<table><thead><tr><th>版本</th><th>只改变什么</th><th>目的</th></tr></thead><tbody>
+<tr><td>A 基线</td><td>当前正文 + 当前导演</td><td>保持参照</td></tr>
+<tr><td>B 角色版</td><td>私有脑子 + 一次没接住/纠正</td><td>测结构性真人感</td></tr>
+<tr><td>C 节奏版</td><td>文本不变，只缩短换人停顿 + 一次微重叠</td><td>测声学连接</td></tr>
+<tr><td>D 合并版</td><td>B + C</td><td>看是否叠加或过度</td></tr>
+</tbody></table>
+<p>盲测排序：最像真人在聊、最想继续听、最不像念稿。不要先测整期；90 秒足够淘汰错误方向。胜出后再用同规则改 3–4 分钟中段，防止只优化开头。</p>
+</section>
+
+<section id="rejections"><div class="eyebrow">REJECTION SUMMARY</div><h2>这轮明确不优先做</h2>
+<table><thead><tr><th>方向</th><th>拒绝理由</th></tr></thead><tbody>
+<tr><td>大量加入“嗯、啊、这个、然后”</td><td>只能制造表层不流利，不能建立角色因果；还会拖慢儿童音频。</td></tr>
+<tr><td>每句加更强情绪标签</td><td>现有 playbook 已证明标签不是根因；过量会变成表演腔。</td></tr>
+<tr><td>把所有句子都缩短</td><td>真人对话有长短混合；均匀短句会成为另一种机器节拍。</td></tr>
+<tr><td>每分钟强制一次打断</td><td>配额会露出模板；只按互动需要使用。</td></tr>
+<tr><td>换更强 TTS 后端</td><td>可能改善音色和过渡，但无法修复完美论证链；现阶段不是首要变量。</td></tr>
+<tr><td>让孩子故意说错很多</td><td>“装笨”同样不真实；目标是局部视角，不是降低能力。</td></tr>
+<tr><td>直接取消父子双声部</td><td>双人格式本身不是保证，但当前仍有探索价值；应先验证互动结构。</td></tr>
+</tbody></table>
+</section>
+
+<section id="sources"><div class="eyebrow">SOURCES</div><h2>外部依据</h2>
+<ul>
+<li><a href="https://www.research.ed.ac.uk/en/publications/information-density-and-overlap-in-spoken-dialogue/">Dethlefs et al.：Information density and overlap in spoken dialogue</a></li>
+<li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4464110/">Timing in turn-taking and its implications for processing models of language</a></li>
+<li><a href="https://knowledge.uchicago.edu/record/16680">Conversational Difference：真人与 AI 播客对话感知差异</a></li>
+<li><a href="https://labs.sciety.org/articles/by?article_doi=10.21203%2Frs.3.rs-6217086%2Fv1">Comparison of Listening Experiences by Podcast Styles</a>（预印本，谨慎解读）</li>
+<li><a href="https://research.atspotify.com/publications/modeling-language-usage-and-listener-engagement-in-podcasts">Spotify Research：Podcast language and listener engagement</a></li>
+<li><a href="https://journals.sagepub.com/doi/10.1177/0142723710370528">9–10 岁儿童自然同伴对话中的解释如何共同涌现</a></li>
+</ul>
+</section>
+<footer class="meta">由 Codex / ce-ideate 汇总 · 2026-07-10 · 基于当前仓库样稿、反应日志、手工导演流程与公开研究。未改动正式 prompt、PRD 或手工 runbook。</footer>
+</main></body></html>
