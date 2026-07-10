@@ -90,7 +90,7 @@ FISH_SPEED = 1.06         # 活泼口语底色（别超1.15，孩子档听清优
 FISH_CHUNK_MAX_CHARS = 650 # 长篇多说话人整段生成容易 speaker 漂移；超过该长度自动按 turn 分块生成再拼接
 FISH_PAUSE_SAME_MS = 250  # Fish 逐句保底拼接：同一说话人连续两句之间的停顿
 FISH_PAUSE_SWITCH_MS = 450 # Fish 逐句保底拼接：换人停顿
-FISH_TAG = {                                # 仅留 4 个有声学特征、实测生效的极端标签；其余情绪靠台词+标点（见 手工跑通/02_音频导演稿/情绪playbook_v1.md）
+FISH_TAG = {                                # 仅留 4 个有声学特征、实测生效的极端标签；其余情绪靠台词+标点（见 手工跑通-嗨今天/02_音频导演稿/情绪playbook_v1.md）
     "笑": "[laughing]", "哈": "[laughing]",
     "轻声": "[whispering]", "放轻": "[whispering]", "压低": "[whispering]",
     "喊": "[shouting]", "惊呼": "[shouting]",

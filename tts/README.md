@@ -95,6 +95,23 @@ MiniMax 后端只使用 Speech-2.8 原生控制；原生多说话人能力需另
 $env:HEYTODAY_TTS_BACKEND="minimax"; D:/project-script/VoxCPM/.venv/Scripts/python.exe tts/出音频.py 稿子/_MiniMax_Speech28高情绪能力测试.md
 ```
 
+## 生成后的手动评估（当前主线必做）
+
+MiniMax 生成完成后、成人复听前，必须用同一份 `.minimax-request.json` 跑 SenseVoice。它逐句读取 `line_parts/`，用 ASR 回读检查错读/漏读，用声学情绪标签检查明确的 MiniMax `emotion` 意图是否明显错配，并把结果变成复听排序和局部小修建议。
+
+```powershell
+$env:PYTHONUTF8="1"
+D:/project-script/VoxCPM/.venv/Scripts/python.exe tts/评估音频.py 音频/日期_话题_minimax导演稿_v1.minimax.minimax-request.json
+```
+
+产物与原音频放在同一目录：
+
+- `.emotion_raw.jsonl`：每句的原始 SenseVoice 输出，供审计。
+- `.review_round1.csv`：按风险排序的成人复听队列。
+- `.fix_plan_round1.json`：只允许修改读音词典、停顿、导演标签或局部重生成的建议。
+
+`CER > 0.10`、缺少逐句音频、单句推理失败、或明确 `emotion` 与识别结果明显不符的 turn 必须人工复听。中文数字和阿拉伯数字的格式转换不算错读；SenseVoice 的情绪标签只负责路由，不替代成人判断。当前尚未接入自动自然度 MOS，因此“像真人 / 像对话”的判断仍按 `手工跑通-嗨今天/03_音频生成与评估/音频自然度与情绪评估工具调研_v0.2.md` 的成人复听表完成，并在记录中标明 MOS 未跑。
+
 控制面板短测：
 
 ```powershell
