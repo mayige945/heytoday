@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "news-relevance/v1",
+  "title": "news-relevance/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "relevance"],
+  "properties": {
+    "schema_version": { "const": "news-relevance/v1" },
+    "relevance": { "enum": ["relevant", "irrelevant", "uncertain"] },
+    "topic_categories": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "discovery",
+          "technology_in_life",
+          "youth",
+          "social_conflict",
+          "ordinary_people",
+          "internet_culture"
+        ]
+      }
+    },
+    "reason": { "type": "string", "maxLength": 500 }
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "news-scoring/v1",
+  "title": "news-scoring/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "topic_categories", "primary_category", "summary",
+    "age_assessments", "story_score", "discussion_score", "knowledge_gain_score",
+    "life_relevance_score", "value_pluralism_score", "audio_fit_score",
+    "safety_tier", "safety_tags", "safety_reason", "safety_uncertain",
+    "safety_assessments", "needs_fact_check", "fact_check_targets",
+    "key_people", "key_conflicts", "child_hook", "reason"
+  ],
+  "definitions": {
+    "score": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "ageBand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["child_interest_score", "age_fit", "reason"],
+      "properties": {
+        "child_interest_score": { "$ref": "#/definitions/score" },
+        "age_fit": { "enum": ["fit", "maybe", "unfit"] },
+        "reason": { "type": "string", "maxLength": 500 }
+      }
+    },
+    "eligibilityCell": { "enum": ["eligible", "ineligible"] },
+    "parentModes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["conservative", "standard", "open"],
+      "properties": {
+        "conservative": { "$ref": "#/definitions/eligibilityCell" },
+        "standard": { "$ref": "#/definitions/eligibilityCell" },
+        "open": { "$ref": "#/definitions/eligibilityCell" }
+      }
+    }
+  },
+  "properties": {
+    "schema_version": { "const": "news-scoring/v1" },
+    "topic_categories": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "discovery", "technology_in_life", "youth", "social_conflict",
+          "ordinary_people", "internet_culture"
+        ]
+      }
+    },
+    "primary_category": {
+      "enum": [
+        "discovery", "technology_in_life", "youth", "social_conflict",
+        "ordinary_people", "internet_culture"
+      ]
+    },
+    "summary": { "type": "string", "maxLength": 600 },
+    "age_assessments": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["upper_primary", "junior_high"],
+      "properties": {
+        "upper_primary": { "$ref": "#/definitions/ageBand" },
+        "junior_high": { "$ref": "#/definitions/ageBand" }
+      }
+    },
+    "story_score": { "$ref": "#/definitions/score" },
+    "discussion_score": { "$ref": "#/definitions/score" },
+    "knowledge_gain_score": { "$ref": "#/definitions/score" },
+    "life_relevance_score": { "$ref": "#/definitions/score" },
+    "value_pluralism_score": { "$ref": "#/definitions/score" },
+    "audio_fit_score": { "$ref": "#/definitions/score" },
+    "safety_tier": { "enum": ["redline", "sensitive", "default", "uncertain"] },
+    "safety_tags": { "type": "array", "items": { "type": "string" } },
+    "safety_reason": { "type": "string", "maxLength": 800 },
+    "safety_uncertain": { "type": "boolean" },
+    "safety_assessments": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["upper_primary", "junior_high"],
+      "properties": {
+        "upper_primary": { "$ref": "#/definitions/parentModes" },
+        "junior_high": { "$ref": "#/definitions/parentModes" }
+      }
+    },
+    "needs_fact_check": { "type": "boolean" },
+    "fact_check_targets": { "type": "array", "items": { "type": "string" } },
+    "key_people": { "type": "array", "items": { "type": "string" } },
+    "key_conflicts": { "type": "array", "items": { "type": "string" } },
+    "child_hook": { "type": "string", "minLength": 1, "maxLength": 400 },
+    "reason": { "type": "string", "maxLength": 1000 }
+  }
+}

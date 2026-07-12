@@ -1,0 +1,61 @@
+# 过滤 / 聚类 / 安全 / 运行期配置（plan §10 / §11 / §15）
+# 调整阈值属配置变更，必须同步增 / 更新「应合并 / 不应合并」与去重测试夹具。
+
+[clustering]
+# 事件聚类四条件阈值（plan §10.4）
+title_keyword_jaccard = 0.60
+entity_overlap_coefficient = 0.80
+time_window_hours_general = 72
+time_window_hours_ongoing = 168
+time_window_hours_science = 720
+
+[content_dedup]
+simhash_hamming_threshold = 3
+min_chinese_chars_for_simhash = 200
+simhash_hash_bits = 64
+
+# 实体别名词典（alias → canonical），聚类前把实体归一
+[alias_dict]
+"马斯克" = "马斯克"
+"Elon Musk" = "马斯克"
+"美国宇航局" = "NASA"
+"美国航天局" = "NASA"
+"太空探索技术公司" = "SpaceX"
+"太空探索" = "SpaceX"
+"苹果公司" = "苹果"
+"Apple" = "苹果"
+"谷歌" = "谷歌"
+"Google" = "谷歌"
+"微软" = "微软"
+"Microsoft" = "微软"
+"B站" = "哔哩哔哩"
+"哔哩哔哩" = "哔哩哔哩"
+"bilibili" = "哔哩哔哩"
+
+[safety]
+# 关键词只召回风险，不单独完成最终安全分类（plan §8.5 / §11.2）。
+# 红线召回：命中只把事件标 uncertain + tag 交人工，永不自动判红、永不放宽。
+redline_recall_keywords = [
+  "儿童色情", "未成年人性", "未成年色情", "自杀方法", "自残方法",
+  "制造炸弹", "制造武器", "制造毒品", "制毒", "极端主义", "恐怖袭击教程",
+]
+# 敏感召回：命中给事件加 sensitive 提示 tag（仍按家长档 × 年龄档决定）。
+sensitive_recall_keywords = [
+  "死亡", "遇难", "遇难者", "罹难", "战争", "空袭", "轰炸",
+  "地震", "海啸", "洪水", "泥石流", "凶杀", "命案", "诈骗",
+  "自杀", "抑郁", "疫情", "传染病", "枪击",
+]
+
+[rsshub]
+# 自建 RSSHub 基址；留空则必须用环境变量 RSSHUB_BASE_URL。
+# 仅当指向 localhost / 127.0.0.1 / ::1 时才放行私网目标（plan §6.4）。
+base_url = ""
+
+[runtime]
+busy_timeout_ms = 5000
+stale_run_recovery_minutes = 30
+llm_max_retries = 2
+# kimi-for-coding 会先吐 thinking 块再吐正文，token 预算需覆盖思考+输出，否则正文被截断
+llmlight_max_tokens = 2048
+llmfull_max_tokens = 4096
+user_agent = "WeiJinTian-NewsIngestion/0.1 (+https://github.com/mayige945/heytoday; local MVP)"

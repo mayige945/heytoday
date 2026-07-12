@@ -1,0 +1,40 @@
+[project]
+name = "news-ingestion"
+version = "0.1.0"
+description = "喂今天 · 新闻采集模块（Content Intelligence）——把 RSS、网页栏目与 RSSHub 材料处理成合格新闻池的手动 CLI。"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = { text = "Proprietary" }
+authors = [{ name = "喂今天" }]
+dependencies = [
+    "typer>=0.12.3",
+    "sqlalchemy>=2.0.30",
+    "alembic>=1.13.2",
+    "anthropic>=0.40.0",
+    "jsonschema>=4.22.0",
+]
+
+[project.scripts]
+news-ingestion = "news_ingestion.cli:main"
+
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/news_ingestion"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.2.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+    "live: 需要真实网络或真实 LLM 凭据的冒烟测试，默认不收集",
+]
+
+[tool.uv]
+package = true

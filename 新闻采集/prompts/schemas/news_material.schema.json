@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "news-material/v1",
+  "title": "news-material/v1",
+  "description": "新闻素材库（v0.5）：宽口径素材池，采集阶段只排除红线；家长档×年龄档与事实核验在下游选题/写稿时做。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_at", "result", "events"],
+  "properties": {
+    "schema_version": { "const": "news-material/v1" },
+    "generated_at": { "type": "string" },
+    "result": { "enum": ["populated", "empty"] },
+    "events": { "type": "array", "items": { "$ref": "#/definitions/material_event" } }
+  },
+  "definitions": {
+    "material_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_id", "title", "primary_category", "source_count", "sources", "safety_tier", "needs_fact_check"],
+      "properties": {
+        "event_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string" },
+        "primary_category": {
+          "enum": ["discovery", "technology_in_life", "youth", "social_conflict", "ordinary_people", "internet_culture"]
+        },
+        "topic_categories": { "type": "array", "items": { "type": "string" } },
+        "child_hook": { "type": "string" },
+        "age_assessments": { "type": "object", "description": "两档年龄兴趣参考（advisory）" },
+        "safety_tier": { "enum": ["sensitive", "default", "uncertain"], "description": "红线不在此列（已排除）" },
+        "safety_tags": { "type": "array", "items": { "type": "string" } },
+        "safety_reason": { "type": "string" },
+        "needs_fact_check": { "type": "boolean", "description": "提示标签：写稿前需核验（非 gate）" },
+        "fact_check_targets": { "type": "array", "items": { "type": "string" } },
+        "source_count": { "type": "integer", "minimum": 1 },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "url"],
+            "properties": {
+              "name": { "type": "string", "minLength": 1 },
+              "role": { "type": "string" },
+              "url": { "type": "string", "minLength": 1 },
+              "published_at": { "type": ["string", "null"] }
+            }
+          }
+        },
+        "scores": { "type": "object" },
+        "human_review": {
+          "type": ["object", "null"],
+          "description": "可选策展记录；null 表示未人工策展",
+          "properties": {
+            "status": { "enum": ["approved", "rejected", null] },
+            "reviewer": { "type": ["string", "null"] },
+            "reviewed_at": { "type": ["string", "null"] },
+            "note": { "type": ["string", "null"] }
+          }
+        }
+      }
+    }
+  }
+}

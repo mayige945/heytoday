@@ -1,0 +1,357 @@
+# 新闻来源库（plan §4：14 个采集单元 / 15 条来源记录）
+#
+# 全部默认 enabled=false、access_review_status=uncertain。启用前必须：
+#   1) 核验 robots.txt / 服务条款 / 官方使用说明，记录证据 URL 与日期；
+#   2) 把 access_review_status 改为 verified；
+#   3) 完成 live smoke（至少 3 条真实启用，覆盖 RSS / 网页 / RSSHub 各 ≥1）。
+# 验证逻辑强制：enabled=true 必须 access_review_status=verified，否则 CLI 退出码 2。
+# S14 热点雷达两条记录共享 unit_code=S14，只作线索源、不作事实源（requires_fact_check=true）。
+
+# ---- S08 NASA：原始事实源，官方 RSS ----
+[[sources]]
+unit_code = "S08"
+code = "nasa"
+name = "NASA"
+homepage_url = "https://www.nasa.gov/"
+language = "en"
+country_or_region = "US"
+source_category = "science"
+source_role = ["topic_source", "fact_source"]
+acquisition_method = "rss"
+feed_url = "https://www.nasa.gov/feed/"
+enabled = true
+priority = 90
+access_review_status = "verified"
+access_reviewed_at = "2026-07-11"
+access_evidence_url = "https://www.nasa.gov/robots.txt"
+request_interval_seconds = 10
+timeout_seconds = 20
+topic_tags = ["space", "astronomy", "exploration"]
+allowed_content_types = ["application/rss+xml", "application/xml", "text/xml"]
+requires_fulltext_fetch = true
+requires_fact_check = false
+
+# ---- S09 MIT News：原始事实源 / 解释源，官方分类 RSS ----
+[[sources]]
+unit_code = "S09"
+code = "mit_news"
+name = "MIT News"
+homepage_url = "https://news.mit.edu/"
+language = "en"
+country_or_region = "US"
+source_category = "science"
+source_role = ["fact_source", "explainer_source"]
+acquisition_method = "rss"
+feed_url = "https://news.mit.edu/rss/feed"
+enabled = true
+priority = 88
+access_review_status = "verified"
+access_reviewed_at = "2026-07-11"
+access_evidence_url = "https://news.mit.edu/robots.txt"
+topic_tags = ["research", "ai", "engineering"]
+allowed_content_types = ["application/rss+xml", "application/xml", "text/xml"]
+requires_fulltext_fetch = true
+requires_fact_check = false
+
+# ---- S10 Smithsonian Magazine：选题源，官方分类 RSS ----
+[[sources]]
+unit_code = "S10"
+code = "smithsonian"
+name = "Smithsonian Magazine"
+homepage_url = "https://www.smithsonianmag.com/"
+language = "en"
+country_or_region = "US"
+source_category = "science"
+source_role = ["topic_source"]
+acquisition_method = "rss"
+feed_url = "https://www.smithsonianmag.com/rss/latest_articles/"
+enabled = true
+priority = 80
+access_review_status = "verified"
+access_reviewed_at = "2026-07-11"
+access_evidence_url = "https://www.smithsonianmag.com/robots.txt"
+topic_tags = ["animals", "history", "archaeology", "science"]
+allowed_content_types = ["application/rss+xml", "application/xml", "text/xml"]
+requires_fulltext_fetch = true
+requires_fact_check = false
+
+# ---- S03 少数派：选题源，官方 RSS ----
+[[sources]]
+unit_code = "S03"
+code = "sspai"
+name = "少数派"
+homepage_url = "https://sspai.com/"
+language = "zh-CN"
+country_or_region = "CN"
+source_category = "technology"
+source_role = ["topic_source"]
+acquisition_method = "rss"
+feed_url = "https://sspai.com/feed"
+enabled = true
+priority = 80
+access_review_status = "verified"
+access_reviewed_at = "2026-07-11"
+access_evidence_url = "https://sspai.com/robots.txt"
+topic_tags = ["ai", "digital_life", "technology"]
+allowed_content_types = ["application/rss+xml", "application/xml", "text/xml"]
+requires_fulltext_fetch = true
+requires_fact_check = true
+
+# ---- S04 Solidot：线索源，官方 RSS ----
+[[sources]]
+unit_code = "S04"
+code = "solidot"
+name = "Solidot"
+homepage_url = "https://www.solidot.org/"
+language = "zh-CN"
+country_or_region = "CN"
+source_category = "technology"
+source_role = ["lead_source", "topic_source"]
+acquisition_method = "rss"
+feed_url = "https://www.solidot.org/index.rss"
+enabled = true
+priority = 78
+access_review_status = "verified"
+access_reviewed_at = "2026-07-11"
+access_evidence_url = "https://www.solidot.org/robots.txt"
+topic_tags = ["internet", "science", "technology"]
+allowed_content_types = ["application/rss+xml", "application/xml", "text/xml"]
+requires_fulltext_fetch = true
+requires_fact_check = false
+
+# ---- S12 BBC News：事实源，官方 RSS ----
+[[sources]]
+unit_code = "S12"
+code = "bbc"
+name = "BBC News"
+homepage_url = "https://www.bbc.com/news"
+language = "en"
+country_or_region = "UK"
+source_category = "international"
+source_role = ["fact_source", "topic_source"]
+acquisition_method = "rss"
+feed_url = "https://feeds.bbci.co.uk/news/technology/rss.xml"
+enabled = true
+priority = 82
+access_review_status = "verified"
+access_reviewed_at = "2026-07-11"
+access_evidence_url = "https://www.bbc.com/robots.txt"
+topic_tags = ["technology", "science", "society"]
+allowed_content_types = ["application/rss+xml", "application/xml", "text/xml"]
+requires_fulltext_fetch = true
+requires_fact_check = false
+
+# ---- S11 The Guardian：多元视角源，官方栏目 RSS ----
+[[sources]]
+unit_code = "S11"
+code = "the_guardian"
+name = "The Guardian"
+homepage_url = "https://www.theguardian.com/"
+language = "en"
+country_or_region = "UK"
+source_category = "international"
+source_role = ["viewpoint_source", "topic_source"]
+acquisition_method = "rss"
+feed_url = "https://www.theguardian.com/science/rss"
+enabled = true
+priority = 80
+access_review_status = "verified"
+access_reviewed_at = "2026-07-11"
+access_evidence_url = "https://www.theguardian.com/robots.txt"
+topic_tags = ["environment", "animals", "science", "society"]
+allowed_content_types = ["application/rss+xml", "application/xml", "text/xml"]
+requires_fulltext_fetch = true
+requires_fact_check = false
+
+# ---- S13 The Conversation：解释源 / 观点源，RSS 优先 ----
+[[sources]]
+unit_code = "S13"
+code = "the_conversation"
+name = "The Conversation"
+homepage_url = "https://theconversation.com/"
+language = "en"
+country_or_region = "INTL"
+source_category = "academic_explainer"
+source_role = ["explainer_source", "viewpoint_source"]
+acquisition_method = "rss"
+feed_url = "https://theconversation.com/us/technology/articles.atom"
+enabled = true
+priority = 76
+access_review_status = "verified"
+access_reviewed_at = "2026-07-11"
+access_evidence_url = "https://theconversation.com/robots.txt"
+topic_tags = ["science", "education", "society"]
+allowed_content_types = ["application/atom+xml", "application/rss+xml", "application/xml", "text/xml"]
+requires_fulltext_fetch = true
+requires_fact_check = false
+
+# ---- S02 果壳：选题源 / 解释源，RSS 优先（不稳定则禁用）----
+[[sources]]
+unit_code = "S02"
+code = "guokr"
+name = "果壳"
+homepage_url = "https://www.guokr.com/"
+language = "zh-CN"
+country_or_region = "CN"
+source_category = "science"
+source_role = ["topic_source", "explainer_source"]
+acquisition_method = "rss"
+feed_url = "https://www.guokr.com/rss/"
+enabled = false
+priority = 78
+access_review_status = "uncertain"
+access_reviewed_at = "2026-07-10"
+access_evidence_url = "https://www.guokr.com/robots.txt"
+disabled_reason = "Feed 404，长期不稳定，URL 待核验"
+topic_tags = ["science", "animals", "discovery"]
+allowed_content_types = ["application/rss+xml", "application/xml", "text/xml"]
+requires_fulltext_fetch = true
+requires_fact_check = false
+
+# ---- S01 少年報導者：精品选题源，网页栏目抓取 ----
+[[sources]]
+unit_code = "S01"
+code = "twreporter"
+name = "少年報導者"
+homepage_url = "https://twreporter.org/"
+language = "zh-TW"
+country_or_region = "TW"
+source_category = "child_news"
+source_role = ["topic_source"]
+acquisition_method = "webpage"
+list_page_urls = ["https://twreporter.org/"]
+enabled = false
+priority = 85
+access_review_status = "uncertain"
+access_reviewed_at = "2026-07-10"
+access_evidence_url = "https://twreporter.org/robots.txt"
+disabled_reason = "通用解析可用（64 条）但 allowed_sections 未限定，批量前需收窄/写专属解析"
+allowed_sections = []
+excluded_sections = ["author", "tag", "search", "about"]
+excluded_keywords = ["赞助", "广告"]
+allowed_content_types = ["text/html", "application/xhtml+xml"]
+topic_tags = ["youth", "ordinary_people", "social_issue"]
+requires_fulltext_fetch = true
+requires_fact_check = false
+
+# ---- S05 极客公园：选题源，网页栏目抓取 ----
+[[sources]]
+unit_code = "S05"
+code = "geepark"
+name = "极客公园"
+homepage_url = "https://www.geekpark.com/"
+language = "zh-CN"
+country_or_region = "CN"
+source_category = "technology"
+source_role = ["topic_source"]
+acquisition_method = "webpage"
+list_page_urls = ["https://www.geekpark.com/"]
+enabled = false
+priority = 70
+access_review_status = "uncertain"
+access_reviewed_at = "2026-07-10"
+access_evidence_url = "https://www.geekpark.com/robots.txt"
+disabled_reason = "域名拼写修正（geepark.net→geekpark.com）；实测 geekpark.com 返回 404、geekpark.net 连接异常，真实可用 URL 待操作者现场核验"
+allowed_sections = []
+excluded_sections = ["author", "tag", "search", "about", "user"]
+excluded_keywords = ["广告", "赞助"]
+allowed_content_types = ["text/html", "application/xhtml+xml"]
+topic_tags = ["ai", "robotics", "consumer_tech"]
+requires_fulltext_fetch = true
+requires_fact_check = false
+
+# ---- S06 澎湃新闻：选题源 / 事实源，指定栏目抓取 ----
+[[sources]]
+unit_code = "S06"
+code = "thepaper"
+name = "澎湃新闻"
+homepage_url = "https://www.thepaper.cn/"
+language = "zh-CN"
+country_or_region = "CN"
+source_category = "society"
+source_role = ["topic_source", "fact_source"]
+acquisition_method = "webpage"
+list_page_urls = ["https://www.thepaper.cn/"]
+enabled = false
+priority = 75
+access_review_status = "uncertain"
+access_reviewed_at = "2026-07-10"
+access_evidence_url = "https://www.thepaper.cn/robots.txt"
+disabled_reason = "列表页 403 Forbidden（访问控制），按 plan 不绕过"
+allowed_sections = ["newsDetail"]
+excluded_sections = ["ask", "user", "tag", "search"]
+excluded_keywords = ["广告", "赞助", "直播"]
+allowed_content_types = ["text/html", "application/xhtml+xml"]
+topic_tags = ["society", "education", "city"]
+requires_fulltext_fetch = true
+requires_fact_check = false
+
+# ---- S07 界面新闻：选题源，指定栏目抓取 ----
+[[sources]]
+unit_code = "S07"
+code = "jiemian"
+name = "界面新闻"
+homepage_url = "https://www.jiemian.com/"
+language = "zh-CN"
+country_or_region = "CN"
+source_category = "society"
+source_role = ["topic_source"]
+acquisition_method = "webpage"
+list_page_urls = ["https://www.jiemian.com/"]
+enabled = false
+priority = 70
+access_review_status = "uncertain"
+access_reviewed_at = "2026-07-10"
+access_evidence_url = "https://www.jiemian.com/robots.txt"
+disabled_reason = "通用解析可用（152 条）但 allowed_sections 未限定，批量前需收窄/写专属解析"
+allowed_sections = []
+excluded_sections = ["user", "tag", "search", "about"]
+excluded_keywords = ["广告", "赞助"]
+allowed_content_types = ["text/html", "application/xhtml+xml"]
+topic_tags = ["society", "consumer", "technology"]
+requires_fulltext_fetch = true
+requires_fact_check = false
+
+# ---- S14 热点雷达：知乎热榜（线索源，RSSHub）----
+[[sources]]
+unit_code = "S14"
+code = "trend_radar_zhihu"
+name = "知乎热榜"
+homepage_url = "https://www.zhihu.com/"
+language = "zh-CN"
+country_or_region = "CN"
+source_category = "trend_radar"
+source_role = ["lead_source"]
+acquisition_method = "rsshub"
+rsshub_route = "zhihu/hotlist"
+enabled = false
+priority = 70
+access_review_status = "uncertain"
+access_reviewed_at = "2026-07-10"
+access_evidence_url = "https://www.zhihu.com/robots.txt"
+disabled_reason = "线索源；待配置自建 RSSHub 并核验路由后启用；只进线索库，不作事实源"
+allowed_content_types = ["application/rss+xml", "application/xml", "text/xml"]
+requires_fulltext_fetch = false
+requires_fact_check = true
+
+# ---- S14 热点雷达：B 站热门（线索源，RSSHub）----
+[[sources]]
+unit_code = "S14"
+code = "trend_radar_bilibili"
+name = "B站热门"
+homepage_url = "https://www.bilibili.com/"
+language = "zh-CN"
+country_or_region = "CN"
+source_category = "trend_radar"
+source_role = ["lead_source"]
+acquisition_method = "rsshub"
+rsshub_route = "bilibili/ranking/0/3/1"
+enabled = false
+priority = 70
+access_review_status = "uncertain"
+access_reviewed_at = "2026-07-10"
+access_evidence_url = "https://www.bilibili.com/robots.txt"
+disabled_reason = "线索源；待配置自建 RSSHub 并核验路由后启用；只进线索库，不作事实源"
+allowed_content_types = ["application/rss+xml", "application/xml", "text/xml"]
+requires_fulltext_fetch = false
+requires_fact_check = true
