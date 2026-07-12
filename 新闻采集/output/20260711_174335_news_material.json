@@ -1,0 +1,3953 @@
+{
+  "schema_version": "news-material/v1",
+  "generated_at": "2026-07-11T17:43:35.484568+08:00",
+  "result": "populated",
+  "events": [
+    {
+      "event_id": "evt_1c737d45042ff1d50c3017",
+      "title": "父母的手机上瘾影响与子女的关系",
+      "summary": "一项发表于《Frontiers in Psychology》的研究调查了600名12-17岁美国未成年人，发现父母对智能手机上瘾或屏幕管理不当可能加剧孩子的不安全依恋，导致其人际焦虑、回避、自信心不足，并影响亲密关系与冒险意愿。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "youth",
+        "social_conflict"
+      ],
+      "child_hook": "如果你可以发明一个「信号灯」，当父母需要放下手机陪你时它就会亮起来，你希望它最先在一天里的哪个时刻亮起？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 85,
+          "age_fit": "fit",
+          "reason": "小学生日常能观察到父母使用手机，容易感同身受，也能理解「被忽视」的情绪，但「依恋理论」等心理学概念需要主播用生活化语言解释。"
+        },
+        "junior_high": {
+          "child_interest_score": 92,
+          "age_fit": "fit",
+          "reason": "初中生正处在自我意识与亲子关系敏感期，研究样本年龄与其重合，极易引发共鸣和与父母的讨论。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "话题属于家庭数字生活与儿童心理发展的研究综述，无暴力、死亡、性、自残、仇恨或政治敏感内容，适合所有家长档与年龄档。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "核实《Frontiers in Psychology》是否确有该研究及DOI链接",
+        "核实样本量是否为600名、年龄是否为12-17岁",
+        "核实研究结论是否确实指向「不安全依恋」与长期心理影响",
+        "核实研究发表时间及作者信息"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "Solidot",
+          "role": "lead_source, topic_source",
+          "url": "https://www.solidot.org/story?sid=84795",
+          "published_at": "2026-07-09T16:43:18+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 68.0,
+        "discussion_score": 90.0,
+        "knowledge_gain_score": 78.0,
+        "life_relevance_score": 95.0,
+        "value_pluralism_score": 82.0,
+        "audio_fit_score": 88.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c7377498f119b4dae3203",
+      "title": "What 20 million bans reveal about the strain on Wikipedia’s volunteers",
+      "summary": "维基百科数据显示累计约2000万次封禁，揭示志愿者管理员在反破坏、反垃圾信息中的工作压力与平台治理变化。",
+      "primary_category": "internet_culture",
+      "topic_categories": [
+        "internet_culture",
+        "technology_in_life",
+        "social_conflict"
+      ],
+      "child_hook": "如果你有一根“管理员魔杖”，能让任何破坏百科的人消失，你会在什么情况下按下它？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 68,
+          "age_fit": "fit",
+          "reason": "小学生日常使用维基百科查资料，对“谁在看管百科”有好奇；数据与治理规则稍抽象，但可用人际冲突与侦探式叙事降低门槛。"
+        },
+        "junior_high": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "初中生熟悉社交媒体规则与网络冲突，能理解“开放编辑”与“封禁破坏者”之间的张力，容易代入讨论。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "话题为网络平台治理与志愿者工作压力，无暴力、灾难、疾病或未成年敏感内容；涉及网络破坏与封禁，但属于抽象的平台规则讨论，无危险操作指引。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "20 million bans 的统计时间范围与是否包含重复账号、IP 封禁",
+        "维基百科活跃管理员与志愿者数量近年变化趋势",
+        "封禁政策或执行标准是否出现显著变化"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Conversation",
+          "role": "explainer_source, viewpoint_source",
+          "url": "https://theconversation.com/what-20-million-bans-reveal-about-the-strain-on-wikipedias-volunteers-274818",
+          "published_at": "2026-06-25T12:35:20+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 72.0,
+        "discussion_score": 85.0,
+        "knowledge_gain_score": 80.0,
+        "life_relevance_score": 70.0,
+        "value_pluralism_score": 80.0,
+        "audio_fit_score": 85.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c73786f8925a286fdb299",
+      "title": "‘Beautiful blobs’: can scientists build life from scratch? – podcast",
+      "summary": "科学家用实验室合成的DNA造出会蠕动、进食、生长和繁殖的“美丽小液滴”，向“从零创造生命”迈进，相关进展与伦理争议引发讨论。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery",
+        "technology_in_life"
+      ],
+      "child_hook": "If scientists built a tiny living blob from scratch, would it be more like a creature or a machine—and should we have rules for it?",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 80,
+          "age_fit": "fit",
+          "reason": "Quivering blobs that grow and multiply feel like sci-fi slime, appealing to curiosity; basic biology concepts are understandable."
+        },
+        "junior_high": {
+          "child_interest_score": 85,
+          "age_fit": "fit",
+          "reason": "Synthetic DNA and artificial cells connect to genetics and bioethics, naturally engaging older students."
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "Scientific research story about synthetic biology; no graphic violence, death, sexual content, or dangerous instruction. Ethical questions can be handled neutrally.",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Confirm that University of Minnesota professor Kate Adamala is quoted in the podcast.",
+        "Verify the claim that lab-made blobs use synthetic DNA to feed, grow, and multiply.",
+        "Confirm publication date and that it is from The Guardian Science podcast.",
+        "Check whether researchers describe this as 'creating life from scratch' versus a step toward synthetic cells."
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Guardian",
+          "role": "viewpoint_source, topic_source",
+          "url": "https://www.theguardian.com/science/audio/2026/jul/02/beautiful-blobs-can-scientists-build-life-from-scratch-podcast",
+          "published_at": "2026-07-02T04:00:05+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 78.0,
+        "discussion_score": 85.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 60.0,
+        "value_pluralism_score": 80.0,
+        "audio_fit_score": 85.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c73793b12e2d43663aff4",
+      "title": "Why are our fingers different lengths?",
+      "summary": "科学解释人类五根手指长度不一的原因：涉及进化压力、胚胎发育和手部功能分工，帮助孩子从自己身上发现生物学问题。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery"
+      ],
+      "child_hook": "如果你可以重新设计自己的一只手，你会让五根手指一样长吗？还是说，不同长度其实各有各的妙用？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 85,
+          "age_fit": "fit",
+          "reason": "问题直接来自孩子自己的身体，容易观察、触摸和提问，符合小学中高年级好奇心。"
+        },
+        "junior_high": {
+          "child_interest_score": 78,
+          "age_fit": "fit",
+          "reason": "内容涉及进化、发育与功能适应，适合初中生作为生物学科普，但悬念感略低于新闻事件。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "纯科学解释类内容，无暴力、死亡、疾病、政治或社会争议，适合默认分级。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "核实文中关于手指长度差异的进化与发育机制表述是否准确",
+        "核实是否有具体研究或数据支持手指长度比例与功能的关联"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Conversation",
+          "role": "explainer_source, viewpoint_source",
+          "url": "https://theconversation.com/why-are-our-fingers-different-lengths-282709",
+          "published_at": "2026-07-06T12:14:19+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 60.0,
+        "discussion_score": 85.0,
+        "knowledge_gain_score": 90.0,
+        "life_relevance_score": 95.0,
+        "value_pluralism_score": 25.0,
+        "audio_fit_score": 90.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c73798d7ebee0b8b8f464",
+      "title": "Air pollution linked to DNA changes in sperm, research shows",
+      "summary": "A large study of over 2,000 men in Salt Lake City found that common air pollutants, especially ozone and nitrogen dioxide, may cause epigenetic changes in sperm DNA, raising concerns about how air pollution affects male fertility and reproductive health.",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery",
+        "technology_in_life"
+      ],
+      "child_hook": "If the air you breathe could leave tiny instructions inside your body's cells, what kind of future might those instructions help shape?",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 50,
+          "age_fit": "unfit",
+          "reason": "While the idea of air pollution changing DNA is fascinating, the topic of sperm, fertility, and reproduction is too mature for most upper primary listeners, even in a scientific framing."
+        },
+        "junior_high": {
+          "child_interest_score": 75,
+          "age_fit": "maybe",
+          "reason": "Junior high students have the biology background to engage with epigenetics and environmental health, but the reproductive framing requires careful, age-appropriate presentation and may not suit all family contexts."
+        }
+      },
+      "safety_tier": "sensitive",
+      "safety_tags": [
+        "reproductive_health",
+        "fertility",
+        "biology",
+        "environmental_pollution"
+      ],
+      "safety_reason": "The story touches on sperm, fertility, and epigenetic changes, which are reproductive biology topics. It contains no graphic or sexual content, but the framing is likely too mature for upper primary listeners. For junior high, it is appropriate as health science under standard and open frameworks, but conservative families may prefer to avoid it.",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Verify Dr Carrie Nobles is an epidemiologist at the University of Massachusetts Amherst and led the study",
+        "Verify the study was presented at the annual meeting of the European Society of Human Reproduction and Embryology in London",
+        "Verify the study followed over 2,000 men in Salt Lake City, Utah, between 2013 and 2017",
+        "Verify that ozone and nitrogen dioxide were identified as the pollutants most strongly linked to epigenetic changes in sperm DNA",
+        "Verify the claim that this is one of the largest fertility studies of its kind"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Guardian",
+          "role": "viewpoint_source, topic_source",
+          "url": "https://www.theguardian.com/science/2026/jul/07/air-pollution-dna-changes-sperm-men",
+          "published_at": "2026-07-06T23:01:23+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 55.0,
+        "discussion_score": 85.0,
+        "knowledge_gain_score": 92.0,
+        "life_relevance_score": 88.0,
+        "value_pluralism_score": 72.0,
+        "audio_fit_score": 78.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737b26506ab7ae552006",
+      "title": "Waymo 员工看到青少年乘客玩玩具枪后报警",
+      "summary": "两名15岁少年在Waymo无人出租车内喝酒并用玩具水弹枪向其他车辆射击，远程监控员工误以为真枪报警并设计停车，警方到场搜查后确认是玩具，少年被拘留后交父母，检方考虑指控。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "youth",
+        "social_conflict"
+      ],
+      "child_hook": "如果你在无人驾驶汽车里，摄像头看到你做了一个“别人可能会误会”的动作，你希望它先提醒你，还是直接叫来警察？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 68,
+          "age_fit": "maybe",
+          "reason": "有无人驾驶、玩具枪和警察等抓人元素，但主角是高中生、涉及饮酒和执法，小学生理解深度和代入感有限。"
+        },
+        "junior_high": {
+          "child_interest_score": 82,
+          "age_fit": "fit",
+          "reason": "同龄人（15岁）在暑假、无人车、恶作剧与真实后果之间，贴近初中生的好奇心和道德判断。"
+        }
+      },
+      "safety_tier": "sensitive",
+      "safety_tags": [
+        "underage_drinking",
+        "police_involvement",
+        "weapon_misunderstanding",
+        "detention",
+        "surveillance"
+      ],
+      "safety_reason": "涉及未成年饮酒、警方搜查和拘留，以及玩具枪被误作真枪的紧张情境。无血腥暴力或性内容，不触红线，但属于需要谨慎处理的敏感社会事件。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "乘客实际年龄、人数及是否未成年饮酒",
+        "警方到场人数和具体处置流程",
+        "玩具枪是否确实为水凝胶珠枪而非真枪",
+        "Waymo员工是否以机械故障为由让车辆停车",
+        "检方正在审查的指控种类及当前进展",
+        "事件发生的时间与地点"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "Solidot",
+          "role": "lead_source, topic_source",
+          "url": "https://www.solidot.org/story?sid=84785",
+          "published_at": "2026-07-08T11:32:27+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 72.0,
+        "discussion_score": 85.0,
+        "knowledge_gain_score": 70.0,
+        "life_relevance_score": 65.0,
+        "value_pluralism_score": 85.0,
+        "audio_fit_score": 75.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737b791a9b71ca47939e",
+      "title": "Outcry as Meta lets users make AI images from public Instagram profile pics",
+      "summary": "Meta now lets users create AI images from public Instagram profile pictures, sparking privacy outcry; opt-out is offered but critics warn of misuse.",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "social_conflict",
+        "internet_culture"
+      ],
+      "child_hook": "If a classmate could turn your profile photo into an AI image without asking, what rule would you want Meta to follow?",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 55,
+          "age_fit": "maybe",
+          "reason": "Most kids use social media and have profile pictures, so the premise is relatable, but opt-out and data-policy nuances may feel abstract."
+        },
+        "junior_high": {
+          "child_interest_score": 72,
+          "age_fit": "fit",
+          "reason": "Teens are highly aware of online identity, AI-generated images, and consent issues; the topic is directly relevant and discussion-friendly."
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "No graphic, harmful, or sensitive content; this is a technology-policy and privacy discussion suitable for all editorial stances.",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Meta's new feature that allows users to make AI images from public Instagram profile pictures",
+        "Availability and mechanics of the opt-out mechanism",
+        "Privacy campaigners' 'recipe for disaster' statement and attribution"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "BBC News",
+          "role": "fact_source, topic_source",
+          "url": "https://www.bbc.co.uk/news/articles/cp9lee19y1yo?at_medium=RSS&at_campaign=rss",
+          "published_at": "2026-07-08T12:28:03+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 55.0,
+        "discussion_score": 85.0,
+        "knowledge_gain_score": 80.0,
+        "life_relevance_score": 85.0,
+        "value_pluralism_score": 80.0,
+        "audio_fit_score": 70.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737d909b94e725b37837",
+      "title": "Are Moose Colorado Natives or Introduced Outsiders? New Research Suggests That the Animals Have Lived in the State for Centuries",
+      "summary": "新研究通过历史文献和考古证据指出，驼鹿在科罗拉多州已生活数百年，颠覆了1970年代末才由官方引入的既有说法。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery",
+        "social_conflict"
+      ],
+      "child_hook": "如果一种动物几百年前就生活在这里，但大家都以为它是最近才被搬来的，那它到底算“本地人”还是“外来客”？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 78,
+          "age_fit": "fit",
+          "reason": "巨型驼鹿和“考古破案”元素容易吸引小学生，叙事简单且安全。"
+        },
+        "junior_high": {
+          "child_interest_score": 85,
+          "age_fit": "fit",
+          "reason": "能理解科学争议、证据辨析和生态管理概念，适合深入讨论。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "野生动物与生态科学话题，无暴力、死亡、敏感身份或政治争议，适合默认安全处理。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "确认论文是否发表于6月12日《Journal of Biogeography》",
+        "确认William Taylor是否为科罗拉多大学博尔德分校考古学家及共同作者",
+        "核实科罗拉多州现存约3500头驼鹿的数据来源",
+        "核实19世纪50年代历史记录与考古证据的具体内容"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "Smithsonian Magazine",
+          "role": "topic_source",
+          "url": "https://www.smithsonianmag.com/smart-news/are-moose-colorado-natives-or-introduced-outsiders-new-research-suggests-that-the-animals-have-lived-in-the-state-for-centuries-180989091/",
+          "published_at": "2026-07-09T20:15:43+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 80.0,
+        "discussion_score": 85.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 60.0,
+        "value_pluralism_score": 75.0,
+        "audio_fit_score": 90.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737ec7c12188554c8fbd",
+      "title": "LinkedIn 和 X 上四分之一的长文是 AI 撰写的",
+      "summary": "Pangram 研究显示，LinkedIn、X 等平台四分之一长文为 AI 完全撰写，引发关于网络内容真实性与 AI 工具使用的讨论。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "internet_culture"
+      ],
+      "child_hook": "如果你看到一篇网上长文，写得特别好又特别像真人，你最想知道它背后到底是人还是 AI 吗？为什么？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 65,
+          "age_fit": "maybe",
+          "reason": "小学生对 LinkedIn 较陌生，但能理解'网上文章是 AI 写的'这一概念，且与他们熟悉的 AI 工具有关，可作为媒介素养入门。"
+        },
+        "junior_high": {
+          "child_interest_score": 80,
+          "age_fit": "fit",
+          "reason": "初中生开始使用社交媒体，对 AI 辅助写作和'AI slop'有直观体验，容易引发关于真实性与工具边界的讨论。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "话题为社会媒体内容统计与 AI 工具使用，无暴力、死亡、犯罪等敏感元素。但文章发布日期为 2026-07-10，超出当前可验证时间，且数据来自第三方检测平台，需事实核验。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Pangram 是否真实存在并发布该研究",
+        "The Register 原文及发布日期是否确为 2026-07-09",
+        "LinkedIn 41%、X 25% 等具体比例的统计方法与样本来源",
+        "长文定义（≥250 字符）是否准确引用"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "Solidot",
+          "role": "lead_source, topic_source",
+          "url": "https://www.solidot.org/story?sid=84798",
+          "published_at": "2026-07-10T08:43:49+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 35.0,
+        "discussion_score": 85.0,
+        "knowledge_gain_score": 80.0,
+        "life_relevance_score": 70.0,
+        "value_pluralism_score": 85.0,
+        "audio_fit_score": 80.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737f6a18a9ac8057a9e7",
+      "title": "EU threatens Meta with fines over 'addictive' Facebook and Instagram",
+      "summary": "欧盟监管机构指控 Meta 的 Facebook 和 Instagram 靠无限滚动等功能导致用户强迫性使用，威胁对其罚款。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "youth",
+        "social_conflict"
+      ],
+      "child_hook": "如果一个 App 故意设计得让人一直刷下去，那么应该让 App 公司改设计，还是靠自己管住手？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 65,
+          "age_fit": "fit",
+          "reason": "小学生已有短视频/社交软件体验，能理解“停不下来”的感受，但监管罚款和抽象政策兴趣有限。"
+        },
+        "junior_high": {
+          "child_interest_score": 85,
+          "age_fit": "fit",
+          "reason": "初中生普遍使用社交平台，对“算法推荐”“成瘾设计”高度相关，易产生共鸣和讨论。"
+        }
+      },
+      "safety_tier": "sensitive",
+      "safety_tags": [
+        "social_media",
+        "screen_time",
+        "mental_health",
+        "regulatory_dispute"
+      ],
+      "safety_reason": "主题涉及社交媒体成瘾、强制使用与青少年心理健康，属于需要温和处理的敏感社会议题；但无暴力、性、自残或仇恨内容，可经处理讲述。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "欧盟是否已正式威胁对 Meta 处以罚款及具体法律依据",
+        "被指控“成瘾”的具体功能（如无限滚动、推荐算法）列表",
+        "罚款金额范围、时间线以及 Meta 的官方回应",
+        "文章内容是否基于实际已发布报道，而非标题党或测试数据"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "BBC News",
+          "role": "fact_source, topic_source",
+          "url": "https://www.bbc.co.uk/news/articles/c8j2dje3pldo?at_medium=RSS&at_campaign=rss",
+          "published_at": "2026-07-10T12:02:40+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 55.0,
+        "discussion_score": 85.0,
+        "knowledge_gain_score": 75.0,
+        "life_relevance_score": 90.0,
+        "value_pluralism_score": 85.0,
+        "audio_fit_score": 80.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c7382004b6310e870b7ad",
+      "title": "Meta pulls new AI image feature after days of backlash",
+      "summary": "Meta在Instagram推出一项可让用户用AI修改图片内容的新功能，引发用户强烈反对，数天后将该功能下线。事件牵涉AI生成内容、社交媒体真实性与平台决策。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "social_conflict",
+        "internet_culture"
+      ],
+      "child_hook": "如果AI可以一键把照片里的太阳换成月亮，你会怎么判断朋友发的照片是“真拍”的还是“AI改”的？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 60,
+          "age_fit": "maybe",
+          "reason": "小学生对“AI改图”和社交媒体滤镜有直观体验，但其中的真假辨析、平台争议和舆论反弹较为抽象，需要更生动的解释和例子。"
+        },
+        "junior_high": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "初中生普遍使用社交平台，能理解AI编辑、真实性与网络信任之间的冲突，讨论空间和代入感较强。"
+        }
+      },
+      "safety_tier": "sensitive",
+      "safety_tags": [
+        "social_media",
+        "ai_generated_content",
+        "misinformation_concern",
+        "public_backlash"
+      ],
+      "safety_reason": "事件涉及AI生成/修改图像、社交媒体真实性与公众争议，无暴力、性、自残或仇恨内容，但需处理“虚假信息”和“平台信任”议题，适合以儿童能理解的方式解释。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Meta是否确实已撤回该AI图像功能，以及撤回的具体时间",
+        "该功能上线及被批评的具体原因和用户反馈",
+        "功能是否仅针对Instagram，还是也涉及Facebook等其他平台"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "BBC News",
+          "role": "fact_source, topic_source",
+          "url": "https://www.bbc.co.uk/news/articles/c2dy6e8klw0o?at_medium=RSS&at_campaign=rss",
+          "published_at": "2026-07-11T01:45:59+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 60.0,
+        "discussion_score": 85.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 80.0,
+        "value_pluralism_score": 85.0,
+        "audio_fit_score": 75.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737620e7bf5f67c3fa40",
+      "title": "NASA announces its Artemis III crew, which will test important equipment and systems in Earth orbit and is testing public opinion",
+      "summary": "NASA announced the four-person crew for Artemis III, which the source says will test equipment and systems in Earth orbit. Crew members named include Andre Douglas, Luca Parmitano, Randy Bresnik, and Frank Rubio.",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery",
+        "technology_in_life"
+      ],
+      "child_hook": "If you were chosen to fly to the Moon, but first had to spend months testing every piece of equipment in orbit around Earth, what is the one thing you would absolutely refuse to launch without testing first?",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 85,
+          "age_fit": "fit",
+          "reason": "Space missions, astronauts, and Moon/Earth-orbit testing are highly engaging for upper-primary children and offer clear visual imagery."
+        },
+        "junior_high": {
+          "child_interest_score": 80,
+          "age_fit": "fit",
+          "reason": "Junior-high students can grasp the engineering and international cooperation aspects, though the news is more factual than dramatic."
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "Standard science and space-exploration news with no violence, disaster, political conflict, or harmful content. Suitable for all assessed age and parent-policy combinations.",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Verify the four crew members are Andre Douglas, Luca Parmitano, Randy Bresnik, and Frank Rubio",
+        "Confirm the announcement date and that it relates to Artemis III",
+        "Clarify whether Artemis III is described as an Earth-orbit test mission or a lunar landing mission, since the provided text contradicts the typical Artemis III profile",
+        "Verify mission objectives and timeline from NASA or authoritative sources"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Conversation",
+          "role": "explainer_source, viewpoint_source",
+          "url": "https://theconversation.com/nasa-announces-its-artemis-iii-crew-which-will-test-important-equipment-and-systems-in-earth-orbit-and-is-testing-public-opinion-284925",
+          "published_at": "2026-06-18T12:35:52+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 80.0,
+        "discussion_score": 80.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 55.0,
+        "value_pluralism_score": 60.0,
+        "audio_fit_score": 80.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c73781b37c40950412d30",
+      "title": "Supreme Court rules your cellphone location data is protected by the Fourth Amendment",
+      "summary": "美国最高法院裁定，警方获取个人手机位置数据受宪法第四修正案约束，引发隐私权与公共安全执法权之间的争议。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "social_conflict"
+      ],
+      "child_hook": "如果你的手机能每天记录你去了哪里，警察在查案时能不能随便查看这些数据？你的“数字脚印”到底属于谁？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 55,
+          "age_fit": "maybe",
+          "reason": "小学生能听懂“手机定位被追踪”，但最高法院、宪法修正案和搜查令概念较抽象，需要大量故事化转译。"
+        },
+        "junior_high": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "初中生普遍使用手机，关心隐私与自主权，能理解权利与安全的冲突，适合引导讨论。"
+        }
+      },
+      "safety_tier": "sensitive",
+      "safety_tags": [
+        "privacy",
+        "law_enforcement",
+        "legal_ruling",
+        "political_institution"
+      ],
+      "safety_reason": "事件涉及美国最高法院、宪法第四修正案和警方执法权，属于政治/法律敏感议题；无暴力、性、自残或仇恨内容，但需对儿童进行宪政与隐私权的平实化、事实化处理，避免意识形态化或枯燥。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "确认该裁决是否真实存在、具体案号及时间",
+        "核实第四修正案对手机定位数据的保护范围与例外情形",
+        "核实警方获取大规模手机位置数据是否需要搜查令"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Conversation",
+          "role": "explainer_source, viewpoint_source",
+          "url": "https://theconversation.com/supreme-court-rules-your-cellphone-location-data-is-protected-by-the-fourth-amendment-286424",
+          "published_at": "2026-06-30T12:20:55+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 65.0,
+        "discussion_score": 80.0,
+        "knowledge_gain_score": 75.0,
+        "life_relevance_score": 85.0,
+        "value_pluralism_score": 80.0,
+        "audio_fit_score": 80.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c73784606e7e0920176e0",
+      "title": "World Cup propels surveillance to new heights",
+      "summary": "2026 World Cup venues are using extensive surveillance cameras, sparking debate over whether tighter security comes at the cost of fan privacy.",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "social_conflict"
+      ],
+      "child_hook": "如果你在 stadium 里看到无数个摄像头，你会觉得自己更安全，还是更像被盯着的一举一动都被记录？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 45,
+          "age_fit": "maybe",
+          "reason": "Privacy-versus-security is still abstract for many 9–12 year olds; the World Cup setting helps, but the topic needs concrete examples."
+        },
+        "junior_high": {
+          "child_interest_score": 70,
+          "age_fit": "fit",
+          "reason": "Students are already aware of cameras, phones, and data tracking, so the trade-off between safety and privacy is highly relevant."
+        }
+      },
+      "safety_tier": "sensitive",
+      "safety_tags": [
+        "surveillance",
+        "privacy",
+        "mass monitoring"
+      ],
+      "safety_reason": "The event centers on mass surveillance and the privacy/security debate, which is a social controversy. There is no graphic violence, crime, or harm. Younger children may need careful framing to avoid anxiety about being watched.",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Specific surveillance technologies deployed at 2026 World Cup venues",
+        "Claim that fans were monitored by cameras after the France-Senegal match in East Rutherford on June 16, 2026",
+        "Source and scope of the reported surveillance expansion"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Conversation",
+          "role": "explainer_source, viewpoint_source",
+          "url": "https://theconversation.com/world-cup-propels-surveillance-to-new-heights-284712",
+          "published_at": "2026-06-30T12:35:55+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 35.0,
+        "discussion_score": 80.0,
+        "knowledge_gain_score": 75.0,
+        "life_relevance_score": 55.0,
+        "value_pluralism_score": 85.0,
+        "audio_fit_score": 70.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c7379121c058c08702e82",
+      "title": "Learning another language appears to slow brain ageing, scientists say",
+      "summary": "科学家在欧洲神经科学会议上发布研究，发现会说多种语言的人大脑衰老更慢：双语者大脑约年轻6岁，四语者约年轻13岁。研究称语言数量越多、开始越早，效果越好。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery"
+      ],
+      "child_hook": "你的大脑其实每天都在悄悄'变老'，但多学会一种语言可能让它慢下来——如果可以从头再选一门语言开始，你会选哪一种来'升级'大脑？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 86,
+          "age_fit": "fit",
+          "reason": "孩子正在学校学英语等外语，'说外语能让大脑更年轻' directly 关联他们的日常学习，数字对比（6岁、13岁）很有冲击力。"
+        },
+        "junior_high": {
+          "child_interest_score": 82,
+          "age_fit": "fit",
+          "reason": "学生已具备理解神经科学基础概念的能力，能讨论语言学习与大脑发育的关系，但'抗衰老'话题对他们的切身感略低于小学生。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "纯科学健康类报道，无暴力、死亡、犯罪、政治或歧视内容，无危险行为指引，适合所有标准。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "该研究是否真实发表于欧洲神经科学学会联盟（FENS）会议",
+        "双语/三语/四语者大脑'年轻'6岁、7岁、13岁的具体数据来源与样本量",
+        "研究是否经过同行评审，还是仅会议摘要",
+        "结论中'越早学习效果越好'是否有直接数据支持"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Guardian",
+          "role": "viewpoint_source, topic_source",
+          "url": "https://www.theguardian.com/education/2026/jul/06/learning-another-language-appears-to-slow-brain-ageing-scientists-say",
+          "published_at": "2026-07-06T04:00:00+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 62.0,
+        "discussion_score": 80.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 90.0,
+        "value_pluralism_score": 35.0,
+        "audio_fit_score": 92.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737ad52314ffae8147b8",
+      "title": "My patients use ChatGPT for therapy. Now I use it too | Sarah Dargouth",
+      "summary": "一位心理治疗师在《卫报》撰文：患者开始用ChatGPT寻求关系与情绪建议，她自己也尝试把AI当作辅助工具，但提醒人际关怀需要人的温度与混乱。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "social_conflict"
+      ],
+      "child_hook": "如果你有点难过却不好意思告诉大人，你会先跟AI聊聊吗？它给你的建议，和真正懂你的人给你的建议，会有什么不一样？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 55,
+          "age_fit": "maybe",
+          "reason": "AI聊天主题贴近孩子日常经验，但文章核心是成年患者的情感咨询与关系决策，对小学高年级孩子较抽象。"
+        },
+        "junior_high": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "初中生已频繁使用AI，也面临情绪、人际与自我认同议题，治疗师的第一人称叙述容易引发共鸣和讨论。"
+        }
+      },
+      "safety_tier": "sensitive",
+      "safety_tags": [
+        "mental_health",
+        "ai_ethics",
+        "professional_substitution"
+      ],
+      "safety_reason": "涉及心理健康、心理治疗与AI替代专业角色的争议，但无暴力、自残、性内容或危险操作指引，需用适龄方式处理情绪议题。",
+      "needs_fact_check": false,
+      "fact_check_targets": [],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Guardian",
+          "role": "viewpoint_source, topic_source",
+          "url": "https://www.theguardian.com/commentisfree/2026/jul/08/chatgpt-ai-therapy",
+          "published_at": "2026-07-08T10:00:26+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 75.0,
+        "discussion_score": 80.0,
+        "knowledge_gain_score": 75.0,
+        "life_relevance_score": 70.0,
+        "value_pluralism_score": 85.0,
+        "audio_fit_score": 80.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737c1f3cfc8a455ab358",
+      "title": "OpenMandriva 项目发生破坏事件",
+      "summary": "开源项目OpenMandriva新成员Davide Beatrici因朋友被逐出团队，滥用管理员权限删除代码库、发布空包，导致GNOME和COSMIC用户系统受损，项目正紧急恢复并公开警示社区。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "social_conflict"
+      ],
+      "child_hook": "如果你和好朋友一起加入一个新团队，朋友因为违反规则被请出，你会选择跟着他一起离开，还是留下来把问题解决好？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 50,
+          "age_fit": "maybe",
+          "reason": "故事有信任背叛和团队冲突的情节，但Linux发行版、GitHub仓库、软件包失效等概念对小学生较抽象，需要大量前置解释，且涉及公开点名个人的负面事件，理解起来有难度。"
+        },
+        "junior_high": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "初中生对编程、开源社区、代码仓库等概念有一定接触，能理解权限、信任与背叛的冲突，适合作为技术伦理和网络安全的讨论案例。"
+        }
+      },
+      "safety_tier": "sensitive",
+      "safety_tags": [
+        "cyber_vandalism",
+        "community_conflict",
+        "public_naming",
+        "online_abuse"
+      ],
+      "safety_reason": "事件涉及开源社区内部恶意破坏、管理员权限滥用、聊天室辱骂以及项目方公开点名警示个人。虽无暴力血腥、性内容或自残等红线内容，但包含对具体个人的公开指控和网络安全冲突，可能对低龄听众造成困惑或负面示范，因此按家长保守档与标准档对小学、初中均不宜进入，开放档可在引导下进入。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Davide Beatrici 是否为 Mumble 项目成员及其在 OpenMandriva 中的具体权限角色",
+        "OpenMandriva 官方声明中关于删除 GitHub 仓库、发布空包导致 GNOME 和 COSMIC 软件包失效的描述是否准确",
+        "事件对实际用户系统造成的影响范围及当前恢复进展"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "Solidot",
+          "role": "lead_source, topic_source",
+          "url": "https://www.solidot.org/story?sid=84789",
+          "published_at": "2026-07-09T07:01:35+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 78.0,
+        "discussion_score": 80.0,
+        "knowledge_gain_score": 62.0,
+        "life_relevance_score": 42.0,
+        "value_pluralism_score": 72.0,
+        "audio_fit_score": 78.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737e02fafd04e41314ac",
+      "title": "'Cool in 90 seconds' - the fake portable air conditioners sweeping the internet",
+      "summary": "UK ad watchdog rules that viral 'cool in 90 seconds' portable air conditioners are too good to be true.",
+      "primary_category": "internet_culture",
+      "topic_categories": [
+        "internet_culture",
+        "technology_in_life"
+      ],
+      "child_hook": "Have you ever seen an online ad that looked like a superhero solution for a hot day—what would you want to test before buying it?",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 65,
+          "age_fit": "fit",
+          "reason": "The hook of a tiny gadget that beats summer heat is easy to grasp, and kids can relate to online ads and hot classrooms."
+        },
+        "junior_high": {
+          "child_interest_score": 70,
+          "age_fit": "fit",
+          "reason": "Teens shop online and see viral gadget ads, so a story about spotting scams and how regulators enforce truth lands well."
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "No sensitive content; this is a straightforward consumer-protection story about misleading online advertising.",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Confirm the ASA's specific ruling and which ads were targeted",
+        "Verify whether the devices can cool a typical room in 90 seconds or at all"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "BBC News",
+          "role": "fact_source, topic_source",
+          "url": "https://www.bbc.co.uk/news/articles/cj6g41pzy41o?at_medium=RSS&at_campaign=rss",
+          "published_at": "2026-07-10T01:33:45+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 55.0,
+        "discussion_score": 80.0,
+        "knowledge_gain_score": 75.0,
+        "life_relevance_score": 80.0,
+        "value_pluralism_score": 65.0,
+        "audio_fit_score": 85.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737e2b53d4d5fa6c48ef",
+      "title": "The missing scientists at the centre of a UFO conspiracy",
+      "summary": "A Guardian podcast explores how 11 US scientists' deaths or disappearances sparked a UFO conspiracy, tracing it to a 1977 British TV broadcast.",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery",
+        "social_conflict",
+        "internet_culture"
+      ],
+      "child_hook": "If a bunch of people who studied the same strange thing all had bad things happen to them, would that mean something shady is going on—or could our brains be tricking us into seeing a pattern?",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 75,
+          "age_fit": "maybe",
+          "reason": "Mystery and UFOs attract attention, but real deaths and conspiracy framing may be unsettling or confusing for this age group."
+        },
+        "junior_high": {
+          "child_interest_score": 82,
+          "age_fit": "fit",
+          "reason": "Mystery plus media literacy angle fits well; can discuss how conspiracy theories spread and how to evaluate claims."
+        }
+      },
+      "safety_tier": "sensitive",
+      "safety_tags": [
+        "death",
+        "conspiracy_theory",
+        "mystery_disappearance"
+      ],
+      "safety_reason": "The topic involves real deaths and disappearances of scientists framed as potentially nefarious, which is emotionally heavy. It also centers on conspiracy theories about government cover-ups, requiring careful framing to avoid spreading misinformation or distress.",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Claim that 11 US scientists tied to secret research died or disappeared",
+        "Existence and nature of the 1977 British Science Report broadcast",
+        "Claim that a federal investigation was triggered",
+        "Whether the cases were actually linked or unrelated tragedies"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Guardian",
+          "role": "viewpoint_source, topic_source",
+          "url": "https://www.theguardian.com/news/audio/2026/jul/10/the-missing-scientists-at-the-centre-of-a-ufo-conspiracy",
+          "published_at": "2026-07-10T02:00:07+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 74.0,
+        "discussion_score": 80.0,
+        "knowledge_gain_score": 72.0,
+        "life_relevance_score": 45.0,
+        "value_pluralism_score": 85.0,
+        "audio_fit_score": 78.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737fbab8ab2fffe2125b",
+      "title": "Roughly 100,000 Years Ago, This Man Got Stabbed in the Face—and Survived. He's Likely One of the First Known Victims of an Attack With a Sharp Weapon",
+      "summary": "考古学家在以色列Qafzeh洞穴发现约10万年前一名早期现代人面部曾被锐器刺伤，但伤口愈合，意味着他可能受到社群照料，成为已知最早的人际暴力受害者之一。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery",
+        "ordinary_people",
+        "social_conflict"
+      ],
+      "child_hook": "如果一个生活在10万年前的人脸被锐器刺穿，伤口却慢慢愈合了，你觉得他身边的人做了什么，才让他活了下来？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "史前人类+侦探式破案故事能吸引孩子，但标题中'刺伤面部'对小学生偏刺激，需要温和化处理伤口细节。"
+        },
+        "junior_high": {
+          "child_interest_score": 85,
+          "age_fit": "fit",
+          "reason": "初中生可以理解考古推理、人类演化以及'远古暴力'与'社群照护'的对比讨论，兴趣点高。"
+        }
+      },
+      "safety_tier": "sensitive",
+      "safety_tags": [
+        "violence",
+        "prehistoric",
+        "interpersonal_conflict"
+      ],
+      "safety_reason": "内容涉及远古人际暴力（面部刺伤）。但事件发生在约10万年前，以考古/科学方式呈现，无血腥细节或当前危险性。标题 sensational，需软化处理，但本质适合大多数年龄档讨论。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "核实Qafzeh洞穴人骨年代为92,000–145,000年前，且属于Homo sapiens。",
+        "核实是否已发现至少27具埋葬个体。",
+        "核实论文发表于Scientific Reports期刊及其具体日期。",
+        "核实研究者结论：面部伤口已愈合，且更可能由人际暴力而非意外造成。",
+        "核实René Neuville于1933年发现该洞穴。"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "Smithsonian Magazine",
+          "role": "topic_source",
+          "url": "https://www.smithsonianmag.com/smart-news/roughly-100000-years-ago-this-man-got-stabbed-in-the-face-and-survived-hes-likely-one-of-the-first-known-victims-of-an-attack-by-a-sharp-weapon-180989103/",
+          "published_at": "2026-07-10T13:53:24+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 85.0,
+        "discussion_score": 80.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 50.0,
+        "value_pluralism_score": 65.0,
+        "audio_fit_score": 75.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c7380a81465f659e08b90",
+      "title": "现代环境让大脑不堪重负",
+      "summary": "一项斯特灵大学领衔的综述指出，条纹、凌乱内饰、高对比色、闪烁灯光和超市密集货架等现代人造环境元素，会让大脑视觉系统超负荷，引发视觉不适与压力；偏头痛、自闭症、ADHD、阅读障碍或癫痫等敏感人群受影响更明显。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery",
+        "technology_in_life"
+      ],
+      "child_hook": "你有没有走进某个商店、教室或房间，明明东西很普通，却觉得眼睛累、头胀、想赶紧离开？那可能是空间在偷偷给你的大脑加压力——如果是你来设计一间让人最舒服的教室，你会改掉哪些视觉细节？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 68,
+          "age_fit": "fit",
+          "reason": "孩子能在教室、超市、商场里找到熟悉场景，容易理解“看久了不舒服”的感觉；但偏综述研究，缺乏具体人物故事，兴趣中等。"
+        },
+        "junior_high": {
+          "child_interest_score": 74,
+          "age_fit": "fit",
+          "reason": "初中生已接触过偏头痛、ADHD、自闭症等概念，能联系自身学习环境和感官体验，讨论空间设计对情绪的影响。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "内容为科普综述，无暴力、死亡、犯罪、政治争议或危险操作指引，适合各年龄档与家长档。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "确认研究是否由斯特灵大学主导及发表出处",
+        "核实“视觉不适”与具体环境元素（条纹、高对比色、闪烁灯光、超市货架）的关联结论",
+        "核实敏感人群（偏头痛、自闭症、ADHD、阅读障碍、癫痫）受影响更严重的说法"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "Solidot",
+          "role": "lead_source, topic_source",
+          "url": "https://www.solidot.org/story?sid=84803",
+          "published_at": "2026-07-10T16:25:26+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 52.0,
+        "discussion_score": 79.0,
+        "knowledge_gain_score": 78.0,
+        "life_relevance_score": 85.0,
+        "value_pluralism_score": 55.0,
+        "audio_fit_score": 82.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c73779e30393352928d77",
+      "title": "Can you make a black hole in a laboratory?",
+      "summary": "科学家讨论是否能在实验室中制造黑洞，实际上多指“模拟黑洞/声学黑洞”等实验，用以研究天体黑洞的物理现象。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery",
+        "technology_in_life"
+      ],
+      "child_hook": "如果科学家在实验室里造出了一个“黑洞”，它会像吸尘器一样把你桌上的橡皮和作业都吸进去吗？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 90,
+          "age_fit": "fit",
+          "reason": "“人造黑洞”概念神秘且新奇，容易吸引小学生，但需用类比方式讲解模拟黑洞与真实黑洞的区别。"
+        },
+        "junior_high": {
+          "child_interest_score": 92,
+          "age_fit": "fit",
+          "reason": "学生对天文和物理已有基础，能够理解类比模型，并追问真实黑洞与实验模型的边界。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "纯科学科普话题，无暴力、灾难、政治或未成年人风险内容，适合各年龄与家庭档位。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "核实文中“在实验室制造黑洞”的具体含义（是否为模拟黑洞/声学黑洞/流体类比）",
+        "确认引用的科学家、机构或实验名称",
+        "厘清真实黑洞与实验类比黑洞的区别，避免误导儿童"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Conversation",
+          "role": "explainer_source, viewpoint_source",
+          "url": "https://theconversation.com/can-you-make-a-black-hole-in-a-laboratory-283463",
+          "published_at": "2026-06-29T12:31:37+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 70.0,
+        "discussion_score": 78.0,
+        "knowledge_gain_score": 88.0,
+        "life_relevance_score": 40.0,
+        "value_pluralism_score": 30.0,
+        "audio_fit_score": 82.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c7378985469b82172570b",
+      "title": "AI is 'not smart' so what's next in artificial intelligence?",
+      "summary": "AI研究者Yann LeCun认为当前AI“并不聪明”，他正通过一家创业公司研发更灵活、能像人类一样推理和规划的新一代AI系统。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "discovery"
+      ],
+      "child_hook": "如果AI能回答所有问题，却依然“不太聪明”，那真正的“聪明”到底还需要会什么？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 65,
+          "age_fit": "maybe",
+          "reason": "概念偏抽象，但“AI到底算不算聪明”这个话题贴近孩子日常接触的Siri、ChatGPT，能引起好奇，理解需要铺垫。"
+        },
+        "junior_high": {
+          "child_interest_score": 82,
+          "age_fit": "fit",
+          "reason": "学生已接触AI工具，对“智能”“学习”“推理”有初步认知，适合探讨AI的局限与未来。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "内容为科技研究展望，无暴力、灾难、犯罪、政治争议或未成年人风险，适合各年龄层。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Yann LeCun是否正在创立或领导一家致力于开发更灵活AI系统的初创公司",
+        "报道中“AI is not smart”的具体论断是否出自LeCun，以及其完整论据",
+        "发布时间2026-07-02是否真实，需核实为真实新闻还是测试/模拟数据"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "BBC News",
+          "role": "fact_source, topic_source",
+          "url": "https://www.bbc.co.uk/news/articles/cj6gr0xkyr3o?at_medium=RSS&at_campaign=rss",
+          "published_at": "2026-07-02T23:02:09+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 68.0,
+        "discussion_score": 78.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 75.0,
+        "value_pluralism_score": 65.0,
+        "audio_fit_score": 82.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737b4f4120f6cee54673",
+      "title": "Ivermectin isn’t a cancer miracle drug, but influencers claim otherwise – here’s how to avoid sprinting past scientific evidence",
+      "summary": "社交媒体网红声称抗寄生虫药伊维菌素能治愈癌症，医学专家反驳称缺乏人体证据，提醒公众警惕“奇迹药物”式宣传，应等待严谨科学验证。",
+      "primary_category": "internet_culture",
+      "topic_categories": [
+        "internet_culture",
+        "technology_in_life",
+        "social_conflict"
+      ],
+      "child_hook": "如果一个拥有百万粉丝的网红说，给动物驱虫的便宜药能治好癌症，你需要看到什么才敢相信或转发？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 58,
+          "age_fit": "maybe",
+          "reason": "“网红说便宜药能治好癌症”有故事性，但癌症、兽药、科学证据等概念对小学生较抽象，适合做浅层信息辨别案例。"
+        },
+        "junior_high": {
+          "child_interest_score": 76,
+          "age_fit": "fit",
+          "reason": "初中生常用社交媒体，对网红带货和夸张健康信息敏感，能深入讨论“如何判断证据”和“为什么科学需要验证”。"
+        }
+      },
+      "safety_tier": "sensitive",
+      "safety_tags": [
+        "health misinformation",
+        "medical claims",
+        "disease mention (cancer)"
+      ],
+      "safety_reason": "涉及癌症、兽药及医疗虚假信息，属于疾病与社会争议交叉话题；文章本身为辟谣性质，但需避免给出任何药物使用或替代治疗的实操建议。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "网红引用的所谓‘伊维菌素抗癌’研究具体结论与实验阶段（细胞/动物/人体）",
+        "是否有权威机构（如FDA、WHO）关于伊维菌素用于癌症治疗的声明",
+        "伊维菌素作为人用与兽用制剂的区别及安全性数据"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Conversation",
+          "role": "explainer_source, viewpoint_source",
+          "url": "https://theconversation.com/ivermectin-isnt-a-cancer-miracle-drug-but-influencers-claim-otherwise-heres-how-to-avoid-sprinting-past-scientific-evidence-286337",
+          "published_at": "2026-07-08T12:06:26+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 55.0,
+        "discussion_score": 78.0,
+        "knowledge_gain_score": 75.0,
+        "life_relevance_score": 82.0,
+        "value_pluralism_score": 68.0,
+        "audio_fit_score": 75.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737bcc1c73c74012a9ca",
+      "title": "Cacti spines, snake fangs, snail love darts – oh my! How function drives the evolution of nature’s puncture tools",
+      "summary": "The Conversation 新文从演化角度盘点仙人掌刺、蛇牙、蜗牛恋爱镖等生物穿刺工具，解释形状如何匹配功能，属于自然科普发现类选题。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery"
+      ],
+      "child_hook": "如果你只能带一种“生物穿刺工具”去荒野求生，你会选会自动脱落的仙人掌刺、能注射毒液的蛇牙，还是蜗牛用来谈恋爱的“小镖”？为什么？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 85,
+          "age_fit": "fit",
+          "reason": "标题中的“蛇牙”“仙人掌刺”“恋爱镖”自带猎奇感，对小学生好奇心强；演化机制可用比喻简化，理解门槛可控。"
+        },
+        "junior_high": {
+          "child_interest_score": 88,
+          "age_fit": "fit",
+          "reason": "初中生已具备基础生物与演化知识，能讨论结构-功能关系，知识获得感更强。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "纯自然科普内容，无暴力、死亡、疾病、政治或社会争议，适合所有家长档与年龄档。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "文中关于仙人掌刺、蛇牙、蜗牛恋爱镖等具体生物结构与功能对应关系是否准确",
+        "引用的演化结论是否来自可靠研究或专家访谈",
+        "是否存在未被证实的推测性说法"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Conversation",
+          "role": "explainer_source, viewpoint_source",
+          "url": "https://theconversation.com/cacti-spines-snake-fangs-snail-love-darts-oh-my-how-function-drives-the-evolution-of-natures-puncture-tools-284410",
+          "published_at": "2026-07-08T18:01:17+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 72.0,
+        "discussion_score": 78.0,
+        "knowledge_gain_score": 86.0,
+        "life_relevance_score": 62.0,
+        "value_pluralism_score": 35.0,
+        "audio_fit_score": 80.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737e537695620930d514",
+      "title": "Vibe Coding 时代，为什么降本不一定增效？",
+      "summary": "Vibe Coding 等 AI 编程工具虽能加速写代码，但无法替代人类定义问题、理解用户和承担责任，因此降本不一定增效。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "youth"
+      ],
+      "child_hook": "如果你让 AI 帮你写完一整份编程作业，老师会看不出来吗？更重要的是，你自己会因此更懂编程，还是更不懂了？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 50,
+          "age_fit": "maybe",
+          "reason": "小学高年级对 AI 和编程有好奇，但文章偏抽象分析，缺少故事和画面，容易觉得遥远。若用具体例子（如 AI 帮做编程作业、做游戏）会更容易听进去。"
+        },
+        "junior_high": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "初中生对 AI 工具、未来职业、代码学习有切身感受，能听懂「AI 写代码但人要对结果负责」的冲突，也容易联想到自己的作业和创作。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "科技观点分析类文章，无暴力、灾难、性、自杀、仇恨或危险操作等内容。",
+      "needs_fact_check": false,
+      "fact_check_targets": [],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "少数派",
+          "role": "topic_source",
+          "url": "https://sspai.com/post/111975",
+          "published_at": "2026-07-10T02:50:28+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 40.0,
+        "discussion_score": 78.0,
+        "knowledge_gain_score": 72.0,
+        "life_relevance_score": 76.0,
+        "value_pluralism_score": 82.0,
+        "audio_fit_score": 65.0
+      },
+      "human_review": {
+        "status": "approved",
+        "reviewer": "家长(演示)",
+        "reviewed_at": "2026-07-11T03:26:24.187287+00:00",
+        "note": null
+      }
+    },
+    {
+      "event_id": "evt_1c737f1989ce49cf41195b",
+      "title": "Big tech must deal with scam ads under Ofcom proposals",
+      "summary": "UK regulator Ofcom proposes rules forcing YouTube, Facebook and X to take stronger action against scam ads, after finding more than half of UK adults have seen potentially fraudulent ads online.",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "social_conflict",
+        "internet_culture"
+      ],
+      "child_hook": "If you were in charge of YouTube for one day, what one rule would you make to stop a sneaky ad from tricking people before anyone clicks it?",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 60,
+          "age_fit": "maybe",
+          "reason": "Primary pupils use YouTube and may see ads, but the regulatory-policy framing is abstract; it works better when hooked through 'weird online ads' and platform responsibility."
+        },
+        "junior_high": {
+          "child_interest_score": 72,
+          "age_fit": "fit",
+          "reason": "Teens are active on social platforms, encounter ads and influencer content, and can grasp the tension between platform responsibility and user freedom."
+        }
+      },
+      "safety_tier": "sensitive",
+      "safety_tags": [
+        "crime_fraud",
+        "online_safety",
+        "platform_regulation"
+      ],
+      "safety_reason": "The topic references fraud/scam crime, which places it in the sensitive bucket, but it is framed as policy-level regulation with no graphic victim accounts, no method details, and no actionable scam instructions. Therefore all parent tiers for both age groups remain eligible with appropriate contextual framing.",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Verify the Ofcom proposal details and timeline",
+        "Verify the claim that more than half of UK adults have encountered potentially fraudulent ads online",
+        "Confirm which platforms are explicitly covered by the proposals (YouTube, Facebook, X)"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "BBC News",
+          "role": "fact_source, topic_source",
+          "url": "https://www.bbc.co.uk/news/articles/c9q2rznjqwwo?at_medium=RSS&at_campaign=rss",
+          "published_at": "2026-07-10T09:59:19+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 50.0,
+        "discussion_score": 78.0,
+        "knowledge_gain_score": 72.0,
+        "life_relevance_score": 82.0,
+        "value_pluralism_score": 76.0,
+        "audio_fit_score": 72.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c73769f786649b754ebdb",
+      "title": "Anyone can fake a scientific image with AI, tricking even academic journals – and undermining trust in science",
+      "summary": "AI tools can now generate fake scientific images convincing enough to slip past peer reviewers and academic journals, raising questions about how we know what research pictures are real.",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "discovery"
+      ],
+      "child_hook": "If a fake science picture looked so real that even experts were fooled, what would it take for you to trust what you see online?",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 68,
+          "age_fit": "fit",
+          "reason": "Kids are curious about AI and 'spot the fake' challenges; the abstract idea of science journals is less familiar, but the image-trust angle is relatable."
+        },
+        "junior_high": {
+          "child_interest_score": 82,
+          "age_fit": "fit",
+          "reason": "Teens encounter AI-generated images online and can grasp peer review and scientific trust, making the topic engaging and relevant."
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [
+        "academic_integrity",
+        "ai_misinformation"
+      ],
+      "safety_reason": "The topic is about image manipulation and trust in science; there is no violence, sexual content, self-harm, hate speech, or dangerous instructions. It is appropriate for all audience settings after normal journalistic framing.",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Verify whether AI-generated scientific images have actually been accepted by peer-reviewed journals in the article's examples",
+        "Check how widespread the problem is in published research",
+        "Confirm whether current detection tools are reliable enough to identify fake images"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Conversation",
+          "role": "explainer_source, viewpoint_source",
+          "url": "https://theconversation.com/anyone-can-fake-a-scientific-image-with-ai-tricking-even-academic-journals-and-undermining-trust-in-science-281853",
+          "published_at": "2026-06-22T12:36:17+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 42.0,
+        "discussion_score": 76.0,
+        "knowledge_gain_score": 81.0,
+        "life_relevance_score": 64.0,
+        "value_pluralism_score": 73.0,
+        "audio_fit_score": 71.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c7379de55138f73b38c74",
+      "title": "‘A break from scrolling’: how Gen Z fell in love with birding – podcast",
+      "summary": "英国过去50年减少约7300万只野生鸟类，年轻一代却通过社交媒体和Merlin Bird ID应用重新迷上观鸟；报道以播客形式探讨“基线漂移综合征”与Z世代如何用鸟类观察抵抗屏幕沉迷。",
+      "primary_category": "internet_culture",
+      "topic_categories": [
+        "internet_culture",
+        "technology_in_life",
+        "youth",
+        "discovery"
+      ],
+      "child_hook": "如果你家窗外的鸟叫声突然只剩下一半，你会不会第一时间发现——还是你的耳朵已经慢慢习惯了更安静的早晨？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 65,
+          "age_fit": "fit",
+          "reason": "鸟儿、app和‘少刷手机’的视角容易理解，但播客形式需要加入具体鸟鸣和画面化例子才能抓住注意力。"
+        },
+        "junior_high": {
+          "child_interest_score": 78,
+          "age_fit": "fit",
+          "reason": "Z世代、社交媒体、环保议题与身份认同高度贴合，能引发共鸣和讨论。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "内容为鸟类保护、环境变化与科技生活方式，无暴力、灾难、犯罪、政治争议或未成年人敏感内容，属于安全科普文化话题。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "英国过去50年减少7300万只野生鸟类数据来源（British Trust for Ornithology）",
+        "Merlin Bird ID应用在推动年轻人观鸟趋势中的实际作用",
+        "shifting baseline syndrome（基线漂移综合征）的定义与引用是否准确"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Guardian",
+          "role": "viewpoint_source, topic_source",
+          "url": "https://www.theguardian.com/science/audio/2026/jul/07/a-break-from-scrolling-how-gen-z-fell-in-love-with-birding-podcast",
+          "published_at": "2026-07-07T04:00:30+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 70.0,
+        "discussion_score": 76.0,
+        "knowledge_gain_score": 82.0,
+        "life_relevance_score": 72.0,
+        "value_pluralism_score": 62.0,
+        "audio_fit_score": 87.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c73802c51e1402d44c97b",
+      "title": "人形机器人成功完成远超手术",
+      "summary": "发表于《自然》的研究显示，由外科医生远程操控的宇树G1人形机器人，成功为活猪完成微创胆囊切除手术，未来有望在小型医院、偏远地区甚至太空开展低成本机器人辅助手术。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "discovery"
+      ],
+      "child_hook": "如果将来给你做手术的医生坐在几千公里外，机器人像打游戏一样听他的指令，你会更放心，还是更紧张？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 82,
+          "age_fit": "fit",
+          "reason": "机器人做手术、远程操控、太空和战场等场景对小学生有较强画面感，但需要简单解释手术概念。"
+        },
+        "junior_high": {
+          "child_interest_score": 86,
+          "age_fit": "fit",
+          "reason": "初中生能理解远程医疗、成本对比和技术局限，可引发对科技伦理与职业变化的思考。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "内容为机器人科技进展，涉及手术但无血腥细节、无未成年人敏感信息或危险操作指引，适合各年龄段。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "核实《自然》论文标题、发表时间和具体作者",
+        "核实宇树G1人形机器人售价及配置后价格",
+        "核实达芬奇手术机器人价格区间",
+        "核实活猪手术数量和手术地点"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "Solidot",
+          "role": "lead_source, topic_source",
+          "url": "https://www.solidot.org/story?sid=84801",
+          "published_at": "2026-07-10T15:10:19+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 78.0,
+        "discussion_score": 76.0,
+        "knowledge_gain_score": 82.0,
+        "life_relevance_score": 62.0,
+        "value_pluralism_score": 70.0,
+        "audio_fit_score": 84.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_19d9051628ae090e0038ef",
+      "title": "NASA Volunteers Help Zooniverse Reach 1 Billion Classifications",
+      "summary": "NASA 志愿者通过 Zooniverse 平台完成 10 亿次科学分类，标志公民科学达成重要里程碑，普通人也能参与太空与地球研究。",
+      "primary_category": "ordinary_people",
+      "topic_categories": [
+        "discovery",
+        "technology_in_life",
+        "ordinary_people"
+      ],
+      "child_hook": "如果让你每天花 10 分钟帮科学家“数星星”或“认动物”，你的一个点击可能改写什么发现？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "大数字、NASA、太空和动物项目对小学高年级有吸引力，理解门槛低，但需解释“分类”是什么意思。"
+        },
+        "junior_high": {
+          "child_interest_score": 80,
+          "age_fit": "fit",
+          "reason": "能听懂公民科学、数据众包和科研协作，容易产生“我也能参与”的代入感。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "内容为科学里程碑和公众参与，无暴力、灾难、犯罪、政治敏感或未成年风险，适合所有处理档位。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Zooniverse 是否真的达到 10 亿次分类",
+        "NASA 志愿者在其中的具体贡献比例和项目",
+        "发布日期 2026-07-10 是否异常或未来时间"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "NASA",
+          "role": "topic_source, fact_source",
+          "url": "https://science.nasa.gov/get-involved/citizen-science/nasa-volunteers-help-zooniverse-reach-1-billion-classifications/",
+          "published_at": "2026-07-10T19:00:53+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 70.0,
+        "discussion_score": 75.0,
+        "knowledge_gain_score": 80.0,
+        "life_relevance_score": 60.0,
+        "value_pluralism_score": 50.0,
+        "audio_fit_score": 85.0
+      },
+      "human_review": {
+        "status": "approved",
+        "reviewer": "家长(演示)",
+        "reviewed_at": "2026-07-11T02:17:28.787480+00:00",
+        "note": null
+      }
+    },
+    {
+      "event_id": "evt_19d9053cd8e663e5851f27",
+      "title": "Early Career Faculty (ECF) 2025 Awards",
+      "summary": "NASA 正在水下进行模拟月球行走训练，为宇航员重返月球做准备。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery",
+        "technology_in_life"
+      ],
+      "child_hook": "如果你要在月球上散步，为什么科学家可能先把你放进一个巨大的游泳池里练习？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 82,
+          "age_fit": "fit",
+          "reason": "太空、宇航员和在水下模拟月球行走的画面感强，能吸引小学生好奇。"
+        },
+        "junior_high": {
+          "child_interest_score": 72,
+          "age_fit": "fit",
+          "reason": "初中孩子对航天技术有兴趣，但事件偏训练流程，新意略低。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "NASA 航天训练内容，无暴力、灾难或敏感社会议题。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "NASA 水下月球行走模拟的具体时间与地点",
+        "参与训练的宇航员或任务团队名称",
+        "水下环境如何模拟月球重力的技术说明"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "NASA",
+          "role": "topic_source, fact_source",
+          "url": "https://www.nasa.gov/directorates/stmd/space-tech-research-grants/ecf/early-career-faculty-ecf-2025-awards/",
+          "published_at": "2026-07-10T19:23:55+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 80.0,
+        "discussion_score": 75.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 40.0,
+        "value_pluralism_score": 30.0,
+        "audio_fit_score": 85.0
+      },
+      "human_review": {
+        "status": "approved",
+        "reviewer": "家长(演示)",
+        "reviewed_at": "2026-07-11T02:17:28.798021+00:00",
+        "note": null
+      }
+    },
+    {
+      "event_id": "evt_1c7372db65659e7026b61a",
+      "title": "Blue mushrooms, shy trees and glowing seas: Beaker Street science photography prize – in pictures",
+      "summary": "A science photography prize exhibition in Tasmania features 12 finalists showing unusual natural images such as blue mushrooms, glowing seas, a shy tree, newborn fish and satellite trails, opening at the Beaker Street festival.",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery",
+        "ordinary_people"
+      ],
+      "child_hook": "If you could photograph something tiny, hidden, or glowing in the world around you, what would you try to capture—and what might it look like if you saw it in a way no one else does?",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 85,
+          "age_fit": "fit",
+          "reason": "Glow-in-the-dark seas, tiny fish and alien-looking mushrooms are visually strange and naturally exciting for primary-age children."
+        },
+        "junior_high": {
+          "child_interest_score": 80,
+          "age_fit": "fit",
+          "reason": "Interesting for nature/science-curious early teens, though the lack of conflict or deep narrative makes it less sticky than some other topics."
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "Pure science and nature photography exhibition; no violence, harm, politics, or sensitive social content.",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Verify the Beaker Street festival dates (6–17 August) and exhibition venue (Tasmanian Museum and Art Gallery).",
+        "Confirm there are 12 finalists in the prize and the list of finalist images.",
+        "Check the descriptions of the featured images (blue mushrooms, shy tree, glowing sea, newborn fish, native wasp, satellite trails)."
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Guardian",
+          "role": "viewpoint_source, topic_source",
+          "url": "https://www.theguardian.com/science/gallery/2026/jun/09/beaker-street-science-photography-prize-tasmanian-museum-gallery-in-pictures",
+          "published_at": "2026-06-09T00:00:38+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 55.0,
+        "discussion_score": 75.0,
+        "knowledge_gain_score": 80.0,
+        "life_relevance_score": 60.0,
+        "value_pluralism_score": 30.0,
+        "audio_fit_score": 60.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c73733d6701c6b95179f6",
+      "title": "Nasa unveils astronaut crew for Artemis III mission – video",
+      "summary": "NASA公布阿尔忒弥斯三号登月任务宇航员名单，四位宇航员将在地球轨道演练对接月球着陆器，为重返月球做准备。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery",
+        "technology_in_life"
+      ],
+      "child_hook": "如果你是阿尔忒弥斯三号的一名宇航员，在真正飞往月球之前，你最想在地球上先练习哪一项技能？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 85,
+          "age_fit": "fit",
+          "reason": "小学高年级对宇航员、登月、太空任务有天然好奇心，人物鲜明、任务目标清晰，容易激发兴趣。"
+        },
+        "junior_high": {
+          "child_interest_score": 80,
+          "age_fit": "fit",
+          "reason": "初中生对航天科技和国际合作感兴趣，可作为科普与职业想象的切入点，但情节相对温和，刺激度中等。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "纯科学/航天探索新闻，无暴力、灾难、政治争议或敏感内容，适合各年龄段与家长档。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "四位宇航员姓名与所属机构",
+        "阿尔忒弥斯二号任务完成时间及'破纪录'距离的具体数据",
+        "阿尔忒弥斯三号任务当前阶段目标与时间表"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Guardian",
+          "role": "viewpoint_source, topic_source",
+          "url": "https://www.theguardian.com/science/video/2026/jun/09/nasa-unveils-astronaut-crew-for-artemis-iii-mission-video",
+          "published_at": "2026-06-09T18:21:07+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 78.0,
+        "discussion_score": 75.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 55.0,
+        "value_pluralism_score": 40.0,
+        "audio_fit_score": 88.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c73748dd4db38691fd4c1",
+      "title": "'This one danced and snaked': Nasa astronaut captures aurora australis from space – video",
+      "summary": "NASA astronaut Jessica Meir on SpaceX Crew-12 mission shares a time-lapse of aurora australis filmed from the Dragon spacecraft, showing shimmering curtains of colored light snaking below Earth's poles.",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery"
+      ],
+      "child_hook": "If you were floating in a spaceship and saw a giant glowing curtain of green and red light dancing and snaking beneath your feet, what would you guess was making it move?",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 85,
+          "age_fit": "fit",
+          "reason": "Astronauts, glowing lights, and space footage strongly appeal to this age; the 'dancing snake' description is vivid and easy to imagine."
+        },
+        "junior_high": {
+          "child_interest_score": 80,
+          "age_fit": "fit",
+          "reason": "The magnetic-field and solar-particle explanation adds satisfying science depth, while the astronaut perspective still feels cool."
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "Pure natural-science content with no sensitive or distressing elements.",
+      "needs_fact_check": false,
+      "fact_check_targets": [],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Guardian",
+          "role": "viewpoint_source, topic_source",
+          "url": "https://www.theguardian.com/science/video/2026/jun/10/this-one-danced-and-snaked-nasa-astronaut-captures-aurora-australis-from-space-video",
+          "published_at": "2026-06-10T01:20:34+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 75.0,
+        "discussion_score": 75.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 50.0,
+        "value_pluralism_score": 30.0,
+        "audio_fit_score": 65.0
+      },
+      "human_review": {
+        "status": "approved",
+        "reviewer": "家长(演示)",
+        "reviewed_at": "2026-07-11T03:26:24.144965+00:00",
+        "note": null
+      }
+    },
+    {
+      "event_id": "evt_1c7375c0e4c7d919c81d48",
+      "title": "Building data centers in space is an intriguing idea on paper, but major engineering challenges must be solved",
+      "summary": "《The Conversation》文章探讨在太空建造数据中心这一构想：理论上可解决散热与能源问题，但工程上面临辐射、微重力、轨道碎片、维护成本和可靠通信等重大挑战。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "discovery"
+      ],
+      "child_hook": "如果要给你学校旁边的数据中心装上火箭发动机、发射到太空，你最担心它会在哪一步“掉链子”？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 60,
+          "age_fit": "maybe",
+          "reason": "太空话题有天然吸引力，但数据中心、热控、辐射等概念偏抽象，需要大量类比和场景化才能持续吸引小学高年级孩子。"
+        },
+        "junior_high": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "初中生已具备基础物理与信息技术背景，能理解数据中心、能源、太空环境的冲突，兴趣较高。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "内容为科技/工程分析，无暴力、灾难、政治、未成年人或仇恨等敏感元素，属于可安全讲述的选题。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "文中关于太空辐射、散热、微重力对服务器影响的技术断言",
+        "地球数据中心能耗与环境影响的统计数据",
+        "如提到的商业公司、发射时间表或成本数字需核实来源"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Conversation",
+          "role": "explainer_source, viewpoint_source",
+          "url": "https://theconversation.com/building-data-centers-in-space-is-an-intriguing-idea-on-paper-but-major-engineering-challenges-must-be-solved-284053",
+          "published_at": "2026-06-16T12:13:24+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 55.0,
+        "discussion_score": 75.0,
+        "knowledge_gain_score": 80.0,
+        "life_relevance_score": 45.0,
+        "value_pluralism_score": 65.0,
+        "audio_fit_score": 65.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c7375f711a9c42cf455a4",
+      "title": "The drawer problem: Why so many of us can’t let go of our old electronics, and what we can do about it",
+      "summary": "人们为何把旧手机、耳机和充电器塞进抽屉舍不得扔？文章从心理学和环保角度探讨电子囤积，并给出减少电子垃圾的实用建议。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "ordinary_people"
+      ],
+      "child_hook": "如果你家有一个专门放旧手机、坏耳机和充电器的抽屉，你最老的一件电子设备已经几岁？它为什么还没被扔掉？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 65,
+          "age_fit": "fit",
+          "reason": "孩子对家中旧设备有直观经验，能听懂舍不得扔和环保回收的冲突，但心理机制和统计部分需要通俗化。"
+        },
+        "junior_high": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "学生已能理解决策心理、消费主义和环境责任，适合借旧电子设备讨论个人习惯与社会影响。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "话题围绕日常旧电子设备和环保行为，无暴力、性、自残、仇恨或危险操作指引等敏感内容。",
+      "needs_fact_check": false,
+      "fact_check_targets": [],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Conversation",
+          "role": "explainer_source, viewpoint_source",
+          "url": "https://theconversation.com/the-drawer-problem-why-so-many-of-us-cant-let-go-of-our-old-electronics-and-what-we-can-do-about-it-284710",
+          "published_at": "2026-06-18T12:32:47+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 55.0,
+        "discussion_score": 75.0,
+        "knowledge_gain_score": 80.0,
+        "life_relevance_score": 85.0,
+        "value_pluralism_score": 70.0,
+        "audio_fit_score": 80.0
+      },
+      "human_review": {
+        "status": "approved",
+        "reviewer": "家长(演示)",
+        "reviewed_at": "2026-07-11T03:26:24.162456+00:00",
+        "note": null
+      }
+    },
+    {
+      "event_id": "evt_1c73764b53eae9b709a94c",
+      "title": "Quantum sensors could spot hidden damage in the thousands of US bridges rated ‘structurally deficient’",
+      "summary": "美国数千座桥梁被评为结构缺陷，研究人员提出用量子传感器在不拆解的情况下探测内部隐性损伤，让基础设施检测更精准。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "discovery",
+        "technology_in_life"
+      ],
+      "child_hook": "如果一座大桥看起来完好，但内部其实藏着看不见的裂缝，科学家们怎样才能在不把它拆开的情况下发现它？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 65,
+          "age_fit": "fit",
+          "reason": "量子传感器和桥梁检测的概念对小学生偏抽象，但'看不见的裂缝''桥会不会塌'有悬念，用比喻和声音场景可以讲清楚。"
+        },
+        "junior_high": {
+          "child_interest_score": 78,
+          "age_fit": "fit",
+          "reason": "初中生能理解量子传感、基础设施老化的社会意义，科技如何挽救现实问题的话题容易激起好奇。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "内容为科技应用与基础设施安全讨论，无暴力、灾难细节、政治煽动或未成年人风险，安全分级为默认。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "美国被评为结构缺陷的桥梁具体数量与评级标准",
+        "量子传感器用于桥梁隐性损伤检测的技术成熟度与实验验证情况"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Conversation",
+          "role": "explainer_source, viewpoint_source",
+          "url": "https://theconversation.com/quantum-sensors-could-spot-hidden-damage-in-the-thousands-of-us-bridges-rated-structurally-deficient-283569",
+          "published_at": "2026-06-19T12:10:11+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 65.0,
+        "discussion_score": 75.0,
+        "knowledge_gain_score": 80.0,
+        "life_relevance_score": 70.0,
+        "value_pluralism_score": 75.0,
+        "audio_fit_score": 75.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c7376c9b28855888fdf05",
+      "title": "From Hormuz to the cockpit: How warfare and criminal activity undermine GPS and the race to safeguard navigation",
+      "summary": "GPS 信号在霍尔木兹海峡和航班驾驶舱附近被干扰、伪造，威胁船舶与飞机安全，工程师和各国正竞速研发备用导航系统。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "social_conflict",
+        "discovery"
+      ],
+      "child_hook": "如果明天你打开手机地图，它却告诉你正在一座根本不存在的桥上，你会先相信自己的眼睛，还是屏幕上的箭头？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 60,
+          "age_fit": "maybe",
+          "reason": "GPS  spoofing 对小学生偏抽象，但可借手机地图、导航游戏和“假路标”比喻来激发兴趣；战争和犯罪背景需淡化为背景信息。"
+        },
+        "junior_high": {
+          "child_interest_score": 80,
+          "age_fit": "fit",
+          "reason": "学生已理解技术依赖、网络安全和国际冲突，能讨论 GPS 失效风险与应对方案，兴趣较高。"
+        }
+      },
+      "safety_tier": "sensitive",
+      "safety_tags": [
+        "warfare",
+        "criminal_activity",
+        "geopolitical_conflict",
+        "transportation_safety"
+      ],
+      "safety_reason": "事件涉及战争、犯罪活动和交通运输安全，属于需要淡化处理的敏感话题，但文中无暴力细节或危险操作指引，不触及红线。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "霍尔木兹海峡 GPS 干扰/欺骗事件的具体案例与数据",
+        "飞行器驾驶舱受 GPS 干扰影响的声称",
+        "犯罪活动影响 GPS 的具体方式与规模",
+        "备用导航系统的技术细节与最新进展"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Conversation",
+          "role": "explainer_source, viewpoint_source",
+          "url": "https://theconversation.com/from-hormuz-to-the-cockpit-how-warfare-and-criminal-activity-undermine-gps-and-the-race-to-safeguard-navigation-281106",
+          "published_at": "2026-06-23T12:30:27+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 55.0,
+        "discussion_score": 75.0,
+        "knowledge_gain_score": 80.0,
+        "life_relevance_score": 65.0,
+        "value_pluralism_score": 60.0,
+        "audio_fit_score": 80.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c7376f487c03ad2f65efc",
+      "title": "How young coquí frogs balance the competing demands of growth and fighting disease",
+      "summary": "科学家发现幼年科奎蛙如何在快速生长和抵御真菌疾病之间分配能量，研究有助于理解野生动物如何对抗正在蔓延的两栖动物流行病。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery"
+      ],
+      "child_hook": "如果你是一只还没长大的小青蛙，你会把能量用来快快长大，还是先打造一套免疫系统来对抗病菌？这两种选择会带来怎样不同的命运？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 72,
+          "age_fit": "fit",
+          "reason": "小学生通常对小动物和“生存挑战”感兴趣，但真菌、免疫权衡等概念需要用比喻和故事化讲解。"
+        },
+        "junior_high": {
+          "child_interest_score": 80,
+          "age_fit": "fit",
+          "reason": "初中生已具备生物基础，能理解生长与免疫之间的能量权衡，实验设计也适合启发思考。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "纯科学研究，无暴力、血腥、灾难、政治或未成年敏感内容，适合儿童播客。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "科奎蛙入侵佛罗里达和夏威夷的分布与研究结论",
+        "真菌病原体影响超过500种两栖动物的数据来源",
+        "幼年青蛙生长与免疫权衡的具体实验证据"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Conversation",
+          "role": "explainer_source, viewpoint_source",
+          "url": "https://theconversation.com/how-young-coqui-frogs-balance-the-competing-demands-of-growth-and-fighting-disease-283552",
+          "published_at": "2026-06-24T12:30:54+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 70.0,
+        "discussion_score": 75.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 60.0,
+        "value_pluralism_score": 55.0,
+        "audio_fit_score": 80.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737773985a6d9337a830",
+      "title": "What are supermassive black holes? Everything you need to know – and what astronomers are still learning – about these mysterious objects",
+      "summary": "天文学家持续探索超大质量黑洞的形成、质量与影响，宇宙深处的神秘天体仍是前沿课题。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery"
+      ],
+      "child_hook": "如果黑洞会把周围一切光线都吞进去，天文学家又是怎么“看见”它、还给它拍照的呢？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 85,
+          "age_fit": "fit",
+          "reason": "黑洞、宇宙等天体话题对小学高年级孩子天然有吸引力，可用类比和图像化语言讲清楚。"
+        },
+        "junior_high": {
+          "child_interest_score": 88,
+          "age_fit": "fit",
+          "reason": "初中学生具备一定抽象思维能力，对黑洞质量、事件视界等科学概念接受度更高。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "纯科学教育类话题，无暴力、死亡、灾难、政治或社会争议内容，适合所有年龄档和家长档。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "超大质量黑洞的质量范围与形成机制说法",
+        "M87星系中心黑洞及事件视界望远镜相关数据",
+        "天文学家对黑洞成长与合并的最新结论"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Conversation",
+          "role": "explainer_source, viewpoint_source",
+          "url": "https://theconversation.com/what-are-supermassive-black-holes-everything-you-need-to-know-and-what-astronomers-are-still-learning-about-these-mysterious-objects-283838",
+          "published_at": "2026-06-25T12:35:31+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 60.0,
+        "discussion_score": 75.0,
+        "knowledge_gain_score": 90.0,
+        "life_relevance_score": 35.0,
+        "value_pluralism_score": 30.0,
+        "audio_fit_score": 70.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c7378e95a9cc23447bfa5",
+      "title": "British swallowtail split from European cousins much earlier than thought, study finds",
+      "summary": "英国诺福克凤蝶Papilio machaon britannicus被新基因研究证实作为独立亚种已存在至少20万年，远早于此前的8000年估计，可能改写保护策略。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery"
+      ],
+      "child_hook": "如果一只你以为是'英国本土新住户'的蝴蝶，其实已经在湿地住了20万年，它还算不算'我们的'蝴蝶？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 78,
+          "age_fit": "fit",
+          "reason": "蝴蝶、远古时光、沉没的Doggerland、基因秘密等元素有画面感，能激发好奇心；进化与亚种概念对小学高年级可理解但需简化。"
+        },
+        "junior_high": {
+          "child_interest_score": 83,
+          "age_fit": "fit",
+          "reason": "涉及全基因组测序、亚种分化、冰期与湿地生态，适合初中生科学认知；新旧研究冲突和保护策略争议也能引发讨论。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "纯自然科学与物种保护话题，无暴力、死亡、政治、社会争议或未成年敏感内容。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "20万年与170万年的分化时间区间是否确为论文结论",
+        "此前8000年估计及Doggerland淹没背景是否准确",
+        "研究是否发表于Insect Conservation and Diversity",
+        "britannicus作为湿地特化种及更古北分布的论断"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Guardian",
+          "role": "viewpoint_source, topic_source",
+          "url": "https://www.theguardian.com/environment/2026/jul/05/british-swallowtail-butterfly-distinct-subspecies-study-conservation",
+          "published_at": "2026-07-05T11:00:25+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 72.0,
+        "discussion_score": 75.0,
+        "knowledge_gain_score": 82.0,
+        "life_relevance_score": 58.0,
+        "value_pluralism_score": 65.0,
+        "audio_fit_score": 76.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737964c57af82a56b84a",
+      "title": "Microsoft cuts 4,800 jobs and shrinks Xbox in 'significant restructure'",
+      "summary": "Microsoft announced a significant restructure, cutting 4,800 jobs (2.1% of its workforce) and shrinking its Xbox gaming division, with 1,600 immediate layoffs at Xbox.",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "social_conflict"
+      ],
+      "child_hook": "If the company that makes Xbox just told thousands of workers they no longer have jobs, what do you think might change about the games you play—or the people who make them?",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 65,
+          "age_fit": "fit",
+          "reason": "Many children play video games or know Xbox; the concrete numbers (4,800 jobs, 1,600 at Xbox) are easy to grasp, but the business logic behind layoffs may need explanation."
+        },
+        "junior_high": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "Teens who play games or follow tech companies will find it relevant; they can begin to understand corporate restructuring, market pressure, and the human impact of job losses."
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "Standard corporate/business news about layoffs and restructuring. No graphic violence, sexual content, self-harm, hate speech, dangerous instructions, or direct harm to children. Suitable for all audience modes.",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Verify that Microsoft announced 4,800 job cuts representing 2.1% of its workforce.",
+        "Verify that 1,600 of the layoffs were immediate and at Xbox.",
+        "Verify the date and official source of the announcement (Microsoft internal memo or public statement)."
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "BBC News",
+          "role": "fact_source, topic_source",
+          "url": "https://www.bbc.co.uk/news/articles/c36yy27rnpeo?at_medium=RSS&at_campaign=rss",
+          "published_at": "2026-07-06T15:18:53+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 70.0,
+        "discussion_score": 75.0,
+        "knowledge_gain_score": 65.0,
+        "life_relevance_score": 70.0,
+        "value_pluralism_score": 60.0,
+        "audio_fit_score": 85.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737a07a0be79121f2712",
+      "title": "Fishing for DNA – how a cup of river water can reveal secrets about human health, pollution and biodiversity",
+      "summary": "科学家从一杯河水中提取环境DNA（eDNA），识别水中的生物、污染物，甚至与人类健康相关的线索，为生态监测和公共卫生提供新工具。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery",
+        "technology_in_life"
+      ],
+      "child_hook": "如果一杯河水能告诉你最近有哪些动物来过，甚至还能发现人类留下的健康痕迹，你会觉得这很神奇，还是有点儿像被水‘偷看’了秘密？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 70,
+          "age_fit": "fit",
+          "reason": "“水里藏着DNA”的概念新奇，容易通过动物侦探故事引入，但部分分子生物学术语需要降低难度。"
+        },
+        "junior_high": {
+          "child_interest_score": 85,
+          "age_fit": "fit",
+          "reason": "已具备生物学基础，对eDNA技术、生物多样性调查和环保应用兴趣较高。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "内容为科学科普，无暴力、灾难、政治争议或敏感个人信息，适合所有家长档与年龄档。",
+      "needs_fact_check": false,
+      "fact_check_targets": [],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Conversation",
+          "role": "explainer_source, viewpoint_source",
+          "url": "https://theconversation.com/fishing-for-dna-how-a-cup-of-river-water-can-reveal-secrets-about-human-health-pollution-and-biodiversity-282215",
+          "published_at": "2026-07-07T12:14:29+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 60.0,
+        "discussion_score": 75.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 70.0,
+        "value_pluralism_score": 65.0,
+        "audio_fit_score": 80.0
+      },
+      "human_review": {
+        "status": "approved",
+        "reviewer": "家长(演示)",
+        "reviewed_at": "2026-07-11T03:26:24.176460+00:00",
+        "note": null
+      }
+    },
+    {
+      "event_id": "evt_1c737a321d5387ca94108e",
+      "title": "Catnip lotion as effective as Deet at repelling mosquitoes, study finds",
+      "summary": "研究发现，猫薄荷中的活性成分荆芥内酯制成的乳液在乌干达试验中驱蚊效果与避蚊胺相当，廉价且本地可种植，或为疟疾防控带来新工具。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery"
+      ],
+      "child_hook": "为什么一种让猫疯狂打滚的草，居然能赶走吸血的蚊子？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 85,
+          "age_fit": "fit",
+          "reason": "猫对猫薄荷的反应、蚊子叮咬和 malaria 等元素对小学生有天然吸引力，能引发好奇心。"
+        },
+        "junior_high": {
+          "child_interest_score": 80,
+          "age_fit": "fit",
+          "reason": "涉及科学研究、试验设计和全球公共卫生，适合初中生理解并讨论。"
+        }
+      },
+      "safety_tier": "sensitive",
+      "safety_tags": [
+        "disease",
+        "death",
+        "global_health"
+      ],
+      "safety_reason": "事件本质为科学发现，但文中提及疟疾每年感染人数与死亡数据，涉及疾病与死亡议题，需按敏感话题进行年龄化、非惊悚化讲述，避免过度渲染疾病恐惧。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "猫薄荷乳液在乌干达试验中与避蚊胺驱蚊效果相当的具体研究数据",
+        "疟疾每年约感染 2.82 亿人、2024 年死亡 61 万人的数据来源",
+        "疟疾抗药性和杀虫剂抗性的相关表述",
+        "研究在佛罗伦萨实验生物学学会会议上发布的背景与团队信息"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Guardian",
+          "role": "viewpoint_source, topic_source",
+          "url": "https://www.theguardian.com/global-development/2026/jul/07/catnip-lotion-as-effective-as-deet-at-repelling-mosquitoes-study-finds",
+          "published_at": "2026-07-07T15:17:19+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 75.0,
+        "discussion_score": 75.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 80.0,
+        "value_pluralism_score": 70.0,
+        "audio_fit_score": 80.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737a5ab6b1d2dfce5fd7",
+      "title": "Men’s average testosterone levels have halved in last 50 years, say scientists",
+      "summary": "Scientists report men's average testosterone levels fell by 54% between 1972 and 2019, raising concerns about male reproductive health. Obesity, diabetes, endocrine-disrupting chemicals and climate change may be contributing factors.",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery"
+      ],
+      "child_hook": "What if the water bottles, furniture, or food packaging around you could secretly send messages to your body's hormones—what would you want to ask them?",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 55,
+          "age_fit": "maybe",
+          "reason": "Hormones and fertility are abstract for this age; some kids are curious about body science, but the topic feels distant from daily life."
+        },
+        "junior_high": {
+          "child_interest_score": 78,
+          "age_fit": "fit",
+          "reason": "Puberty makes hormones and body changes directly relevant; environmental and lifestyle causes invite discussion and personal connection."
+        }
+      },
+      "safety_tier": "sensitive",
+      "safety_tags": [
+        "health",
+        "reproduction",
+        "hormones"
+      ],
+      "safety_reason": "Scientific health finding about reproductive hormones and fertility; not graphic or explicit, but involves body chemistry and reproduction. Conservative families may prefer to defer to older ages.",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Verify the 54% decline figure and the 1972-2019 timeframe",
+        "Confirm the ESHRE conference presentation and Prof Hagai Levine attribution",
+        "Check causal claims linking obesity, diabetes, endocrine-disrupting chemicals and global heating to the decline"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Guardian",
+          "role": "viewpoint_source, topic_source",
+          "url": "https://www.theguardian.com/society/2026/jul/07/mens-average-testosterone-levels-have-halved-in-last-50-years-say-scientists",
+          "published_at": "2026-07-07T15:41:59+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 55.0,
+        "discussion_score": 75.0,
+        "knowledge_gain_score": 82.0,
+        "life_relevance_score": 65.0,
+        "value_pluralism_score": 68.0,
+        "audio_fit_score": 82.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737afd7219e63c4afc56",
+      "title": "大多数 AI slop 应用会很快停止维护和抛弃",
+      "summary": "Linux应用商店Flathub因大量低质AI生成应用涌入，宣布停止接收并给旧应用打上“AI Slop”标签；调查显示120个相关应用中88个已被抛弃。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "internet_culture"
+      ],
+      "child_hook": "如果一个应用商店里有成千上万个App，但其中有一大半是机器人几分钟做出来的，你会怎么设计规则，让顾客找到真正好用的那一个？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 50,
+          "age_fit": "maybe",
+          "reason": "孩子对“AI自动生成”和“App商店”有直觉兴趣，但Linux软件仓库、应用审核等专业背景需要较多生活化比喻。"
+        },
+        "junior_high": {
+          "child_interest_score": 65,
+          "age_fit": "fit",
+          "reason": "初中生日常接触各类App，能理解平台规则、内容质量与AI滥用的冲突，适合深入讨论。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "内容为科技平台治理与AI生成应用现象，无暴力、灾难、犯罪、政治争议或未成年风险，属于安全可讲的默认题材。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Flathub是否于2026年5月底宣布停止接受AI生成应用",
+        "Flathub是否从2026年1月起将相关应用标记为AI Slop",
+        "Evangelos Paterakis关于120个AI Slop应用中32个维护、88个抛弃的数据来源与统计口径",
+        "审核者与AI智能体沟通时回复答非所问的具体案例是否属实"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "Solidot",
+          "role": "lead_source, topic_source",
+          "url": "https://www.solidot.org/story?sid=84784",
+          "published_at": "2026-07-08T10:25:41+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 55.0,
+        "discussion_score": 75.0,
+        "knowledge_gain_score": 75.0,
+        "life_relevance_score": 60.0,
+        "value_pluralism_score": 80.0,
+        "audio_fit_score": 70.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737e9fa9e645656dccb5",
+      "title": "Google 搜索量在世界杯期间创下纪录",
+      "summary": "Google称世界杯期间搜索量创历史纪录，峰值出现在阿根廷对埃及比赛制胜球后，热门查询多围绕梅西与赛事规则。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "internet_culture"
+      ],
+      "child_hook": "如果你想知道一个世界杯进球算不算有效，你会先问 Google、问 AI，还是问身边的朋友？不同的人为什么会选择不同的工具？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 70,
+          "age_fit": "fit",
+          "reason": "小学生熟悉Google搜索和世界杯，梅西是普遍认识的体育明星，搜索热门问题贴近他们的好奇心，但市场份额、营收增速等商业数据吸引力一般。"
+        },
+        "junior_high": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "初中生对AI聊天机器人与传统搜索的竞争更敏感，能讨论工具选择，世界杯和梅西也提供共同话题，商业背景数据可拓展认知。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "内容为科技商业与体育赛事数据，无暴力、灾难、疾病、政治争议或未成年人风险，属于安全默认可进池话题。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Google世界杯期间搜索量创纪录及每秒查询量峰值的具体时间",
+        "Google全球搜索市场份额约九成的数据来源",
+        "Google股价过去一年翻了一番多的说法",
+        "Google第一季度营收增速为2022年以来最快的说法",
+        "赛后热门搜索查询列表是否准确"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "Solidot",
+          "role": "lead_source, topic_source",
+          "url": "https://www.solidot.org/story?sid=84797",
+          "published_at": "2026-07-10T07:53:16+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 55.0,
+        "discussion_score": 75.0,
+        "knowledge_gain_score": 70.0,
+        "life_relevance_score": 80.0,
+        "value_pluralism_score": 60.0,
+        "audio_fit_score": 75.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737f4172e606dc63e0e4",
+      "title": "长征十号乙火箭成功回收",
+      "summary": "长征十号乙火箭在海南发射后，一子级垂直返回并被海上回收平台网系捕获，预计年底复用。该火箭为大型两级液氧煤油/甲烷火箭，复用可大幅降低发射成本。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "discovery"
+      ],
+      "child_hook": "如果火箭发射后能像客机一样自己飞回来、修好再用，未来的太空旅行会不会变成我们普通人也能买得起的‘长途机票’？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 85,
+          "age_fit": "fit",
+          "reason": "火箭发射、海上回收网像‘抓娃娃’一样的画面感强，能自然引出工程奇迹与航天知识，理解门槛可控。"
+        },
+        "junior_high": {
+          "child_interest_score": 90,
+          "age_fit": "fit",
+          "reason": "涉及可复用火箭、推进剂、运载能力与成本逻辑，契合初中物理与科技兴趣，讨论空间足。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "航天科技成就报道，无暴力、灾难、疾病、政治争议或儿童不宜内容，默认安全。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "发射时间：2026年7月10日12时15分，海南商业航天发射场",
+        "回收方式：一子级垂直返回，海上回收平台通过网系捕获成功回收",
+        "火箭参数：5米直径、首飞箭长约63米、起飞推力约890吨、起飞重量约760吨、复用状态近地轨道运力16吨",
+        "复用计划：回收一子级预计2026年底前完成复用飞行",
+        "研制方：中国航天科技集团一院抓总研制"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "Solidot",
+          "role": "lead_source, topic_source",
+          "url": "https://www.solidot.org/story?sid=84800",
+          "published_at": "2026-07-10T10:27:34+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 80.0,
+        "discussion_score": 75.0,
+        "knowledge_gain_score": 90.0,
+        "life_relevance_score": 60.0,
+        "value_pluralism_score": 50.0,
+        "audio_fit_score": 85.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737fe346993bc3cd3edf",
+      "title": "How ‘space balls’ launched a sleepy Queensland beach town into the global spotlight at warp speed",
+      "summary": "澳大利亚昆士兰福里斯特海滩发现六个神秘“太空球”残骸，当地外卖店推出“太空垃圾小吃盒”并用AI外星人照片搞怪，小镇一夜爆红。",
+      "primary_category": "ordinary_people",
+      "topic_categories": [
+        "ordinary_people",
+        "discovery",
+        "internet_culture"
+      ],
+      "child_hook": "如果你在家门口沙滩上捡到一个刻着奇怪符号的金属球，你会先报警、还是先拍照发朋友圈？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "神秘的“太空球”和外星人话题天然吸引小学生，小吃店老板的搞怪反应也很有画面感，容易理解。"
+        },
+        "junior_high": {
+          "child_interest_score": 70,
+          "age_fit": "fit",
+          "reason": "事件涉及太空碎片、AI图片和社交媒体传播，初中生能延伸到科学、网络伦理等角度，但离奇程度略低于小学生。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "事件为轻松的社会趣闻，无暴力、灾难、政治或未成年人风险内容。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "这些“太空球”是否已被官方或专家确认来源/归属",
+        "六件残骸的具体材质、坠落时间与地点是否准确"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Guardian",
+          "role": "viewpoint_source, topic_source",
+          "url": "https://www.theguardian.com/australia-news/2026/jul/11/how-space-balls-launched-a-sleepy-queensland-beach-town-into-the-global-spotlight-at-warp-speed",
+          "published_at": "2026-07-10T15:00:25+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 80.0,
+        "discussion_score": 75.0,
+        "knowledge_gain_score": 65.0,
+        "life_relevance_score": 60.0,
+        "value_pluralism_score": 45.0,
+        "audio_fit_score": 85.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c73807d7863872c643a27",
+      "title": "DNA Reveals the Identity of a Teenager Who Died in the Revolutionary War, Cracking a Nearly 250-Year-Old Cold Case",
+      "summary": "A 14-year-old Continental Army soldier who died at the 1780 Battle of Camden was buried in an unmarked grave for nearly 250 years. DNA genealogy has now identified him as Private John Pumphrey, cracking one of America's oldest John Doe cases.",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery",
+        "technology_in_life",
+        "ordinary_people"
+      ],
+      "child_hook": "If you could send one modern object back in time to help a 14-year-old soldier prove who he was, what would you choose and why?",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 80,
+          "age_fit": "fit",
+          "reason": "The mystery of a forgotten teen soldier, plus CSI-like DNA science, is highly engaging for 9–12 year-olds, though the Revolutionary War setting requires brief context."
+        },
+        "junior_high": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "Junior-high students can appreciate both the historical detective work and the ethical questions about child soldiers, though the 18th-century setting is somewhat distant."
+        }
+      },
+      "safety_tier": "sensitive",
+      "safety_tags": [
+        "war",
+        "death",
+        "historical_violence"
+      ],
+      "safety_reason": "The story involves a historical battlefield death and war context, but no graphic or operational violence is described. It is suitable for family discussion with light framing.",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Identity claimed as Private John Pumphrey",
+        "Statement that he was about 14 at enlistment",
+        "Claim that he signed with an X and marched over 1,000 miles",
+        "20,000 DNA matches figure",
+        "Death at the Battle of Camden in 1780 and 2022 excavation"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "Smithsonian Magazine",
+          "role": "topic_source",
+          "url": "https://www.smithsonianmag.com/history/dna-reveals-the-identity-of-a-teenager-who-died-in-the-revolutionary-war-cracking-a-nearly-250-year-old-cold-case-180989095/",
+          "published_at": "2026-07-10T16:07:49+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 90.0,
+        "discussion_score": 75.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 55.0,
+        "value_pluralism_score": 60.0,
+        "audio_fit_score": 85.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737c71002d84b2bcf309",
+      "title": "Euclid 望远镜发现已知最遥远的类星体",
+      "summary": "ESA 欧几里得太空望远镜在首批巡天资料中发现了 34 个极早期宇宙的类星体，其中 EUCL J172902.75+641018.1 红移高达 7.77，成为目前人类已知最遥远的类星体。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery",
+        "technology_in_life"
+      ],
+      "child_hook": "如果你能看到宇宙诞生后不到 7 亿年发出的光，那道光在今天会是什么样子？它又藏着一个什么样的“怪兽”？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "“最遥远的天体”“宇宙灯塔”等概念对小学高年级孩子有较强的奇幻感和好奇心驱动，但需要配合形象化类比。"
+        },
+        "junior_high": {
+          "child_interest_score": 82,
+          "age_fit": "fit",
+          "reason": "初中学生已能接触红移、黑洞、类星体等概念，适合作为天文学拓展话题。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "纯天文学探索类新闻，无暴力、灾难、政治、疾病或未成年人敏感内容，适合默认处理。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Euclid 首批巡天资料发现 34 个红移大于 6.5 的星体、27 个红移大于 7 的星体",
+        "EUCL J172902.75+641018.1 红移 7.77 为目前最远类星体",
+        "phys.org 2026-07 相关报道的原始研究出处及 ESA 官方发布信息"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "Solidot",
+          "role": "lead_source, topic_source",
+          "url": "https://www.solidot.org/story?sid=84791",
+          "published_at": "2026-07-09T10:11:30+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 66.0,
+        "discussion_score": 74.0,
+        "knowledge_gain_score": 88.0,
+        "life_relevance_score": 42.0,
+        "value_pluralism_score": 30.0,
+        "audio_fit_score": 72.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c73805490262f5aace2db",
+      "title": "Bumblebees Seem to 'Lick Their Lips' After Sweet Treats and Shake Their Heads at Bad Tastes, Hinting at the Insects' Inner Lives",
+      "summary": "研究发现熊蜂吃到甜食会伸舌舔嘴，尝到苦味则摇头擦嘴，暗示昆虫可能像哺乳动物一样对味道有好恶判断。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery"
+      ],
+      "child_hook": "如果蜜蜂吃到难吃的东西会像你这样摇头，那它是在说“呸”吗？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 88,
+          "age_fit": "fit",
+          "reason": "蜜蜂“舔嘴”“摇头”的动作像卡通一样生动，孩子容易把动物行为和自己的感受联系起来。"
+        },
+        "junior_high": {
+          "child_interest_score": 82,
+          "age_fit": "fit",
+          "reason": "涉及昆虫认知与情绪样态的科学争议，适合对生物学和动物伦理感兴趣的初中生。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "纯科学研究报道，无暴力、灾难、政治或未成年人敏感内容，适合所有档位。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "该研究是否确实发表于《Proceedings of the National Academy of Sciences》",
+        "研究是否由中国南方医科大学 Fei Peng 团队完成",
+        "实验是否观察到熊蜂在甜食后伸舌舔嘴、在苦味溶液后摇头擦嘴的行为",
+        "“昆虫具有类似情绪的好恶体验”这一结论是研究发现还是过度解读"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "Smithsonian Magazine",
+          "role": "topic_source",
+          "url": "https://www.smithsonianmag.com/smart-news/bumblebees-seem-to-lick-their-lips-after-sweet-treats-and-shake-their-heads-at-bad-tastes-hinting-at-the-insects-inner-lives-180989098/",
+          "published_at": "2026-07-10T15:45:42+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 78.0,
+        "discussion_score": 74.0,
+        "knowledge_gain_score": 86.0,
+        "life_relevance_score": 60.0,
+        "value_pluralism_score": 68.0,
+        "audio_fit_score": 90.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c73771f159c52fa7fc8b3",
+      "title": "¿Cómo las ranitas coquí jóvenes equilibran las demandas de crecimiento y de combatir enfermedades?",
+      "summary": "一项关于波多黎各树蛙（coquí）幼蛙的研究：它们要在快速长大和抵抗致死真菌之间做能量取舍，且这类蛙已成为佛罗里达和夏威夷的入侵物种。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery"
+      ],
+      "child_hook": "如果你是一只刚来到陌生小岛、只有硬币大的小青蛙，你会把能量先用来“长大”，还是先用来“升级免疫武器”？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 68,
+          "age_fit": "fit",
+          "reason": "“青蛙怎么选”像一个生存游戏，但需要把免疫系统和能量取舍讲得形象化，小学生才能跟得上。"
+        },
+        "junior_high": {
+          "child_interest_score": 74,
+          "age_fit": "fit",
+          "reason": "能理解生态入侵、免疫权衡等概念，适合作为生物课堂延伸讨论。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [
+        "animal disease",
+        "invasive species"
+      ],
+      "safety_reason": "话题为非人类动物疾病与生态研究，无暴力、死亡细节或人类敏感内容，属于自然科学类默认安全素材。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "“该真菌已影响超过500种两栖动物”的具体数据来源",
+        "幼蛙生长与免疫需求之间的权衡是否为该研究的核心结论"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Conversation",
+          "role": "explainer_source, viewpoint_source",
+          "url": "https://theconversation.com/como-las-ranitas-coqui-jovenes-equilibran-las-demandas-de-crecimiento-y-de-combatir-enfermedades-285519",
+          "published_at": "2026-06-24T17:12:46+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 70.0,
+        "discussion_score": 72.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 50.0,
+        "value_pluralism_score": 62.0,
+        "audio_fit_score": 80.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737c9958e73f268815a0",
+      "title": "中国使用无人机救助被洪灾困住的灾民",
+      "summary": "广西南宁横州市洪灾中，救援人员使用大疆农业无人机FlyCart 100转移被困群众；文章还提到中国已批准商用载人无人机服务及无人机外卖/快递应用。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life"
+      ],
+      "child_hook": "如果洪水把回家的路都淹了，一架能吊起85公斤的无人机飞过来，你最想让它先把什么运送到安全地方——你、宠物，还是书包？为什么？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "无人机吊人救灾的画面感强，孩子容易好奇；但洪水灾难背景需要柔和处理。"
+        },
+        "junior_high": {
+          "child_interest_score": 78,
+          "age_fit": "fit",
+          "reason": "对无人机原理、低空经济和应急救援有兴趣，能展开讨论。"
+        }
+      },
+      "safety_tier": "sensitive",
+      "safety_tags": [
+        "disaster",
+        "rescue"
+      ],
+      "safety_reason": "事件涉及洪灾自然灾害，但无伤亡细节、无暴力或恐怖描写，核心是救援成功；需在讲述时降低灾难应激，适合按标准及以上、初中保守档处理。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "2026年7月南宁横州洪灾及无人机救援视频的真实性",
+        "大疆FlyCart 100农业无人机载重85公斤参数",
+        "2025年3月中国民航局批准亿航智能、合肥合翼航空开展商用载人无人机服务的文件",
+        "此前农业无人机洪水中救人的案例是否属实"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "Solidot",
+          "role": "lead_source, topic_source",
+          "url": "https://www.solidot.org/story?sid=84793",
+          "published_at": "2026-07-09T15:02:52+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 65.0,
+        "discussion_score": 72.0,
+        "knowledge_gain_score": 75.0,
+        "life_relevance_score": 70.0,
+        "value_pluralism_score": 55.0,
+        "audio_fit_score": 80.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737dda4324ca171c1f73",
+      "title": "Pressure builds on Europe's biggest port to be greener",
+      "summary": "环保团体通过诉讼向欧洲最大港口鹿特丹港施压，要求其加快摆脱对化石燃料企业的依赖，推进绿色转型。",
+      "primary_category": "social_conflict",
+      "topic_categories": [
+        "social_conflict",
+        "technology_in_life"
+      ],
+      "child_hook": "如果欧洲最大的港口要在一夜之间停止使用化石燃料，会发生什么——港口的工作、来往的轮船，还是我们加的汽油，会先发生变化？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 50,
+          "age_fit": "maybe",
+          "reason": "气候主题对小学生有一定吸引力，但港口运营、化石燃料依赖和诉讼争议较为抽象，需要故事化包装才能抓住注意力。"
+        },
+        "junior_high": {
+          "child_interest_score": 68,
+          "age_fit": "fit",
+          "reason": "初中生已具备理解环境政策、企业责任和社会运动的基础，对诉讼对抗和能源转型话题较感兴趣。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "事件为环保诉讼与能源政策讨论，无暴力、灾难、性、自残、仇恨或危险操作等敏感内容，属于默认安全等级。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "核实鹿特丹港是否确为欧洲最大港口",
+        "核实诉讼发起方、具体诉求及法律依据",
+        "核实鹿特丹港对化石燃料企业依赖程度的相关数据"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "BBC News",
+          "role": "fact_source, topic_source",
+          "url": "https://www.bbc.co.uk/news/articles/c39y78rwrmno?at_medium=RSS&at_campaign=rss",
+          "published_at": "2026-07-09T23:00:51+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 58.0,
+        "discussion_score": 72.0,
+        "knowledge_gain_score": 72.0,
+        "life_relevance_score": 52.0,
+        "value_pluralism_score": 78.0,
+        "audio_fit_score": 70.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737f9246561056951062",
+      "title": "The Culprit Behind South Australia's Deadly Algal Bloom Might Be the Most Toxic Species Ever Tested, Scientists Say",
+      "summary": "南澳海岸出现神秘黄泡沫，科学家确认剧毒微藻 Karenia cristata 是元凶，其神经毒素在极低浓度即可致命，已造成约百万海洋生物死亡。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery"
+      ],
+      "child_hook": "如果海滩上出现一团看似普通的泡沫，却藏着能影响整片海域的神秘力量，你会怎么判断它有没有危险？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 70,
+          "age_fit": "maybe",
+          "reason": "神秘泡沫、剧毒微藻和大量海洋生物死亡具有较强猎奇感，但生态灾难与死亡主题可能让部分小学生感到不安，需温和讲述。"
+        },
+        "junior_high": {
+          "child_interest_score": 78,
+          "age_fit": "fit",
+          "reason": "初中学生能理解藻华机制、神经毒素与生态影响，科学探究与环境保护话题容易引发兴趣。"
+        }
+      },
+      "safety_tier": "sensitive",
+      "safety_tags": [
+        "animal death",
+        "environmental disaster",
+        "toxin"
+      ],
+      "safety_reason": "事件涉及大规模海洋动物死亡与生态灾难，但无图像化暴力、人类伤亡或恐怖细节；作为敏感话题需避免渲染死亡画面，以科学解释为主。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Karenia cristata 是否被正式鉴定为南澳藻华元凶",
+        "约一百万海洋生物死亡及 7700 平方英里/30% 海岸线覆盖范围的数据来源",
+        "研究发表于《Nature Ecology & Evolution》的具体日期与卷期",
+        "Shauna Murray 的身份与所属机构",
+        "K. cristata 毒性比已研究微藻高一个数量级的结论依据",
+        "brevetoxin 对神经细胞伤害机制的科学描述"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "Smithsonian Magazine",
+          "role": "topic_source",
+          "url": "https://www.smithsonianmag.com/smart-news/the-culprit-behind-south-australias-deadly-algal-bloom-might-be-the-most-toxic-species-ever-tested-scientists-say-180989100/",
+          "published_at": "2026-07-10T12:46:29+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 75.0,
+        "discussion_score": 72.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 55.0,
+        "value_pluralism_score": 45.0,
+        "audio_fit_score": 80.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c7381872c3e767552299c",
+      "title": "Apple sues OpenAI, its employees claiming theft of trade secrets",
+      "summary": "Apple filed a lawsuit accusing OpenAI employees of stealing trade secrets to build OpenAI’s new hardware business, calling it “rotten to its core.”",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "social_conflict"
+      ],
+      "child_hook": "If the company that made your phone accused a rival of stealing its secrets, what would you want to know before deciding who’s right?",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 55,
+          "age_fit": "maybe",
+          "reason": "The dispute is between two big tech names kids may recognize, but the legal and business details can feel abstract without strong framing."
+        },
+        "junior_high": {
+          "child_interest_score": 72,
+          "age_fit": "fit",
+          "reason": "Teens often use Apple devices and AI tools, so a clash over stolen secrets and AI hardware can spark curiosity about how tech companies compete."
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "Corporate litigation between technology companies; no violence, self-harm, sexual content, hate speech, or dangerous instructions.",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Whether Apple actually filed a lawsuit against OpenAI employees as reported",
+        "Specific claims of trade-secret theft and the alleged stolen information",
+        "The state of OpenAI’s hardware business and Apple’s involvement or competition",
+        "Accuracy of the quoted phrase 'rotten to its core' and the lawsuit filing date"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "BBC News",
+          "role": "fact_source, topic_source",
+          "url": "https://www.bbc.co.uk/news/articles/cy8w379e091o?at_medium=RSS&at_campaign=rss",
+          "published_at": "2026-07-10T22:54:16+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 62.0,
+        "discussion_score": 72.0,
+        "knowledge_gain_score": 76.0,
+        "life_relevance_score": 68.0,
+        "value_pluralism_score": 75.0,
+        "audio_fit_score": 71.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_19d903cf819a8b6de6bc76",
+      "title": "NASA Scientists Take to Air and Space to Study Arctic Sea Ice",
+      "summary": "NASA科学家正结合飞机观测与卫星数据研究北极海冰变化，以了解气候变暖对极地冰层的影响。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery",
+        "technology_in_life"
+      ],
+      "child_hook": "如果让你坐在NASA的飞机上，飞过一大片正在融化的北极海冰，你觉得科学家最想看清楚的'秘密'会是什么？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "NASA、飞机和极地冰川对孩子有吸引力，能引出'为什么冰在融化'的好奇。"
+        },
+        "junior_high": {
+          "child_interest_score": 80,
+          "age_fit": "fit",
+          "reason": "能理解气候变化与科学考察的意义，对北极生态和航天技术均感兴趣。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "内容为NASA科学考察，无敏感元素。但代表文章标题与摘要明显不匹配（摘要为月球漫步水下模拟），正文信息缺失，属于数据质量不足，需核实原文。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "核实NASA当前是否有针对北极海冰的空中与太空联合观测任务",
+        "确认任务名称、飞机型号、观测区域及科学目标",
+        "核对代表文章标题与摘要/正文是否对应"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "NASA",
+          "role": "topic_source, fact_source",
+          "url": "https://www.nasa.gov/missions/airborne-science/nasa-scientists-take-to-air-and-space-to-study-arctic-sea-ice/",
+          "published_at": "2026-07-09T15:42:58+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 75.0,
+        "discussion_score": 70.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 55.0,
+        "value_pluralism_score": 40.0,
+        "audio_fit_score": 75.0
+      },
+      "human_review": {
+        "status": "approved",
+        "reviewer": "家长(演示)",
+        "reviewed_at": "2026-07-11T02:17:28.754722+00:00",
+        "note": null
+      }
+    },
+    {
+      "event_id": "evt_1c73755b1ed350c780b95f",
+      "title": "Sonic booms from meteors can release the energy of hundreds of tons of TNT – here’s how they work",
+      "summary": "A new science article explains how meteors can produce sonic booms as powerful as hundreds of tons of TNT, using the 2013 Chelyabinsk asteroid as a real-world example.",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery"
+      ],
+      "child_hook": "If a bright streak suddenly tore across the sky and, a minute later, your windows started rattling, what would you check first?",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 82,
+          "age_fit": "fit",
+          "reason": "Bright fireballs, loud booms and broken windows are dramatic and easy to imagine; the topic can be explained with simple action-and-sound comparisons."
+        },
+        "junior_high": {
+          "child_interest_score": 85,
+          "age_fit": "fit",
+          "reason": "The physics of shock waves, atmospheric entry and TNT energy equivalents matches their curiosity about how the world works and real disasters."
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "This is a scientific explanation of a natural phenomenon; references to the Chelyabinsk event are historical and non-graphic, with no distressing details, operational dangers or disallowed content.",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Chelyabinsk meteor event date, recorded energy, number of injuries and damage",
+        "Scientific claim that meteor sonic booms can release energy equivalent to hundreds of tons of TNT",
+        "Mechanism of meteor-generated shock waves and sonic booms as described"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Conversation",
+          "role": "explainer_source, viewpoint_source",
+          "url": "https://theconversation.com/sonic-booms-from-meteors-can-release-the-energy-of-hundreds-of-tons-of-tnt-heres-how-they-work-284923",
+          "published_at": "2026-06-15T12:41:39+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 78.0,
+        "discussion_score": 70.0,
+        "knowledge_gain_score": 88.0,
+        "life_relevance_score": 55.0,
+        "value_pluralism_score": 45.0,
+        "audio_fit_score": 82.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c7376756657fed040802a",
+      "title": "Why do baseball players put a black mark under their eyes?",
+      "summary": "棒球运动员眼睛下方涂黑色标记的科学解释：减少阳光或球场灯光在面部皮肤上的反射眩光，帮助运动员更清楚地追踪球。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery"
+      ],
+      "child_hook": "你注意过运动员眼睛下面那两道黑印吗？除了看起来很酷，它真的能帮他们看得更清楚吗？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 82,
+          "age_fit": "fit",
+          "reason": "运动场景贴近小学生生活，对「为什么要涂黑」有天然好奇，容易理解光反射和眩光的概念。"
+        },
+        "junior_high": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "对体育和科学交叉话题仍有兴趣，但相比小学生神秘感略低，可作为轻量科普选题。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "体育科普话题，无暴力、灾难、疾病、政治或敏感内容。",
+      "needs_fact_check": false,
+      "fact_check_targets": [],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Conversation",
+          "role": "explainer_source, viewpoint_source",
+          "url": "https://theconversation.com/why-do-baseball-players-put-a-black-mark-under-their-eyes-283562",
+          "published_at": "2026-06-22T12:34:08+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 45.0,
+        "discussion_score": 70.0,
+        "knowledge_gain_score": 80.0,
+        "life_relevance_score": 75.0,
+        "value_pluralism_score": 35.0,
+        "audio_fit_score": 85.0
+      },
+      "human_review": {
+        "status": "approved",
+        "reviewer": "家长(演示)",
+        "reviewed_at": "2026-07-11T03:26:24.168078+00:00",
+        "note": null
+      }
+    },
+    {
+      "event_id": "evt_1c7377f25a5e7dcbc1fea3",
+      "title": "Reflecting pool algae: the science Trump needs to know – podcast",
+      "summary": "林肯纪念堂倒影池清理重涂后，藻类很快再次暴发，科学家解释为何藻类难以根除，以及特朗普\"国旗蓝\"承诺背后的生态难题。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery",
+        "social_conflict"
+      ],
+      "child_hook": "如果你要为一个巨大的水池保持湛蓝，但水总是偷偷变绿，你会先清理、换水，还是请科学家找原因？最快的办法一定最可靠吗？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "著名水池变绿、再被刷蓝的画面感强，能引发生态小侦探式的好奇。"
+        },
+        "junior_high": {
+          "child_interest_score": 70,
+          "age_fit": "fit",
+          "reason": "能理解政治口号与生态现实之间的张力，但兴趣取决于对政治人物的熟悉度。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "内容仅为环境科学解释，提及政治人物但无煽动、暴力、歧视或危险指引。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "特朗普是否确实在4月承诺在7月4日前将倒影池翻新并涂成美国国旗蓝",
+        "清理、涂层、重新注水后藻类是否在几天内重现",
+        "藻类困扰倒影池是否已有数十年"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Guardian",
+          "role": "viewpoint_source, topic_source",
+          "url": "https://www.theguardian.com/science/audio/2026/jun/30/reflecting-pool-algae-science-trump-podcast",
+          "published_at": "2026-06-30T04:00:39+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 60.0,
+        "discussion_score": 70.0,
+        "knowledge_gain_score": 80.0,
+        "life_relevance_score": 45.0,
+        "value_pluralism_score": 65.0,
+        "audio_fit_score": 75.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c7379b5bf0fdcdc3f728e",
+      "title": "Robots available for rent: But what can they do?",
+      "summary": "机器人租赁服务兴起，让普通家庭和小企业也能临时用上机器人，但它们的实际能力仍是关键问题。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life"
+      ],
+      "child_hook": "如果你可以租一个机器人来帮你做一天的事，你会让它完成什么任务——又有什么事是你绝不会交给机器人的？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 70,
+          "age_fit": "fit",
+          "reason": "机器人话题自带未来感，容易激发好奇心；但租赁模式的经济逻辑需要简单解释。"
+        },
+        "junior_high": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "对科技趋势和自动化影响更敏感，能理解租赁、就业与伦理之间的讨论。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "科技消费趋势报道，无暴力、灾难、政治或未成年人敏感内容。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "机器人租赁市场的实际规模和主要服务提供商",
+        "租赁价格是否真的让普通家庭或小型企业可负担",
+        "文中提到的机器人可用于工作和玩耍的具体案例"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "BBC News",
+          "role": "fact_source, topic_source",
+          "url": "https://www.bbc.co.uk/news/articles/c4gymkg9lr2o?at_medium=RSS&at_campaign=rss",
+          "published_at": "2026-07-06T23:48:55+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 50.0,
+        "discussion_score": 70.0,
+        "knowledge_gain_score": 75.0,
+        "life_relevance_score": 65.0,
+        "value_pluralism_score": 60.0,
+        "audio_fit_score": 75.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737ba206b9d132b4b5cc",
+      "title": "Creating synthetic life in a lab? SpudCell falls short of the goal, but raises even more useful questions",
+      "summary": "科学家在实验室尝试用“SpudCell”项目合成生命，最终未达到目标，却引出了关于“什么才算生命”等更有价值的问题。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery",
+        "technology_in_life"
+      ],
+      "child_hook": "如果有一天科学家真的能在实验室里“造”出一个会生长、会繁殖的细胞，它算是“生命”吗？我们和它又有什么不同？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 65,
+          "age_fit": "fit",
+          "reason": "小学高年级对“人造生命”有好奇心，但需用简单类比解释细胞、实验目标与失败意义。"
+        },
+        "junior_high": {
+          "child_interest_score": 78,
+          "age_fit": "fit",
+          "reason": "初中生已具备基础生物知识，能跟上“合成生命”与科学伦理的讨论，兴趣较高。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "纯科学探索话题，无暴力、死亡、犯罪、性、仇恨或危险操作指引等敏感内容，适合各年龄段。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "SpudCell项目是否确实未能实现合成生命目标",
+        "“合成生命”相关科学断言与背景是否准确"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Conversation",
+          "role": "explainer_source, viewpoint_source",
+          "url": "https://theconversation.com/creating-synthetic-life-in-a-lab-spudcell-falls-short-of-the-goal-but-raises-even-more-useful-questions-286762",
+          "published_at": "2026-07-08T12:46:14+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 52.0,
+        "discussion_score": 70.0,
+        "knowledge_gain_score": 82.0,
+        "life_relevance_score": 45.0,
+        "value_pluralism_score": 68.0,
+        "audio_fit_score": 75.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c737ef066095bf25c7c06",
+      "title": "OpenRouter 上近五成美国公司使用中国 AI 模型",
+      "summary": "OpenRouter 数据显示，美国企业调用中国 AI 模型的 token 占比从 2025 年上半年的约 4% 升至近期峰值 46%，主因中国模型价格远低于美国高端模型，如 DeepSeek V4 Flash 每百万 token 仅 0.18 美元，不足 Anthropic Claude Opus 4.7 的 1%。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "discovery"
+      ],
+      "child_hook": "如果一款便宜又聪明的外国 AI 能帮老师快速批改作业，但学校担心你的答案会被传到国外，你觉得该不该用？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 55,
+          "age_fit": "maybe",
+          "reason": "涉及企业采购、token 价格等商业数据，对小学生较抽象；但“AI 变便宜了”“美国公司在用中国 AI”有新奇感，可激发部分兴趣。"
+        },
+        "junior_high": {
+          "child_interest_score": 72,
+          "age_fit": "fit",
+          "reason": "初中生已接触 AI 工具，对中美科技、价格与性能对比感兴趣，能理解“为什么企业选更便宜的模型”这一逻辑。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "内容为商业/科技数据报道，未涉及暴力、性、自残、仇恨或危险行为；地缘政治色彩较淡，适合默认分级处理。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "OpenRouter 美国企业周调用中国 AI 占比 46% 峰值的数据及时间口径",
+        "2025 上半年中国 AI 调用占比约 4% 的对比数据",
+        "OpenRouter 800 万用户及工程师为主的人群描述",
+        "Anthropic Claude Opus 4.7 每百万 token 25 美元与 DeepSeek V4 Flash 0.18 美元的价格对比",
+        "OpenRouter 数据来源是否来自其官方统计或第三方报道"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "Solidot",
+          "role": "lead_source, topic_source",
+          "url": "https://www.solidot.org/story?sid=84799",
+          "published_at": "2026-07-10T09:32:45+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 45.0,
+        "discussion_score": 70.0,
+        "knowledge_gain_score": 82.0,
+        "life_relevance_score": 58.0,
+        "value_pluralism_score": 75.0,
+        "audio_fit_score": 78.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c7380d0abea45de6fea41",
+      "title": "An Ancient Sea Once Split North America Down the Middle. The Beautiful Multicolored Ammonite Shells From Its Waters Are So Perfectly Preserved That They Still Shimmer Today",
+      "summary": "The Smithsonian's National Museum of Natural History is exhibiting spectacular multicolored ammonite shells and other marine fossils from the Western Interior Seaway, an ancient warm sea that split North America over 70 million years ago.",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery"
+      ],
+      "child_hook": "What would your town look like if a warm, shark-filled sea covered the middle of your country right now?",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 85,
+          "age_fit": "fit",
+          "reason": "Ancient seas, shimmering fossils, and sea monsters like marine lizards and knife-toothed sharks are highly visual and exciting for 9–12-year-olds."
+        },
+        "junior_high": {
+          "child_interest_score": 80,
+          "age_fit": "fit",
+          "reason": "The story connects geology, paleontology, and deep time, offering enough curiosity hooks and scientific context for 13–15-year-olds."
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "Natural history and paleontology topic with no sensitive content, violence, or controversy.",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Verify the Western Interior Seaway split North America in the Cretaceous period.",
+        "Verify the Smithsonian 'From These Lands' exhibition includes these ammonite specimens.",
+        "Verify the 'more than 70 million years ago' timeframe for the seaway.",
+        "Verify the claim about South Dakota's rural spot being the continental point of inaccessibility from the ocean."
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "Smithsonian Magazine",
+          "role": "topic_source",
+          "url": "https://www.smithsonianmag.com/smithsonian-institution/an-ancient-sea-once-split-north-america-down-the-middle-the-beautiful-multicolored-ammonite-shells-from-its-waters-are-so-perfectly-preserved-that-they-still-shimmer-today-180989104/",
+          "published_at": "2026-07-10T16:30:59+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 80.0,
+        "discussion_score": 70.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 40.0,
+        "value_pluralism_score": 20.0,
+        "audio_fit_score": 75.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c7381af9f184f84257d5e",
+      "title": "Is the Assassin's Creed Black Flag remake worth the 13 year wait?",
+      "summary": "BBC reviews the remade Assassin's Creed Black Flag and asks whether 13 years of fan waiting paid off.",
+      "primary_category": "internet_culture",
+      "topic_categories": [
+        "internet_culture",
+        "technology_in_life"
+      ],
+      "child_hook": "If you could captain a pirate ship in a video game, would you rather discover a hidden island, win a cannon battle, or hunt for sunken treasure—and why?",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 65,
+          "age_fit": "fit",
+          "reason": "Many children in this age group play or know video games, and pirate ships are inherently appealing, though the topic is a product review rather than a story about kids."
+        },
+        "junior_high": {
+          "child_interest_score": 80,
+          "age_fit": "fit",
+          "reason": "Teen gamers are likely interested in a major remake, and they can engage with questions about nostalgia, graphics, and game design."
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "This is a mainstream entertainment review about a video game remake; it contains no graphic violence, no detailed instructions, no sensitive real-world harm, and no disallowed content.",
+      "needs_fact_check": false,
+      "fact_check_targets": [],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "BBC News",
+          "role": "fact_source, topic_source",
+          "url": "https://www.bbc.co.uk/news/articles/cjrg9r80908o?at_medium=RSS&at_campaign=rss",
+          "published_at": "2026-07-11T00:08:51+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 55.0,
+        "discussion_score": 70.0,
+        "knowledge_gain_score": 40.0,
+        "life_relevance_score": 60.0,
+        "value_pluralism_score": 65.0,
+        "audio_fit_score": 75.0
+      },
+      "human_review": {
+        "status": "approved",
+        "reviewer": "家长(演示)",
+        "reviewed_at": "2026-07-11T03:26:24.194265+00:00",
+        "note": null
+      }
+    },
+    {
+      "event_id": "evt_19d904ed71e36576ac32e2",
+      "title": "NASA Photographer Captures Images from F-18 Over Washington",
+      "summary": "NASA 正在水下模拟下一次月球漫步任务，摄影师从 F-18 上空拍摄到华盛顿地区相关画面，文章核心聚焦宇航员在泳池中训练月球行走与装备测试。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery",
+        "technology_in_life"
+      ],
+      "child_hook": "如果让你在地球上的游泳池里练习月球行走，你能模拟出脚踩月壤、身体轻飘飘的感觉吗？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 82,
+          "age_fit": "fit",
+          "reason": "太空、月球、宇航员和潜水训练是小学生天然感兴趣的冒险主题，画面感强，能激起对航天事业的好奇。"
+        },
+        "junior_high": {
+          "child_interest_score": 74,
+          "age_fit": "fit",
+          "reason": "初中学生对太空探索仍有兴趣，能进一步理解模拟训练背后的科学原理，但新奇感略低于小学生。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "NASA 航天训练与科技主题，无暴力、灾难、犯罪或争议内容，适合全年龄段。",
+      "needs_fact_check": false,
+      "fact_check_targets": [],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "NASA",
+          "role": "topic_source, fact_source",
+          "url": "https://www.nasa.gov/image-article/nasa-photographer-captures-images-from-f-18-over-washington/",
+          "published_at": "2026-07-10T16:36:14+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 72.0,
+        "discussion_score": 68.0,
+        "knowledge_gain_score": 80.0,
+        "life_relevance_score": 52.0,
+        "value_pluralism_score": 42.0,
+        "audio_fit_score": 76.0
+      },
+      "human_review": {
+        "status": "approved",
+        "reviewer": "家长(演示)",
+        "reviewed_at": "2026-07-11T02:17:28.802489+00:00",
+        "note": null
+      }
+    },
+    {
+      "event_id": "evt_19d9044dc69851acf0853b",
+      "title": "NASA Space Telescope Maps Magnetic Fields of ‘Lighthouse’ Pulsar",
+      "summary": "NASA 太空望远镜为一颗像灯塔般旋转闪烁的脉冲星绘制了磁场图，帮助科学家理解这种极端天体如何产生高能辐射。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery",
+        "technology_in_life"
+      ],
+      "child_hook": "如果宇宙里有一座每秒闪烁几百次的“灯塔”，它的磁场会把周围的空间扭成什么形状？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 70,
+          "age_fit": "fit",
+          "reason": "脉冲星像宇宙灯塔、会规律闪烁，画面感强，小学高年级能理解比喻；但磁场和磁场图稍抽象，需用简单类比。"
+        },
+        "junior_high": {
+          "child_interest_score": 80,
+          "age_fit": "fit",
+          "reason": "初中孩子已接触电磁与天文基础，对极端天体、NASA 探索任务和高能辐射更感兴趣。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "纯科学天文发现，无暴力、死亡、灾难、政治或争议内容，默认安全。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "确认 NASA 官网是否发布该脉冲星磁场图相关新闻稿",
+        "确认具体脉冲星名称/编号、观测望远镜型号、发布日期"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "NASA",
+          "role": "topic_source, fact_source",
+          "url": "https://science.nasa.gov/missions/ixpe/nasa-space-telescope-maps-magnetic-fields-of-lighthouse-pulsar/",
+          "published_at": "2026-07-09T20:08:35+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 75.0,
+        "discussion_score": 65.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 45.0,
+        "value_pluralism_score": 30.0,
+        "audio_fit_score": 80.0
+      },
+      "human_review": {
+        "status": "approved",
+        "reviewer": "家长(演示)",
+        "reviewed_at": "2026-07-11T02:17:28.766124+00:00",
+        "note": null
+      }
+    },
+    {
+      "event_id": "evt_19d9047652ca116e71c6a3",
+      "title": "NASA Sets Coverage for Astronaut Anil Menon Launch to Space Station",
+      "summary": "NASA宣布将为宇航员Anil Menon前往国际空间站的发射提供全程报道，公众可通过直播关注这次太空任务。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery",
+        "technology_in_life"
+      ],
+      "child_hook": "如果你突然被选中，明天就要坐火箭去国际空间站，你最想带什么东西？到了太空后，你第一件事会做什么？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 80,
+          "age_fit": "fit",
+          "reason": "太空、火箭和宇航员对小学生有天然吸引力，画面感强，容易理解。"
+        },
+        "junior_high": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "初中生仍对太空探索感兴趣，但可能更关注任务细节与宇航员背景。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "NASA 官方航天任务报道，内容积极，无暴力、灾难、政治争议或未成年敏感信息。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Anil Menon 是否确为本次国际空间站任务宇航员",
+        "发射日期与 NASA 直播报道安排",
+        "任务名称、乘组与空间站任务细节"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "NASA",
+          "role": "topic_source, fact_source",
+          "url": "https://www.nasa.gov/news-release/nasa-sets-coverage-for-astronaut-anil-menon-launch-to-space-station/",
+          "published_at": "2026-07-09T22:09:27+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 60.0,
+        "discussion_score": 65.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 55.0,
+        "value_pluralism_score": 40.0,
+        "audio_fit_score": 85.0
+      },
+      "human_review": {
+        "status": "approved",
+        "reviewer": "家长(演示)",
+        "reviewed_at": "2026-07-11T02:17:28.776834+00:00",
+        "note": null
+      }
+    },
+    {
+      "event_id": "evt_1c7377c86a5267248b7bca",
+      "title": "8 principles from human ecology can help AI work for human well-being",
+      "summary": "学者提出人类生态学八大原则，主张AI发展不应只追求效率，而要像保护自然环境一样守护人类福祉，为AI治理提供新视角。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life"
+      ],
+      "child_hook": "如果让AI像保护森林一样保护你的快乐和专注，它应该遵守哪些规则？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 50,
+          "age_fit": "maybe",
+          "reason": "AI与福祉话题对小学生较抽象，但贴近他们日常接触的科技产品，需要大量类比才能听进去。"
+        },
+        "junior_high": {
+          "child_interest_score": 65,
+          "age_fit": "fit",
+          "reason": "初中生能理解AI伦理与生态原则的类比，适合讨论科技如何影响生活与情绪。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "纯学术观点文章，无暴力、灾难、政治冲突或敏感内容，适合儿童节目。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "人类生态学八大原则的具体来源与作者学术背景",
+        "这些原则是否已被AI治理机构或研究界引用",
+        "文中关于AI与人类福祉因果关系的断言"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "The Conversation",
+          "role": "explainer_source, viewpoint_source",
+          "url": "https://theconversation.com/8-principles-from-human-ecology-can-help-ai-work-for-human-well-being-279959",
+          "published_at": "2026-06-29T12:31:54+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 35.0,
+        "discussion_score": 65.0,
+        "knowledge_gain_score": 75.0,
+        "life_relevance_score": 55.0,
+        "value_pluralism_score": 75.0,
+        "audio_fit_score": 60.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c73815e0122a77a00ad58",
+      "title": "See Artifacts That Archaeologists Discovered in This 1,600-Year-Old Byzantine Christian Town Buried in an Oasis in Egypt",
+      "summary": "Archaeologists found a 1,600-year-old Byzantine Christian town in Egypt's Dakhla Oasis with planned streets, a basilica, watchtowers, coins, and 200 pottery receipts.",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery"
+      ],
+      "child_hook": "If your town were suddenly buried in sand for 1,600 years, what one everyday object would you want future archaeologists to find so they could guess what your life was like?",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "Ancient Egypt, buried cities, and hidden artifacts strongly appeal to this age; everyday objects like coins and receipts make history feel close to home."
+        },
+        "junior_high": {
+          "child_interest_score": 78,
+          "age_fit": "fit",
+          "reason": "The mix of archaeology, Byzantine history, and detective-like discovery of a complete town keeps interest and offers enough depth for this age."
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "Pure archaeology and history content with no violence, sensitive identity, or controversial social themes. Suitable for all audience settings.",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "Verify the 1,600-year-old date and fourth century C.E. dating of the settlement",
+        "Confirm the Dakhla Oasis location and the Ministry of Tourism and Antiquities source",
+        "Check the approximate 200 ostraca count and mid-fourth century church dating"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "Smithsonian Magazine",
+          "role": "topic_source",
+          "url": "https://www.smithsonianmag.com/smart-news/see-artifacts-that-archaeologists-discovered-in-this-1600-year-old-byzantine-christian-town-buried-in-an-oasis-in-egypt-180989106/",
+          "published_at": "2026-07-10T20:07:04+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 70.0,
+        "discussion_score": 65.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 50.0,
+        "value_pluralism_score": 40.0,
+        "audio_fit_score": 80.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_19d90426b51b533d77bae7",
+      "title": "Curiosity Sees Martian Sulfur Up Close",
+      "summary": "NASA好奇号火星车在火星表面首次近距离拍摄到明亮的硫磺晶体，科学家对其形成原因和火星环境意义感到兴奋。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery",
+        "technology_in_life"
+      ],
+      "child_hook": "如果火星上真的遍地都是亮黄色的硫磺晶体，那它会不会是火星曾经有生命、或者曾经很热很湿的线索？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 78,
+          "age_fit": "fit",
+          "reason": "火星车和外星晶体是小学生感兴趣的话题，画面感强，可延伸讲火星探索和矿物知识。"
+        },
+        "junior_high": {
+          "child_interest_score": 72,
+          "age_fit": "fit",
+          "reason": "初中孩子能理解科学发现的意义，但事件本身冲突和叙事性较弱，更适合作为科普小点。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "NASA科学发现，无暴力、灾难、政治、疾病或敏感内容，适合全年龄段。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "图片是否确实由NASA好奇号于2026年7月9日发布",
+        "硫磺晶体发现的具体火星位置与探测任务阶段",
+        "NASA科学家对发现的具体解读和论文出处"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "NASA",
+          "role": "topic_source, fact_source",
+          "url": "https://www.nasa.gov/image-article/curiosity-sees-martian-sulfur-up-close/",
+          "published_at": "2026-07-09T16:33:50+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 58.0,
+        "discussion_score": 62.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 42.0,
+        "value_pluralism_score": 35.0,
+        "audio_fit_score": 60.0
+      },
+      "human_review": {
+        "status": "approved",
+        "reviewer": "家长(演示)",
+        "reviewed_at": "2026-07-11T02:11:51.837088+00:00",
+        "note": null
+      }
+    },
+    {
+      "event_id": "evt_1c737c4841f5a46c83b5ff",
+      "title": "iOS 27 Beta 2 & 3 值得关注的新特性",
+      "summary": "Apple 近期发布了 iOS 27 的 Developer Beta 2 与 Beta 3，对首个测试版中的功能进行优化并加入新系统特性。具体内容涉及界面、交互与功能细节更新。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life"
+      ],
+      "child_hook": "如果你能给手机加一个新功能，让它在学校、家里或和朋友聊天时变得更好用，你会想加什么？它又会长什么样？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 65,
+          "age_fit": "maybe",
+          "reason": "手机新功能对孩子有日常关联，但技术细节较抽象，低年级可能兴趣一般。"
+        },
+        "junior_high": {
+          "child_interest_score": 80,
+          "age_fit": "fit",
+          "reason": "中学生普遍使用智能设备，对系统更新、新交互和隐私/效率功能更敏感。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "科技产品系统更新，无暴力、灾难、敏感政治或未成年风险。内容需核实发布事实与功能细节，但不影响安全准入。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "iOS 27 是否确实已发布 Developer Beta 2 与 Beta 3",
+        "文章所列举的具体新功能与改动是否真实存在",
+        "少数派原文中的功能截图或描述是否来自官方/可靠来源"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "少数派",
+          "role": "topic_source",
+          "url": "https://sspai.com/post/112083",
+          "published_at": "2026-07-09T07:49:58+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 35.0,
+        "discussion_score": 60.0,
+        "knowledge_gain_score": 70.0,
+        "life_relevance_score": 75.0,
+        "value_pluralism_score": 20.0,
+        "audio_fit_score": 60.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_1c7381d81ba31a11d3dca6",
+      "title": "Tech Now",
+      "summary": "BBC记者Adrienne Murray获准进入微软位于丹麦的量子实验室，揭秘量子计算机研发幕后。",
+      "primary_category": "technology_in_life",
+      "topic_categories": [
+        "technology_in_life",
+        "discovery"
+      ],
+      "child_hook": "如果有一天，你书包里的一颗小小芯片，比世界上所有普通电脑加起来还算得快，我们的生活会多出哪些现在完全做不到的事？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 62,
+          "age_fit": "maybe",
+          "reason": "量子实验室自带神秘感，但量子物理概念较抽象，需要把技术细节转化为可触摸的比喻和探秘故事，才能持续吸引小学生。"
+        },
+        "junior_high": {
+          "child_interest_score": 78,
+          "age_fit": "fit",
+          "reason": "已具备基础物理和科学探究认知，对前沿科技、未来应用以及秘密实验室的探访过程有较强好奇心。"
+        }
+      },
+      "safety_tier": "default",
+      "safety_tags": [],
+      "safety_reason": "纯科技探访类内容，无暴力、灾难、犯罪、政治争议或未成年人敏感元素，属于默认可进的安全级别。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "published_at 2026-07-11 is a future date and needs source verification",
+        "confirm that BBC News published an article titled 'Tech Now' featuring Microsoft Quantum Lab in Denmark",
+        "verify journalist Adrienne Murray's identity and affiliation",
+        "verify the existence and location of Microsoft Quantum Lab in Denmark"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "BBC News",
+          "role": "fact_source, topic_source",
+          "url": "https://www.bbc.co.uk/iplayer/episode/m002z2l5?at_medium=RSS&at_campaign=rss",
+          "published_at": "2026-07-11T01:00:00+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 65.0,
+        "discussion_score": 60.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 45.0,
+        "value_pluralism_score": 35.0,
+        "audio_fit_score": 72.0
+      },
+      "human_review": null
+    },
+    {
+      "event_id": "evt_19d9049e37af3378062d21",
+      "title": "Where Venezuela’s Earthquakes Shifted the Ground",
+      "summary": "NASA利用卫星雷达绘制委内瑞拉地震后的地表位移图，展示地面如何被移动数厘米，帮助孩子理解地震与地球观测技术。",
+      "primary_category": "discovery",
+      "topic_categories": [
+        "discovery",
+        "technology_in_life"
+      ],
+      "child_hook": "如果地震能让地面像一块被推动的拼图，移动了几厘米，你最想用卫星'眼睛'看看地球上的哪一块？",
+      "age_assessments": {
+        "upper_primary": {
+          "child_interest_score": 75,
+          "age_fit": "fit",
+          "reason": "地震和地面'错位'有画面感，但卫星数据对小学生可能略抽象。"
+        },
+        "junior_high": {
+          "child_interest_score": 78,
+          "age_fit": "fit",
+          "reason": "对地理、科技感兴趣，InSAR位移图能提供探究素材。"
+        }
+      },
+      "safety_tier": "sensitive",
+      "safety_tags": [
+        "natural_disaster",
+        "earthquake"
+      ],
+      "safety_reason": "主题涉及自然灾害（地震），但正文聚焦地表位移测量与卫星观测，未出现伤亡或惨烈细节；属可处理题材，保守家长档的小学可暂不进入。",
+      "needs_fact_check": true,
+      "fact_check_targets": [
+        "NASA文中委内瑞拉地震的具体时间与地点",
+        "地面位移数据（厘米/米）是否准确",
+        "所用卫星/雷达技术（如InSAR）的描述是否准确"
+      ],
+      "source_count": 1,
+      "sources": [
+        {
+          "name": "NASA",
+          "role": "topic_source, fact_source",
+          "url": "https://science.nasa.gov/earth/earth-observatory/where-venezuelas-earthquakes-shifted-the-ground/",
+          "published_at": "2026-07-10T04:00:00+00:00"
+        }
+      ],
+      "scores": {
+        "story_score": 60.0,
+        "discussion_score": 55.0,
+        "knowledge_gain_score": 85.0,
+        "life_relevance_score": 60.0,
+        "value_pluralism_score": 35.0,
+        "audio_fit_score": 75.0
+      },
+      "human_review": null
+    }
+  ]
+}
