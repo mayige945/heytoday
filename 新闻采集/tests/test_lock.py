@@ -7,7 +7,7 @@ import pytest
 
 from news_ingestion.errors import LockBusyError
 from news_ingestion.services import lock as lock_module
-from news_ingestion.services.lock import ProcessLock
+from news_ingestion.services.lock import DatabaseLock, ProcessLock
 
 
 def test_process_lock_rejects_second_holder_and_releases(tmp_path):
@@ -38,3 +38,51 @@ def test_process_lock_preserves_unexpected_os_errors(tmp_path, monkeypatch):
         lock.acquire()
 
     assert lock._handle is None
+
+
+class _FakeConnection:
+    def __init__(self, acquired):
+        self.acquired = acquired
+        self.closed = False
+        self.calls = []
+
+    def scalar(self, statement, _params=None):
+        self.calls.append(str(statement))
+        return self.acquired if len(self.calls) == 1 else True
+
+    def execute(self, statement, _params=None):
+        self.calls.append(str(statement))
+
+    def close(self):
+        self.closed = True
+
+
+class _FakeEngine:
+    class dialect:
+        name = "postgresql"
+
+    def __init__(self, acquired):
+        self.connection = _FakeConnection(acquired)
+
+    def connect(self):
+        return self.connection
+
+
+def test_database_lock_rejects_overlapping_server_run():
+    engine = _FakeEngine(acquired=False)
+    lock = DatabaseLock(engine)
+
+    with pytest.raises(LockBusyError):
+        lock.acquire()
+
+    assert engine.connection.closed is True
+
+
+def test_database_lock_releases_postgres_advisory_lock():
+    engine = _FakeEngine(acquired=True)
+
+    with DatabaseLock(engine):
+        assert engine.connection.closed is False
+
+    assert any("pg_advisory_unlock" in call for call in engine.connection.calls)
+    assert engine.connection.closed is True

@@ -1,8 +1,7 @@
 """Alembic 运行环境。
 
 target_metadata 指向 ``news_ingestion.models.Base.metadata``，迁移因此与模型同源。
-SQLite 使用 batch 模式，便于未来 ALTER TABLE。URL 优先取 alembic 配置中的
-``sqlalchemy.url``（由代码注入），缺失时回退到 ``NEWS_DB_PATH`` / 默认库路径。
+生产 URL 取 ``SUPABASE_DB_URL``，测试可显式注入 ``NEWS_DATABASE_URL``。
 """
 
 from __future__ import annotations
@@ -11,9 +10,8 @@ import os
 from logging.config import fileConfig
 
 from alembic import context
-from sqlalchemy import create_engine, pool
 
-from news_ingestion import paths
+from news_ingestion.db.session import make_engine
 from news_ingestion.models import Base
 
 config = context.config
@@ -32,8 +30,10 @@ def _resolve_url() -> str:
     url = config.get_main_option("sqlalchemy.url")
     if url:
         return url
-    db_path = os.environ.get("NEWS_DB_PATH") or str(paths.db_path())
-    return f"sqlite:///{db_path}"
+    url = os.environ.get("SUPABASE_DB_URL") or os.environ.get("NEWS_DATABASE_URL")
+    if not url:
+        raise RuntimeError("缺少 SUPABASE_DB_URL")
+    return str(url)
 
 
 def run_migrations_offline() -> None:
@@ -42,19 +42,19 @@ def run_migrations_offline() -> None:
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
-        render_as_batch=True,
+        render_as_batch=_resolve_url().startswith("sqlite:"),
     )
     with context.begin_transaction():
         context.run_migrations()
 
 
 def run_migrations_online() -> None:
-    connectable = create_engine(_resolve_url(), future=True, poolclass=pool.NullPool)
+    connectable = make_engine(_resolve_url())
     with connectable.connect() as connection:
         context.configure(
             connection=connection,
             target_metadata=target_metadata,
-            render_as_batch=True,
+            render_as_batch=connection.dialect.name == "sqlite",
         )
         with context.begin_transaction():
             context.run_migrations()

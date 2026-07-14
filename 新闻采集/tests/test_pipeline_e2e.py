@@ -6,23 +6,17 @@
 
 from __future__ import annotations
 
-from datetime import timedelta
-
-import pytest
-
 from news_ingestion.config import FiltersConfig, RuntimeConfig, SourceConfig
-from news_ingestion.db.alembic import is_at_head
-from news_ingestion.models import EventReview, LlmRun, NewsArticle, NewsEvent
-from news_ingestion.repositories import ArticleRepository, EventRepository, LlmRunRepository, ReviewRepository
+from news_ingestion.models import LlmRun, NewsEvent
+from news_ingestion.repositories import ArticleRepository
 from news_ingestion.services import (
     approve_event,
     export_material,
     run_pipeline,
 )
-from news_ingestion.timeutil import utcnow
-from news_ingestion.types import DiscoveredArticle, FetchedContent
+from news_ingestion.types import FetchedContent
 
-from conftest import SCORING_DEFAULT, make_discovered
+from conftest import make_discovered
 
 
 def _source(code, method="rss", **kw):
@@ -144,6 +138,19 @@ def test_offline_end_to_end_happy_path(session_factory, fake_llm, tmp_path):
             assert "sk-" not in (run.error_message or "")
 
         scored_event_id = evt.id
+
+    repeated = run_pipeline(
+        session_factory,
+        enabled_sources=[src_a, src_b],
+        runtime=_runtime(),
+        filters=_filters(),
+        user_agent="test-ua",
+        client=fake_llm(),
+        collector_for=_fake_collector(items),
+        content_fetcher=_fake_content(),
+    )
+    assert repeated.summary["articles_created"] == 0
+    assert repeated.summary["duplicates"] == 0
 
     # v0.5：事件默认进素材库；approve 可选；导出单一新闻素材库
     approve_event(session_factory, scored_event_id, reviewer="tester")

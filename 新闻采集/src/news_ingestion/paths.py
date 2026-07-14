@@ -2,8 +2,7 @@
 
 所有路径相对模块根 ``新闻采集/`` 计算，使 CLI 无论从哪个工作目录发起都能
 正确找到 ``config/``、``prompts/``、``data/``、``logs/``、``output/`` 与
-``migrations/``。测试可通过环境变量 ``NEWS_DB_PATH`` / ``NEWS_MODULE_ROOT``
-覆盖数据库与模块根，避免污染真实运行目录。
+``migrations/``。生产数据库由 ``SUPABASE_DB_URL`` 指定。
 """
 
 from __future__ import annotations
@@ -31,12 +30,6 @@ OUTPUT_DIR = MODULE_ROOT / "output"
 MIGRATIONS_DIR = MODULE_ROOT / "migrations"
 
 ALEMBIC_INI = MODULE_ROOT / "alembic.ini"
-
-
-def db_path() -> Path:
-    """SQLite 数据库文件路径，可被 ``NEWS_DB_PATH`` 覆盖（测试用）。"""
-    override = os.environ.get("NEWS_DB_PATH")
-    return Path(override).resolve() if override else DATA_DIR / "news_ingestion.sqlite3"
 
 
 def lock_path() -> Path:

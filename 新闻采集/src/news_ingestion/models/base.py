@@ -10,28 +10,34 @@ from datetime import datetime, timezone
 
 from sqlalchemy import orm, types
 
-from ..timeutil import utcnow
-
-
 class UTCDateTime(types.TypeDecorator):
-    """以 ISO8601 UTC 字符串存储 datetime，读回 tz-aware UTC。"""
+    """Postgres 使用 timestamptz；SQLite 测试使用 ISO8601 字符串。"""
 
     impl = types.VARCHAR(40)
     cache_ok = True
+
+    def load_dialect_impl(self, dialect):  # type: ignore[override]
+        if dialect.name == "postgresql":
+            return dialect.type_descriptor(types.DateTime(timezone=True))
+        return dialect.type_descriptor(types.VARCHAR(40))
 
     def process_bind_param(self, value, dialect):  # type: ignore[override]
         if value is None:
             return None
         if isinstance(value, str):
-            return value
+            value = datetime.fromisoformat(value)
         if value.tzinfo is None:
             value = value.replace(tzinfo=timezone.utc)
-        return value.astimezone(timezone.utc).isoformat()
+        normalized = value.astimezone(timezone.utc)
+        return normalized if dialect.name == "postgresql" else normalized.isoformat()
 
     def process_result_value(self, value, dialect):  # type: ignore[override]
         if value is None:
             return None
-        return datetime.fromisoformat(value)
+        parsed = value if isinstance(value, datetime) else datetime.fromisoformat(value)
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed.astimezone(timezone.utc)
 
 
 class Base(orm.DeclarativeBase):

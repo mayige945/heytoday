@@ -10,6 +10,9 @@ import errno
 import os
 from pathlib import Path
 
+from sqlalchemy import text
+from sqlalchemy.engine import Connection, Engine
+
 if os.name == "nt":
     import msvcrt
 else:
@@ -68,6 +71,50 @@ class ProcessLock:
                 self._handle = None
 
     def __enter__(self) -> "ProcessLock":
+        self.acquire()
+        return self
+
+    def __exit__(self, exc_type, exc, tb) -> None:
+        self.release()
+
+
+class DatabaseLock:
+    """Postgres 会话级 advisory lock，防止多服务器任务重叠。"""
+
+    _LOCK_ID = 744_202_607_13
+
+    def __init__(self, engine: Engine) -> None:
+        self.engine = engine
+        self._connection: Connection | None = None
+
+    def acquire(self) -> None:
+        if self.engine.dialect.name != "postgresql":
+            return
+        self._connection = self.engine.connect()
+        acquired = bool(
+            self._connection.scalar(
+                text("select pg_try_advisory_lock(:lock_id)"),
+                {"lock_id": self._LOCK_ID},
+            )
+        )
+        if not acquired:
+            self._connection.close()
+            self._connection = None
+            raise LockBusyError("已有 news-ingestion 服务器任务正在运行（Postgres advisory lock）")
+
+    def release(self) -> None:
+        if self._connection is None:
+            return
+        try:
+            self._connection.execute(
+                text("select pg_advisory_unlock(:lock_id)"),
+                {"lock_id": self._LOCK_ID},
+            )
+        finally:
+            self._connection.close()
+            self._connection = None
+
+    def __enter__(self) -> "DatabaseLock":
         self.acquire()
         return self
 

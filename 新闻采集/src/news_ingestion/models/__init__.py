@@ -24,6 +24,7 @@ from .enums import (
     SourceRole,
 )
 from .event_review import EventReview
+from .cluster_forbid_pair import ClusterForbidPair
 from .fact_check_record import FactCheckRecord
 from .fetch_log import FetchLog
 from .llm_run import LlmRun
@@ -41,6 +42,7 @@ __all__ = [
     "FetchLog",
     "FactCheckRecord",
     "EventReview",
+    "ClusterForbidPair",
     # enums
     "AccessReviewStatus",
     "AcquisitionMethod",

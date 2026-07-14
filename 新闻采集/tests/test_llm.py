@@ -2,16 +2,19 @@
 
 from __future__ import annotations
 
-import pytest
+from datetime import timedelta
 
+from news_ingestion.config import RuntimeConfig
 from news_ingestion.llm import extract_json, load_prompt, validate_instance
 from news_ingestion.llm.relevance import classify_light
 from news_ingestion.llm.scoring import score_full
 from news_ingestion.models import NewsArticle, NewsEvent, NewsSource
 from news_ingestion.repositories import LlmRunRepository
+from news_ingestion.services.classify_service import run_classify_light
+from news_ingestion.services.score_service import run_score_full
 from news_ingestion.timeutil import utcnow
 
-from conftest import RELEVANCE_IRRELEVANT, SCORING_DEFAULT
+from conftest import SCORING_DEFAULT
 
 
 def test_schemas_reject_invalid():
@@ -83,6 +86,40 @@ def test_classify_light_malformed_degrades_to_uncertain(session_factory, fake_ll
     assert run.status == "failed"
 
 
+def test_classify_service_skips_articles_published_before_window(session_factory, fake_llm):
+    old_id, _ = _seed_article(session_factory)
+    with session_factory() as session:
+        old = session.get(NewsArticle, old_id)
+        old.published_at = utcnow() - timedelta(hours=48)
+        session.add(
+            NewsArticle(
+                source_id="nasa",
+                url="https://nasa.gov/new",
+                title="NASA今日新发现",
+                summary="摘要",
+                language="en",
+                published_at=utcnow() - timedelta(hours=1),
+            )
+        )
+        session.commit()
+
+    client = fake_llm()
+    stats = run_classify_light(
+        session_factory,
+        since_hours=24,
+        runtime=RuntimeConfig(),
+        client=client,
+    )
+
+    assert stats["processed"] == 2
+    assert stats["published_before_window"] == 1
+    assert len(client.calls) == 1
+    with session_factory() as session:
+        old = session.get(NewsArticle, old_id)
+        assert old.relevance_status == "irrelevant"
+        assert old.relevance_reason == "rule:published_before_window"
+
+
 def test_score_full_success(session_factory, fake_llm):
     article_id, event_id = _seed_article(session_factory)
     client = fake_llm()
@@ -97,3 +134,22 @@ def test_score_full_success(session_factory, fake_llm):
     assert parsed is not None
     assert parsed["primary_category"] == "technology_in_life"
     assert run.status == "success"
+
+
+def test_score_service_excludes_events_published_before_window(session_factory, fake_llm):
+    _, event_id = _seed_article(session_factory)
+    with session_factory() as session:
+        event = session.get(NewsEvent, event_id)
+        event.latest_published_at = utcnow() - timedelta(hours=48)
+        session.commit()
+
+    client = fake_llm()
+    stats = run_score_full(
+        session_factory,
+        runtime=RuntimeConfig(),
+        client=client,
+        since_hours=24,
+    )
+
+    assert stats == {"scored": 0, "failed": 0, "skipped": 0}
+    assert client.calls == []

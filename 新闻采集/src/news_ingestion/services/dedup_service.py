@@ -38,32 +38,32 @@ def run_dedup(session_factory: sessionmaker, *, since_hours: float | None, filte
     stats = {"checked": 0, "duplicates": 0, "by_basis": {}}
     with session_factory() as session:
         repo = ArticleRepository(session)
-        articles = repo.list_since(since_hours, not_duplicate=True)
+        targets = repo.list_since(since_hours, not_duplicate=True)
+        target_ids = {article.id for article in targets}
+        articles = repo.list_since(None, not_duplicate=True)
         articles.sort(key=lambda a: (a.discovered_at is None, a.discovered_at, a.id))
-
-    canonical: list[DedupCandidate] = []
-    for article in articles:
-        with session_factory() as session:
-            current = session.get(NewsArticle, article.id)
-            if current is None or current.duplicate_of:
-                continue
+        canonical = [
+            _to_candidate(article, filters)
+            for article in articles
+            if article.id not in target_ids
+        ]
+        for current in (article for article in articles if article.id in target_ids):
             candidate = _to_candidate(current, filters)
             decision = find_duplicate(candidate, canonical, filters=filters)
             stats["checked"] += 1
             if decision.is_duplicate and decision.duplicate_of:
-                ArticleRepository(session).mark_duplicate(
+                repo.mark_duplicate(
                     current.id, duplicate_of=decision.duplicate_of, basis=decision.basis
                 )
                 current.title_hash = candidate.title_fingerprint
-                session.commit()
                 stats["duplicates"] += 1
                 stats["by_basis"][decision.basis] = stats["by_basis"].get(decision.basis, 0) + 1
                 _LOG.info("去重命中 %s → %s（%s）", current.id, decision.duplicate_of, decision.basis)
-            else:
-                current.title_hash = candidate.title_fingerprint
-                if current.content_hash is None and candidate.content_hash:
-                    current.content_hash = candidate.content_hash
-                session.commit()
-                canonical.append(candidate)
+                continue
+            current.title_hash = candidate.title_fingerprint
+            if current.content_hash is None and candidate.content_hash:
+                current.content_hash = candidate.content_hash
+            canonical.append(candidate)
+        session.commit()
     _LOG.info("去重完成：%s", stats)
     return stats

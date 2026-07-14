@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from sqlalchemy import JSON, ForeignKey, Integer, String, Text
+from sqlalchemy import JSON, ForeignKey, Index, String, Text, text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from ..ids import new_id
@@ -12,6 +12,23 @@ from .base import Base, UTCDateTime
 
 class NewsArticle(Base):
     __tablename__ = "news_article"
+    __table_args__ = (
+        Index(
+            "uq_news_article_identity_url",
+            "identity_url",
+            unique=True,
+            postgresql_where=text("identity_url is not null"),
+            sqlite_where=text("identity_url is not null"),
+        ),
+        Index(
+            "uq_news_article_source_guid",
+            "source_id",
+            "guid",
+            unique=True,
+            postgresql_where=text("guid is not null"),
+            sqlite_where=text("guid is not null"),
+        ),
+    )
 
     id: Mapped[str] = mapped_column(String(64), primary_key=True, default=lambda: new_id("art"))
     source_id: Mapped[str] = mapped_column(ForeignKey("news_source.id", ondelete="RESTRICT"), index=True)
@@ -20,6 +37,7 @@ class NewsArticle(Base):
     guid: Mapped[str | None] = mapped_column(String(1024), nullable=True, index=True)
     url: Mapped[str] = mapped_column(String(2048), index=True)
     canonical_url: Mapped[str | None] = mapped_column(String(2048), nullable=True, index=True)
+    identity_url: Mapped[str | None] = mapped_column(String(2048), nullable=True)
 
     title: Mapped[str] = mapped_column(String(512))
     subtitle: Mapped[str | None] = mapped_column(String(512), nullable=True)

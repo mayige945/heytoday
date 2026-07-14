@@ -8,9 +8,10 @@ from __future__ import annotations
 
 from datetime import timedelta
 
-from sqlalchemy import or_, select
+from sqlalchemy import and_, or_, select
 from sqlalchemy.orm import Session
 
+from ..cleaners.url import clean_url
 from ..models import NewsArticle
 from ..timeutil import utcnow
 from ..types import DiscoveredArticle
@@ -26,31 +27,46 @@ class ArticleRepository:
     def find_by_identity(
         self,
         *,
+        source_id: str | None = None,
         guid: str | None = None,
         canonical_url: str | None = None,
         cleaned_url: str | None = None,
         raw_url: str | None = None,
     ) -> NewsArticle | None:
-        conds = []
-        if guid:
-            conds.append(NewsArticle.guid == guid)
         if canonical_url:
-            conds.append(NewsArticle.canonical_url == canonical_url)
+            found = self.session.scalars(
+                select(NewsArticle).where(NewsArticle.canonical_url == canonical_url).limit(1)
+            ).first()
+            if found:
+                return found
+        if source_id and guid:
+            found = self.session.scalars(
+                select(NewsArticle)
+                .where(and_(NewsArticle.source_id == source_id, NewsArticle.guid == guid))
+                .limit(1)
+            ).first()
+            if found:
+                return found
+        if cleaned_url:
+            found = self.session.scalars(
+                select(NewsArticle).where(NewsArticle.identity_url == cleaned_url).limit(1)
+            ).first()
+            if found:
+                return found
         if raw_url:
-            conds.append(NewsArticle.url == raw_url)
-        if cleaned_url and cleaned_url != raw_url:
-            conds.append(NewsArticle.url == cleaned_url)
-            conds.append(NewsArticle.canonical_url == cleaned_url)
-        if not conds:
-            return None
-        stmt = select(NewsArticle).where(or_(*conds)).limit(1)
-        return self.session.scalars(stmt).first()
+            return self.session.scalars(
+                select(NewsArticle).where(NewsArticle.url == raw_url).limit(1)
+            ).first()
+        return None
 
     def upsert_discovered(self, item: DiscoveredArticle) -> tuple[NewsArticle, bool]:
         """身份命中则返回既有（不覆盖首次记录），否则新建。返回 (article, created)。"""
+        identity_url = clean_url(item.canonical_url or item.url)
         existing = self.find_by_identity(
+            source_id=item.source_id,
             guid=item.guid,
             canonical_url=item.canonical_url,
+            cleaned_url=identity_url,
             raw_url=item.url,
         )
         if existing is not None:
@@ -60,6 +76,7 @@ class ArticleRepository:
             source_id=item.source_id,
             url=item.url,
             canonical_url=item.canonical_url,
+            identity_url=identity_url,
             guid=item.guid,
             external_id=item.external_id,
             title=item.title,
@@ -140,11 +157,14 @@ class ArticleRepository:
         *,
         relevance_in: list[str] | None = None,
         not_duplicate: bool = True,
+        published_within: bool = False,
     ) -> list[NewsArticle]:
         stmt = select(NewsArticle)
         if since_hours is not None:
             cutoff = utcnow() - timedelta(hours=since_hours)
             stmt = stmt.where(NewsArticle.discovered_at >= cutoff)
+            if published_within:
+                stmt = stmt.where(or_(NewsArticle.published_at.is_(None), NewsArticle.published_at >= cutoff))
         if relevance_in:
             stmt = stmt.where(NewsArticle.relevance_status.in_(relevance_in))
         if not_duplicate:
@@ -161,7 +181,10 @@ class ArticleRepository:
         )
         if since_hours is not None:
             cutoff = utcnow() - timedelta(hours=since_hours)
-            stmt = stmt.where(NewsArticle.discovered_at >= cutoff)
+            stmt = stmt.where(
+                NewsArticle.discovered_at >= cutoff,
+                or_(NewsArticle.published_at.is_(None), NewsArticle.published_at >= cutoff),
+            )
         return list(self.session.scalars(stmt.order_by(NewsArticle.discovered_at.desc())))
 
     def list_by_event(self, event_id: str) -> list[NewsArticle]:

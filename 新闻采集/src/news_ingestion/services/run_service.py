@@ -6,18 +6,22 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from collections import Counter
+from dataclasses import asdict, dataclass, field
+from datetime import datetime
 from typing import Any
 
 from sqlalchemy import select
-from sqlalchemy import func
 from sqlalchemy.orm import sessionmaker
 
 from ..config import FiltersConfig, RuntimeConfig, SourceConfig
+from ..ids import new_id
 from ..llm import credentials_present
 from ..logging_setup import get_logger
-from ..models import NewsArticle, NewsEvent
+from ..models import NewsEvent
 from ..repositories import FetchLogRepository
+from ..timeutil import utcnow
+from ..types import FetchOutcome
 from .classify_service import run_classify_light
 from .cluster_service import run_cluster
 from .content_service import fetch_contents
@@ -31,7 +35,10 @@ _LOG = get_logger(__name__)
 
 @dataclass
 class RunResult:
-    fetch_outcomes: list = field(default_factory=list)
+    run_id: str = field(default_factory=lambda: new_id("run"))
+    started_at: datetime = field(default_factory=utcnow)
+    finished_at: datetime | None = None
+    fetch_outcomes: list[FetchOutcome] = field(default_factory=list)
     dedup: dict = field(default_factory=dict)
     classify: dict = field(default_factory=dict)
     content: dict = field(default_factory=dict)
@@ -40,6 +47,23 @@ class RunResult:
     llm_configured: bool = True
     exit_code: int = 0
     summary: dict[str, Any] = field(default_factory=dict)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "run_id": self.run_id,
+            "started_at": self.started_at.isoformat() if self.started_at else None,
+            "finished_at": self.finished_at.isoformat() if self.finished_at else None,
+            "exit_code": self.exit_code,
+            "summary": self.summary,
+            "sources": [asdict(outcome) for outcome in self.fetch_outcomes],
+            "phases": {
+                "dedup": self.dedup,
+                "classify": self.classify,
+                "content": self.content,
+                "cluster": self.cluster,
+                "score": self.score,
+            },
+        }
 
 
 def _recover_stale(session_factory: sessionmaker, runtime: RuntimeConfig) -> None:
@@ -94,7 +118,7 @@ def run_pipeline(
     )
 
     # 2. URL/标题去重
-    result.dedup = run_dedup(session_factory, since_hours=since_hours, filters=filters)
+    metadata_dedup = run_dedup(session_factory, since_hours=since_hours, filters=filters)
 
     # 3. 一级识别（无凭据降级 uncertain）
     result.classify = run_classify_light(
@@ -107,24 +131,31 @@ def run_pipeline(
     )
 
     # 5. 内容去重（正文就绪后重跑，含 SimHash）
-    result.dedup = run_dedup(session_factory, since_hours=since_hours, filters=filters)
+    content_dedup = run_dedup(session_factory, since_hours=since_hours, filters=filters)
+    result.dedup = {
+        "metadata": metadata_dedup,
+        "content": content_dedup,
+        "checked": metadata_dedup["checked"] + content_dedup["checked"],
+        "duplicates": metadata_dedup["duplicates"] + content_dedup["duplicates"],
+        "by_basis": dict(
+            Counter(metadata_dedup["by_basis"]) + Counter(content_dedup["by_basis"])
+        ),
+    }
 
     # 6. 事件聚类
     result.cluster = run_cluster(session_factory, since_hours=cluster_hours, filters=filters)
 
     # 7. 二级评分（无凭据跳过，事件保持 pending）
     result.score = run_score_full(
-        session_factory, runtime=runtime, client=client, strict=False
+        session_factory,
+        runtime=runtime,
+        client=client,
+        strict=False,
+        since_hours=since_hours,
     )
 
     # 8. 规则安全兜底（只可更严）
     _apply_safety_fallback(session_factory, filters)
-
-    # 汇总：实际被标重复的文章数（跨两次去重）
-    with session_factory() as session:
-        duplicate_count = int(
-            session.scalar(select(func.count(NewsArticle.id)).where(NewsArticle.duplicate_of.isnot(None))) or 0
-        )
 
     # 退出码：无 LLM 凭据 → 7（非 LLM 数据已保留）；否则按采集成败 0/3/4
     if not result.llm_configured:
@@ -143,10 +174,11 @@ def run_pipeline(
         "sources_partial": sum(1 for o in result.fetch_outcomes if o.status == "partial_success"),
         "sources_failed": sum(1 for o in result.fetch_outcomes if o.status == "failed"),
         "articles_created": sum(o.items_created for o in result.fetch_outcomes),
-        "duplicates": duplicate_count,
+        "duplicates": result.dedup["duplicates"],
         "events_new": result.cluster.get("events_new", 0),
         "events_scored": result.score.get("scored", 0),
         "llm_configured": result.llm_configured,
     }
+    result.finished_at = utcnow()
     _LOG.info("run 完成：%s", result.summary)
     return result

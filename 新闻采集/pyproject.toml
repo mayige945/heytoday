@@ -1,7 +1,7 @@
 [project]
 name = "news-ingestion"
 version = "0.1.0"
-description = "喂今天 · 新闻采集模块（Content Intelligence）——把 RSS、网页栏目与 RSSHub 材料处理成合格新闻池的手动 CLI。"
+description = "喂今天 · 新闻采集模块（Content Intelligence）——供服务器定时执行的一次性新闻采集 CLI。"
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 license = { text = "Proprietary" }
@@ -13,6 +13,7 @@ dependencies = [
     "anthropic>=0.40.0",
     "jsonschema>=4.22.0",
     "tzdata>=2025.2",
+    "psycopg[binary]>=3.2",
 ]
 
 [project.scripts]

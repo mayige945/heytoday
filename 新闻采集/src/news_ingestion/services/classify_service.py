@@ -7,6 +7,8 @@
 
 from __future__ import annotations
 
+from datetime import timedelta
+
 from sqlalchemy.orm import sessionmaker
 
 from ..config import RuntimeConfig
@@ -14,7 +16,8 @@ from ..errors import LlmNotConfiguredError
 from ..llm import LlmClient, classify_light, credentials_present, load_prompt
 from ..logging_setup import get_logger
 from ..models import NewsArticle, NewsSource
-from ..repositories import ArticleRepository, LlmRunRepository, SourceRepository
+from ..repositories import ArticleRepository, LlmRunRepository
+from ..timeutil import utcnow
 
 _LOG = get_logger(__name__)
 _LIGHT_VERSION = None
@@ -54,7 +57,15 @@ def run_classify_light(
     stale: bool = False,
 ) -> dict:
     """对未判定（或 ``--stale`` 重评旧 irrelevant）的文章跑一级识别。"""
-    stats = {"processed": 0, "relevant": 0, "irrelevant": 0, "uncertain": 0, "rule_excluded": 0}
+    stats = {
+        "processed": 0,
+        "relevant": 0,
+        "irrelevant": 0,
+        "uncertain": 0,
+        "rule_excluded": 0,
+        "published_before_window": 0,
+    }
+    published_cutoff = utcnow() - timedelta(hours=since_hours) if since_hours is not None else None
     statuses = ["irrelevant"] if stale else ["pending"]
     with session_factory() as session:
         repo = ArticleRepository(session)
@@ -73,6 +84,21 @@ def run_classify_light(
             if source is None:
                 continue
             art_repo = ArticleRepository(session)
+
+            # 首次接入 Feed 时会发现大量历史条目。保留这些元数据用于去重，
+            # 但不要把发布时间已超出任务窗口的旧闻送入 LLM，避免无效成本。
+            if published_cutoff is not None and current.published_at and current.published_at < published_cutoff:
+                art_repo.set_relevance(
+                    current.id,
+                    status="irrelevant",
+                    reason="rule:published_before_window",
+                    prompt_version=None,
+                )
+                session.commit()
+                stats["published_before_window"] += 1
+                stats["irrelevant"] += 1
+                stats["processed"] += 1
+                continue
 
             keyword = _rule_excluded(current, source)
             if keyword:

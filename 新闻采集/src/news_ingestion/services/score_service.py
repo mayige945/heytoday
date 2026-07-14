@@ -2,15 +2,18 @@
 
 from __future__ import annotations
 
-from sqlalchemy import select
+from datetime import timedelta
+
+from sqlalchemy import or_, select
 from sqlalchemy.orm import sessionmaker
 
 from ..config import RuntimeConfig
 from ..errors import LlmNotConfiguredError
 from ..llm import LlmClient, credentials_present, score_full
 from ..logging_setup import get_logger
-from ..models import NewsEvent, NewsSource
+from ..models import NewsEvent
 from ..repositories import ArticleRepository, EventRepository, LlmRunRepository, SourceRepository
+from ..timeutil import utcnow
 
 _LOG = get_logger(__name__)
 
@@ -23,11 +26,20 @@ def _resolve_client(provided) -> LlmClient | None:
     return None
 
 
-def _events_to_score(session, event_id: str | None, statuses: list[str]) -> list[NewsEvent]:
+def _events_to_score(
+    session,
+    event_id: str | None,
+    statuses: list[str],
+    since_hours: float | None,
+) -> list[NewsEvent]:
     if event_id:
         event = session.get(NewsEvent, event_id)
         return [event] if event else []
-    return list(session.scalars(select(NewsEvent).where(NewsEvent.llm_status.in_(statuses))))
+    stmt = select(NewsEvent).where(NewsEvent.llm_status.in_(statuses))
+    if since_hours is not None:
+        cutoff = utcnow() - timedelta(hours=since_hours)
+        stmt = stmt.where(or_(NewsEvent.latest_published_at.is_(None), NewsEvent.latest_published_at >= cutoff))
+    return list(session.scalars(stmt))
 
 
 def run_score_full(
@@ -38,6 +50,7 @@ def run_score_full(
     strict: bool = False,
     event_id: str | None = None,
     retry_failed: bool = False,
+    since_hours: float | None = None,
 ) -> dict:
     stats = {"scored": 0, "failed": 0, "skipped": 0}
     resolved = _resolve_client(client)
@@ -46,7 +59,7 @@ def run_score_full(
 
     statuses = ["pending", "failed"] if retry_failed else ["pending"]
     with session_factory() as session:
-        events = _events_to_score(session, event_id, statuses)
+        events = _events_to_score(session, event_id, statuses, since_hours)
 
     for event in events:
         if resolved is None:

@@ -1,20 +1,16 @@
-"""SQLite 引擎与会话工厂。
-
-连接一律启用 ``foreign_keys``；文件库额外启用 ``WAL`` 与可配置 ``busy_timeout``。
-测试可用 ``make_engine(tmp_path)`` 或内存库。
-"""
+"""Supabase Postgres 生产引擎与测试数据库会话工厂。"""
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
-from typing import Iterable
 
 from sqlalchemy import create_engine, event
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, sessionmaker
 
 from ..config import load_runtime
-from ..paths import db_path, ensure_runtime_dirs
+from ..errors import ConfigError, DbInfraError
 
 
 def _is_memory(db_path: Path | str) -> bool:
@@ -23,19 +19,41 @@ def _is_memory(db_path: Path | str) -> bool:
 
 
 def make_engine(
-    db_path: Path | str,
+    database: Path | str,
     *,
     busy_timeout_ms: int | None = None,
     echo: bool = False,
 ) -> Engine:
-    """构造 SQLite 引擎；文件库启用 WAL，内存库跳过 WAL。"""
+    """构造数据库引擎；SQLite 仅供显式注入的离线测试使用。"""
     if busy_timeout_ms is None:
         try:
             busy_timeout_ms = load_runtime().busy_timeout_ms
         except Exception:  # 配置缺失时回退默认
             busy_timeout_ms = 5000
 
-    text = str(db_path)
+    text = str(database)
+    if text.startswith("postgres://"):
+        text = "postgresql+psycopg://" + text.removeprefix("postgres://")
+    elif text.startswith("postgresql://"):
+        text = "postgresql+psycopg://" + text.removeprefix("postgresql://")
+
+    if text.startswith("postgresql+psycopg://"):
+        if "sslmode=" not in text:
+            text += ("&" if "?" in text else "?") + "sslmode=require"
+        return create_engine(
+            text,
+            echo=echo,
+            future=True,
+            pool_pre_ping=True,
+            pool_size=3,
+            max_overflow=2,
+            pool_recycle=300,
+            connect_args={
+                "application_name": "heytoday-news-ingestion",
+                "connect_timeout": 10,
+            },
+        )
+
     memory = _is_memory(text)
     if text in ("sqlite://",):
         url = "sqlite://"
@@ -43,7 +61,7 @@ def make_engine(
         url = text
     else:
         if not memory:
-            Path(db_path).parent.mkdir(parents=True, exist_ok=True)
+            Path(database).parent.mkdir(parents=True, exist_ok=True)
         url = f"sqlite:///{text}"
 
     engine = create_engine(url, echo=echo, future=True)
@@ -68,6 +86,25 @@ def make_session_factory(engine: Engine) -> sessionmaker[Session]:
 
 
 def default_engine() -> Engine:
-    """基于 ``paths.db_path()`` + 运行期配置构造默认引擎（确保 data 目录存在）。"""
-    ensure_runtime_dirs()
-    return make_engine(db_path())
+    """生产只接受 Supabase Postgres；SQLite 仅可由测试显式放行。"""
+    database_url = (
+        os.environ.get("SUPABASE_DB_URL")
+        or os.environ.get("NEWS_DATABASE_URL")
+        or ""
+    ).strip()
+    if not database_url:
+        raise ConfigError(
+            "缺少 SUPABASE_DB_URL；请使用 Supabase Connect 中的 Direct 或 Session pooler 连接串"
+        )
+    is_sqlite = database_url.startswith("sqlite:")
+    if is_sqlite:
+        if os.environ.get("NEWS_ALLOW_SQLITE_TESTS") != "1":
+            raise ConfigError("生产运行禁止 SQLite；请配置 SUPABASE_DB_URL")
+    elif not database_url.startswith(("postgres://", "postgresql://", "postgresql+psycopg://")):
+        raise ConfigError("SUPABASE_DB_URL 必须是 Postgres 连接串")
+    try:
+        return make_engine(database_url)
+    except ConfigError:
+        raise
+    except Exception as exc:
+        raise DbInfraError(f"无法创建 Supabase 数据库引擎：{exc.__class__.__name__}") from exc

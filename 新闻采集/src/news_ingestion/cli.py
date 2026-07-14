@@ -11,11 +11,12 @@ import json
 import os
 import re
 from contextlib import contextmanager
-from typing import Any
+from pathlib import Path
 
 import typer
+from sqlalchemy.exc import SQLAlchemyError
 
-from .config import FiltersConfig, load_filters, load_runtime, load_sources, load_source_by_code
+from .config import load_filters, load_runtime, load_sources, load_source_by_code
 from .db import current_revision, default_engine, head_revision, make_session_factory, needs_init_or_upgrade, run_upgrade
 from .env import load_dotenv
 from .errors import (
@@ -29,13 +30,12 @@ from .errors import (
 from .logging_setup import get_logger, setup_logging
 from .services import (
     ProcessLock,
+    DatabaseLock,
     approve_event,
     daily_stats,
     export_material,
     fetch_all,
-    fetch_contents,
     fetch_logs,
-    fetch_source,
     list_events_for_review,
     prune,
     record_fact_check,
@@ -47,22 +47,24 @@ from .services import (
     run_pipeline,
     run_score_full,
     source_health,
+    sync_material,
 )
-from .timeutil import cli_age_to_field
 
 _LOG = get_logger(__name__)
 
-app = typer.Typer(help="喂今天 · 新闻采集 CLI（手动触发，进程结束即退出）", no_args_is_help=True)
+app = typer.Typer(help="喂今天 · 新闻采集 CLI（单次执行，进程结束即退出）", no_args_is_help=True)
 db_app = typer.Typer(help="数据库迁移")
 source_app = typer.Typer(help="来源管理")
 article_app = typer.Typer(help="文章操作")
 event_app = typer.Typer(help="事件与复核")
 llm_app = typer.Typer(help="LLM 识别")
+supabase_app = typer.Typer(help="Supabase 新闻素材库同步")
 app.add_typer(db_app, name="db")
 app.add_typer(source_app, name="source")
 app.add_typer(article_app, name="article")
 app.add_typer(event_app, name="event")
 app.add_typer(llm_app, name="llm")
+app.add_typer(supabase_app, name="supabase")
 
 
 @contextmanager
@@ -77,7 +79,7 @@ def app_context(*, lock: bool = False, gate: bool = True):
         session_factory = make_session_factory(engine)
         try:
             if lock:
-                with ProcessLock():
+                with ProcessLock(), DatabaseLock(engine):
                     yield engine, session_factory
             else:
                 yield engine, session_factory
@@ -101,6 +103,10 @@ def app_context(*, lock: bool = False, gate: bool = True):
     except LlmNotConfiguredError as exc:
         typer.echo(f"LLM 未配置：{exc}", err=True)
         raise typer.Exit(7)
+    except SQLAlchemyError as exc:
+        _LOG.error("Supabase 数据库操作失败：%s", exc.__class__.__name__)
+        typer.echo(f"数据库错误：{exc.__class__.__name__}", err=True)
+        raise typer.Exit(6)
 
 
 def _parse_since(value: str | None, default: float) -> float | None:
@@ -137,26 +143,19 @@ def _main() -> None:
 @db_app.command("upgrade")
 def db_upgrade() -> None:
     """显式初始化 / 升级到 head（幂等）。"""
-    setup_logging()
-    try:
-        engine = default_engine()
+    with app_context(gate=False) as (engine, _session_factory):
         run_upgrade(engine)
         typer.echo(f"数据库已升级到 head（{head_revision()}）")
-    except (DbInfraError, Exception) as exc:  # noqa: BLE001
-        _LOG.exception("db upgrade 失败")
-        typer.echo(f"数据库迁移失败：{exc}", err=True)
-        raise typer.Exit(6)
 
 
 @db_app.command("status")
 def db_status() -> None:
     """查看当前 / head revision。"""
-    setup_logging()
-    engine = default_engine()
-    current = current_revision(engine)
-    head = head_revision()
-    needs = needs_init_or_upgrade(engine)
-    typer.echo(f"current={current} head={head} needs_init_or_upgrade={needs}")
+    with app_context(gate=False) as (engine, _session_factory):
+        current = current_revision(engine)
+        head = head_revision()
+        needs = needs_init_or_upgrade(engine)
+        typer.echo(f"current={current} head={head} needs_init_or_upgrade={needs}")
 
 
 # ----------------------------- source -----------------------------
@@ -234,7 +233,9 @@ def fetch_cmd(
 
 
 @app.command("run")
-def run_cmd() -> None:
+def run_cmd(
+    output_json: bool = typer.Option(False, "--json", help="向 stdout 输出机器可读任务结果"),
+) -> None:
     """日常默认入口：采集 → 去重 → 一级 → 正文 → 聚类 → 二级 → 停在人工复核队列。"""
     with app_context(lock=True) as (_engine, session_factory):
         runtime = load_runtime()
@@ -250,13 +251,16 @@ def run_cmd() -> None:
             filters=filters,
             user_agent=runtime.user_agent,
         )
-        typer.echo(
-            f"run 完成：来源 success/partial/failed="
-            f"{result.summary.get('sources_success')}/{result.summary.get('sources_partial')}/{result.summary.get('sources_failed')} "
-            f"新文章={result.summary.get('articles_created')} 去重={result.summary.get('duplicates')} "
-            f"新事件={result.summary.get('events_new')} 已评分={result.summary.get('events_scored')} "
-            f"llm_configured={result.summary.get('llm_configured')}"
-        )
+        if output_json:
+            typer.echo(json.dumps(result.to_dict(), ensure_ascii=False, separators=(",", ":")))
+        else:
+            typer.echo(
+                f"run 完成：来源 success/partial/failed="
+                f"{result.summary.get('sources_success')}/{result.summary.get('sources_partial')}/{result.summary.get('sources_failed')} "
+                f"新文章={result.summary.get('articles_created')} 去重={result.summary.get('duplicates')} "
+                f"新事件={result.summary.get('events_new')} 已评分={result.summary.get('events_scored')} "
+                f"llm_configured={result.summary.get('llm_configured')}"
+            )
         raise typer.Exit(result.exit_code)
 
 
@@ -438,6 +442,16 @@ def export_cmd() -> None:
         typer.echo(f"导出完成：result={info['result']} events={info['events']}")
         typer.echo(f"  JSON: {_json}")
         typer.echo(f"  MD:   {md}")
+
+
+@supabase_app.command("sync")
+def supabase_sync_cmd(
+    input_path: Path | None = typer.Option(None, "--input", help="素材库 JSON；默认 output/latest_news_material.json"),
+) -> None:
+    """把一份 news-material/v1 素材库幂等同步到 Supabase。"""
+    with app_context(lock=True, gate=False):
+        result = sync_material(input_path)
+        typer.echo(f"Supabase 同步完成：sync_id={result['sync_id']} events={result['events']}")
 
 
 @app.command("pool-index")

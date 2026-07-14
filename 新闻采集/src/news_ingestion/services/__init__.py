@@ -10,7 +10,7 @@ from .event_view import build_effective, build_material_event
 from .export_service import export_material, regenerate_index
 from .fetch_service import fetch_all, fetch_source
 from .health import daily_stats, fetch_logs, source_health
-from .lock import ProcessLock
+from .lock import DatabaseLock, ProcessLock
 from .retention_service import prune
 from .review_service import (
     approve_event,
@@ -21,9 +21,11 @@ from .review_service import (
 )
 from .run_service import run_pipeline
 from .score_service import run_score_full
+from .supabase_sync import sync_material
 
 __all__ = [
     "ProcessLock",
+    "DatabaseLock",
     "approve_event",
     "build_effective",
     "build_material_event",
@@ -35,6 +37,7 @@ __all__ = [
     "fetch_source",
     "list_events_for_review",
     "prune",
+    "regenerate_index",
     "record_fact_check",
     "reject_event",
     "require_reviewer",
@@ -44,4 +47,5 @@ __all__ = [
     "run_pipeline",
     "run_score_full",
     "source_health",
+    "sync_material",
 ]
