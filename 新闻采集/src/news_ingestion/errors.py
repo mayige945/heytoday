@@ -59,6 +59,27 @@ class DbInfraError(NewsIngestionError):
     """数据库连接 / 迁移 / 事务基础设施失败 → 退出码 6。"""
 
 
+class AuditPersistenceError(DbInfraError):
+    """审计短事务失败。
+
+    ``task_id`` 只在任务已真实持久化时出现；调用方可依据
+    ``business_commit_state`` 避免对已提交或状态不明的业务盲目重试。
+    """
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        failure_phase: str,
+        task_id: str | None = None,
+        business_commit_state: str = "not_started",
+    ) -> None:
+        super().__init__(message)
+        self.failure_phase = failure_phase
+        self.task_id = task_id
+        self.business_commit_state = business_commit_state
+
+
 class LockBusyError(NewsIngestionError):
     """进程锁冲突 → 退出码 5。"""
 

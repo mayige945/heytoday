@@ -7,8 +7,11 @@
 from __future__ import annotations
 
 import errno
+import hashlib
 import os
+from datetime import datetime
 from pathlib import Path
+from typing import Callable
 
 from sqlalchemy import text
 from sqlalchemy.engine import Connection, Engine
@@ -20,6 +23,7 @@ else:
 
 from ..errors import LockBusyError
 from ..paths import lock_path
+from ..timeutil import utcnow
 
 
 class ProcessLock:
@@ -83,36 +87,60 @@ class DatabaseLock:
 
     _LOCK_ID = 744_202_607_13
 
-    def __init__(self, engine: Engine) -> None:
+    def __init__(
+        self,
+        engine: Engine,
+        *,
+        lock_domain: str = "news-ingestion",
+        on_acquired: Callable[["DatabaseLock"], None] | None = None,
+    ) -> None:
         self.engine = engine
+        self.lock_domain = lock_domain
+        self.on_acquired = on_acquired
+        self.acquired_at: datetime | None = None
         self._connection: Connection | None = None
 
+    @property
+    def lock_id(self) -> int:
+        if self.lock_domain == "news-ingestion":
+            return self._LOCK_ID
+        digest = hashlib.blake2b(self.lock_domain.encode("utf-8"), digest_size=8).digest()
+        return int.from_bytes(digest, byteorder="big", signed=True)
+
     def acquire(self) -> None:
-        if self.engine.dialect.name != "postgresql":
-            return
-        self._connection = self.engine.connect()
-        acquired = bool(
-            self._connection.scalar(
-                text("select pg_try_advisory_lock(:lock_id)"),
-                {"lock_id": self._LOCK_ID},
+        if self.engine.dialect.name == "postgresql":
+            self._connection = self.engine.connect()
+            acquired = bool(
+                self._connection.scalar(
+                    text("select pg_try_advisory_lock(:lock_id)"),
+                    {"lock_id": self.lock_id},
+                )
             )
-        )
-        if not acquired:
-            self._connection.close()
-            self._connection = None
-            raise LockBusyError("已有 news-ingestion 服务器任务正在运行（Postgres advisory lock）")
+            if not acquired:
+                self._connection.close()
+                self._connection = None
+                raise LockBusyError("已有 news-ingestion 服务器任务正在运行（Postgres advisory lock）")
+        self.acquired_at = utcnow()
+        if self.on_acquired is not None:
+            try:
+                self.on_acquired(self)
+            except BaseException:
+                self.release()
+                raise
 
     def release(self) -> None:
         if self._connection is None:
+            self.acquired_at = None
             return
         try:
             self._connection.execute(
                 text("select pg_advisory_unlock(:lock_id)"),
-                {"lock_id": self._LOCK_ID},
+                {"lock_id": self.lock_id},
             )
         finally:
             self._connection.close()
             self._connection = None
+            self.acquired_at = None
 
     def __enter__(self) -> "DatabaseLock":
         self.acquire()

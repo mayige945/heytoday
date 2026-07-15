@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from .audit_service import AuditLifecycleService, TaskOutcome
 from .classify_service import run_classify_light
 from .cluster_service import run_cluster
 from .content_service import fetch_contents
@@ -24,6 +25,8 @@ from .score_service import run_score_full
 from .supabase_sync import sync_material
 
 __all__ = [
+    "AuditLifecycleService",
+    "TaskOutcome",
     "ProcessLock",
     "DatabaseLock",
     "approve_event",

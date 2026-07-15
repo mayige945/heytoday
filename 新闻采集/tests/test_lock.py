@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import errno
 import os
+from datetime import datetime
 
 import pytest
 
@@ -68,6 +69,11 @@ class _FakeEngine:
         return self.connection
 
 
+class _FakeSqliteEngine:
+    class dialect:
+        name = "sqlite"
+
+
 def test_database_lock_rejects_overlapping_server_run():
     engine = _FakeEngine(acquired=False)
     lock = DatabaseLock(engine)
@@ -86,3 +92,39 @@ def test_database_lock_releases_postgres_advisory_lock():
 
     assert any("pg_advisory_unlock" in call for call in engine.connection.calls)
     assert engine.connection.closed is True
+
+
+def test_database_lock_exposes_stable_domain_and_acquisition_time():
+    engine = _FakeEngine(acquired=True)
+    called = []
+    lock = DatabaseLock(engine, lock_domain="news-run", on_acquired=lambda held: called.append(held))
+    lock.acquire()
+    try:
+        assert lock.lock_domain == "news-run"
+        assert isinstance(lock.acquired_at, datetime)
+        assert called == [lock]
+    finally:
+        lock.release()
+    assert lock.acquired_at is None
+
+
+def test_database_lock_releases_when_acquisition_callback_fails():
+    engine = _FakeEngine(acquired=True)
+
+    def fail(_lock):
+        raise RuntimeError("recovery failed")
+
+    lock = DatabaseLock(engine, on_acquired=fail)
+    with pytest.raises(RuntimeError, match="recovery failed"):
+        lock.acquire()
+    assert any("pg_advisory_unlock" in call for call in engine.connection.calls)
+    assert engine.connection.closed is True
+    assert lock.acquired_at is None
+
+
+def test_database_lock_clears_acquisition_time_for_non_postgres():
+    lock = DatabaseLock(_FakeSqliteEngine())
+    lock.acquire()
+    assert isinstance(lock.acquired_at, datetime)
+    lock.release()
+    assert lock.acquired_at is None
