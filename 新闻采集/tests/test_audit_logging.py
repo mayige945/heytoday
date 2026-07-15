@@ -2,7 +2,14 @@ from __future__ import annotations
 
 import logging
 
-from news_ingestion.audit.context import AuditLogFilter, audit_log_context, current_audit_context
+import pytest
+
+from news_ingestion.audit.context import (
+    AuditLogFilter,
+    audit_log_context,
+    current_audit_context,
+    current_audit_link,
+)
 
 
 def test_filter_supplies_defaults_and_context_is_reset():
@@ -38,3 +45,12 @@ def test_context_resets_after_exception():
     except KeyboardInterrupt:
         pass
     assert current_audit_context()["task_id"] == "-"
+
+
+def test_detail_link_is_both_absent_or_both_present():
+    assert current_audit_link() == (None, None)
+    with audit_log_context(task_id="task-1", stage_id="stage-1"):
+        assert current_audit_link() == ("task-1", "stage-1")
+    with audit_log_context(task_id="task-only"):
+        with pytest.raises(RuntimeError, match="both present or both absent"):
+            current_audit_link()

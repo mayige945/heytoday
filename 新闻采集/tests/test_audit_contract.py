@@ -2,6 +2,10 @@
 
 from __future__ import annotations
 
+import ast
+import importlib.util
+from pathlib import Path
+
 from news_ingestion.audit.contracts import (
     FunnelSnapshot,
     StageDefinition,
@@ -117,3 +121,20 @@ def test_conversion_requires_matching_non_empty_input_unit_and_complete_counts()
 
     assert wrong_unit.status == "deviation"
     assert missing.status == "incomplete"
+
+
+def test_generic_audit_core_does_not_import_news_models() -> None:
+    for module_name in (
+        "news_ingestion.audit.contracts",
+        "news_ingestion.audit.validation",
+        "news_ingestion.audit.context",
+    ):
+        spec = importlib.util.find_spec(module_name)
+        assert spec is not None and spec.origin is not None
+        tree = ast.parse(Path(spec.origin).read_text(encoding="utf-8"))
+        imports = {
+            node.module or ""
+            for node in ast.walk(tree)
+            if isinstance(node, ast.ImportFrom)
+        }
+        assert not any(module.endswith("models") for module in imports)

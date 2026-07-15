@@ -44,7 +44,14 @@ def _to_cluster_article(article: NewsArticle, source: NewsSource | None) -> Clus
 
 
 def run_cluster(session_factory: sessionmaker, *, since_hours: float | None, filters: FiltersConfig) -> dict:
-    stats = {"events_new": 0, "events_reused": 0, "articles_grouped": 0, "groups": 0}
+    stats = {
+        "candidate_articles": 0,
+        "articles_grouped": 0,
+        "unhandled": 0,
+        "events_new": 0,
+        "events_reused": 0,
+        "groups": 0,
+    }
     with session_factory() as session:
         articles = ArticleRepository(session).list_since(
             since_hours,
@@ -57,6 +64,7 @@ def run_cluster(session_factory: sessionmaker, *, since_hours: float | None, fil
     cluster_inputs = [
         _to_cluster_article(a, sources.get(a.source_id)) for a in articles if not a.event_id or True
     ]
+    stats["candidate_articles"] = len(cluster_inputs)
     with session_factory() as session:
         forbid = ClusterForbidRepository(session).list_pairs()
     groups = cluster_articles(cluster_inputs, filters=filters, forbid_pairs=forbid)
@@ -97,5 +105,6 @@ def run_cluster(session_factory: sessionmaker, *, since_hours: float | None, fil
                 stats["articles_grouped"] += 1
             evt_repo.recompute_aggregates(event.id)
             session.commit()
+    stats["unhandled"] = stats["candidate_articles"] - stats["articles_grouped"]
     _LOG.info("聚类完成：%s", stats)
     return stats

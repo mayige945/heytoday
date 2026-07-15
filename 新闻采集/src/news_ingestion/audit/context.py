@@ -22,6 +22,19 @@ def current_audit_context() -> dict[str, str]:
     }
 
 
+def current_audit_link() -> tuple[str | None, str | None]:
+    """返回详情记录关联；上下文必须同时具备任务与阶段。"""
+    task_id = _task_id.get()
+    stage_id = _stage_id.get()
+    task_present = task_id != "-"
+    stage_present = stage_id != "-"
+    if task_present != stage_present:
+        raise RuntimeError("audit task/stage context must be both present or both absent")
+    if not task_present:
+        return None, None
+    return task_id, stage_id
+
+
 @contextmanager
 def audit_log_context(
     *,

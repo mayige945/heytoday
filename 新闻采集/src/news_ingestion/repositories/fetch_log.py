@@ -7,6 +7,7 @@ from datetime import timedelta
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from ..audit.context import current_audit_link
 from ..ids import new_id
 from ..models import FetchLog
 from ..timeutil import utcnow
@@ -18,7 +19,15 @@ class FetchLogRepository:
         self.session = session
 
     def start(self, source_id: str) -> FetchLog:
-        log = FetchLog(id=new_id("flg"), source_id=source_id, status="running", started_at=utcnow())
+        audit_task_id, audit_stage_id = current_audit_link()
+        log = FetchLog(
+            id=new_id("flg"),
+            source_id=source_id,
+            status="running",
+            started_at=utcnow(),
+            audit_task_id=audit_task_id,
+            audit_stage_id=audit_stage_id,
+        )
         self.session.add(log)
         self.session.flush()
         return log

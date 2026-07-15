@@ -50,7 +50,6 @@ def fetch_source(
             except Exception as exc:
                 outcome.status = "failed"
                 outcome.error_message = str(exc)[:500]
-                outcome.errors.append(str(exc)[:300])
                 fl_repo.finish(log.id, outcome)
                 src_repo.record_fetch_outcome(source.code, success=False, error=str(exc)[:500])
                 session.commit()
@@ -78,7 +77,6 @@ def fetch_source(
         # 事务级失败：回滚该来源文章，单独写 failed 日志
         outcome.status = "failed"
         outcome.error_message = str(exc)[:500]
-        outcome.errors.append(str(exc)[:300])
         _LOG.exception("来源 %s 事务失败", source.code)
         try:
             with session_factory() as session2:

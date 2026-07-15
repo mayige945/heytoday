@@ -22,7 +22,7 @@ def fetch_contents(
     limit: int | None = None,
     fetcher=None,
 ) -> dict:
-    stats = {"fetched": 0, "failed": 0, "empty": 0}
+    stats = {"input": 0, "fetched": 0, "failed": 0, "empty": 0}
     fetcher = fetcher or fetch_article_content
     with session_factory() as session:
         articles = ArticleRepository(session).list_for_fulltext(since_hours)
@@ -62,5 +62,6 @@ def fetch_contents(
                     fetch_status="parsed",
                 )
                 session.commit()
+    stats["input"] = stats["fetched"] + stats["failed"] + stats["empty"]
     _LOG.info("正文抓取完成：%s", stats)
     return stats
