@@ -31,7 +31,7 @@ AUDITED = {
 }
 EXCLUDED = {
     "db.upgrade", "db.status", "source.list", "source.validate", "event.list",
-    "fetch-log", "health", "retention.dry-run",
+    "fetch-log", "health", "retention.dry-run", "task.list", "task.show",
 }
 
 

@@ -42,6 +42,16 @@ def log_file() -> Path:
     return Path(override).resolve() if override else LOGS_DIR / "news-ingestion.log"
 
 
+def log_files() -> list[Path]:
+    """返回当前日志及 ``TimedRotatingFileHandler`` 轮转文件。"""
+    current = log_file()
+    return sorted(
+        (path for path in current.parent.glob(f"{current.name}*") if path.is_file()),
+        key=lambda path: path.name,
+        reverse=True,
+    )
+
+
 def output_dir() -> Path:
     override = os.environ.get("NEWS_OUTPUT_DIR")
     return Path(override).resolve() if override else OUTPUT_DIR

@@ -5,6 +5,7 @@ from __future__ import annotations
 from .audited_command import AuditedCommandResult, AuditedCommandSpec, TriggerContext, run_audited_command
 
 from .audit_service import AuditLifecycleService, TaskOutcome
+from .audit_view import AuditViewService
 from .classify_service import run_classify_light
 from .cluster_service import run_cluster
 from .content_service import fetch_contents
@@ -32,6 +33,7 @@ __all__ = [
     "TriggerContext",
     "run_audited_command",
     "AuditLifecycleService",
+    "AuditViewService",
     "TaskOutcome",
     "ProcessLock",
     "DatabaseLock",

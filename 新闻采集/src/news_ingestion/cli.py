@@ -12,6 +12,7 @@ import os
 import re
 import getpass
 from contextlib import contextmanager
+from datetime import datetime
 from pathlib import Path
 
 import typer
@@ -31,11 +32,12 @@ from .errors import (
     SchemaValidationError,
 )
 from .logging_setup import get_logger, setup_logging
-from .audit.news_ingestion import NEWS_INGESTION_WORKFLOW
+from .audit.news_ingestion import NEWS_INGESTION_WORKFLOW, resolve_news_ingestion_details
 from .models import NewsArticle, NewsEvent
 from .services import (
     AuditedCommandResult,
     AuditedCommandSpec,
+    AuditViewService,
     TriggerContext,
     ProcessLock,
     DatabaseLock,
@@ -68,12 +70,14 @@ article_app = typer.Typer(help="文章操作")
 event_app = typer.Typer(help="事件与复核")
 llm_app = typer.Typer(help="LLM 识别")
 supabase_app = typer.Typer(help="Supabase 新闻素材库同步")
+task_app = typer.Typer(help="业务任务主线与详情")
 app.add_typer(db_app, name="db")
 app.add_typer(source_app, name="source")
 app.add_typer(article_app, name="article")
 app.add_typer(event_app, name="event")
 app.add_typer(llm_app, name="llm")
 app.add_typer(supabase_app, name="supabase")
+app.add_typer(task_app, name="task")
 
 AUDITED_COMMANDS: dict[str, AuditedCommandSpec] = {
     "run": AuditedCommandSpec("news_ingestion", "run", workflow=NEWS_INGESTION_WORKFLOW, pipeline_managed=True),
@@ -93,7 +97,7 @@ AUDITED_COMMANDS: dict[str, AuditedCommandSpec] = {
 }
 EXCLUDED_COMMANDS = frozenset({
     "db.upgrade", "db.status", "source.list", "source.validate", "event.list",
-    "fetch-log", "health", "retention.dry-run",
+    "fetch-log", "health", "retention.dry-run", "task.list", "task.show",
 })
 _TRIGGER_CONTEXT = TriggerContext("manual", getpass.getuser(), None)
 
@@ -161,6 +165,17 @@ def _parse_since(value: str | None, default: float) -> float | None:
         return float(text)
     except ValueError as exc:
         raise typer.BadParameter(f"无法解析 --since：{value!r}（例：24h）") from exc
+
+
+def _parse_task_time(value: str | None, option: str) -> datetime | None:
+    if value is None:
+        return None
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError as exc:
+        raise typer.BadParameter(
+            f"无法解析 {option}：{value!r}（例：2026-07-15T08:00:00+08:00）"
+        ) from exc
 
 
 def _resolve_reviewer(explicit: str | None) -> str:
@@ -553,6 +568,121 @@ def pool_index_cmd() -> None:
 
 
 # ----------------------------- 观测 -----------------------------
+
+
+def _audit_view(session_factory) -> AuditViewService:
+    return AuditViewService(
+        session_factory,
+        detail_resolvers=(resolve_news_ingestion_details,),
+    )
+
+
+@task_app.command("list")
+def task_list_cmd(
+    output_json: bool = typer.Option(False, "--json", help="输出机器可读 JSON"),
+    status: str | None = typer.Option(None, "--status", help="执行或设计状态"),
+    module: str | None = typer.Option(None, "--module"),
+    since: str | None = typer.Option(None, "--since", help="ISO8601 开始时间"),
+    until: str | None = typer.Option(None, "--until", help="ISO8601 结束时间"),
+    limit: int = typer.Option(50, "--limit", min=1, max=500),
+) -> None:
+    """按时间倒序查看业务任务主线。"""
+    since_value = _parse_task_time(since, "--since")
+    until_value = _parse_task_time(until, "--until")
+    with app_context(gate=True) as (_engine, session_factory):
+        model = _audit_view(session_factory).list_tasks(
+            status=status,
+            module=module,
+            since=since_value,
+            until=until_value,
+            limit=limit,
+        )
+    if output_json:
+        typer.echo(json.dumps(model, ensure_ascii=False, separators=(",", ":")))
+        return
+    typer.echo(f"业务任务（{model['count']} 条）")
+    for row in model["tasks"]:
+        funnel = row["key_funnel"]
+        funnel_text = "-" if funnel is None else (
+            f"{funnel['stage_key']}:{funnel['input_count']}→{funnel['output_count']} {funnel['unit'] or '-'}"
+        )
+        typer.echo(
+            f"{row['task_id']} {row['created_at']} {row['module']}/{row['operation']} "
+            f"operator={row['operator'] or '-'} execution={row['execution_status']} "
+            f"design={row['design_status']} funnel={funnel_text}"
+        )
+
+
+@task_app.command("show")
+def task_show_cmd(
+    task_id: str = typer.Argument(...),
+    output_json: bool = typer.Option(False, "--json", help="输出机器可读 JSON"),
+) -> None:
+    """围绕一个任务展示五要素、阶段、漏斗、设计结论和技术详情。"""
+    with app_context(gate=True) as (_engine, session_factory):
+        model = _audit_view(session_factory).show_task(task_id)
+    if output_json:
+        typer.echo(json.dumps(model, ensure_ascii=False, separators=(",", ":")))
+        return
+    story = model["story"]
+    typer.echo(f"任务 {model['task_id']}")
+    typer.echo(f"  谁：operator={story['who']['operator'] or '-'} trigger={story['who']['trigger_type']}")
+    typer.echo(
+        f"  何时：created={story['when']['created_at']} started={story['when']['started_at']} "
+        f"finished={story['when']['finished_at']}"
+    )
+    typer.echo(f"  对象：{json.dumps(story['object'], ensure_ascii=False, separators=(',', ':'))}")
+    typer.echo(
+        f"  动作：{story['action']['module']}/{story['action']['operation']} "
+        f"path={story['action']['path_type']} reason={story['action']['reason'] or '-'}"
+    )
+    typer.echo(
+        f"  结果：execution={story['result']['execution_status']} "
+        f"design={story['result']['design_status']} exit={story['result']['exit_code']} "
+        f"summary={json.dumps(story['result']['summary'], ensure_ascii=False, separators=(',', ':'))}"
+    )
+    expected = ", ".join(f"{row['sequence']}:{row['key']}" for row in model["workflow"]["expected"])
+    actual = ", ".join(
+        f"{row['actual_sequence']}:{row['stage_key']}({row['status']})"
+        for row in model["workflow"]["actual"]
+    )
+    typer.echo(f"  预期阶段：{expected or '-'}")
+    typer.echo(f"  实际阶段：{actual or '-'}")
+    for funnel in model["funnel"]:
+        typer.echo(
+            f"  漏斗 {funnel['stage_key']}：{funnel['input_count']}→{funnel['output_count']} "
+            f"unit={funnel['unit'] or '-'} routes={json.dumps(funnel['routes'], ensure_ascii=False, separators=(',', ':'))}"
+        )
+    if model["design"]["deviations"]:
+        for deviation in model["design"]["deviations"]:
+            typer.echo(
+                f"  设计偏差 stage={deviation['stage_key'] or '-'} rule={deviation.get('rule_id')} "
+                f"delta={deviation.get('delta')} message={deviation.get('message') or '-'}"
+            )
+    for detail in model["details"]:
+        technical_logs = detail.get("technical_logs", {})
+        typer.echo(
+            f"  详情 {detail['kind']}：fetch_log={len(detail.get('fetch_logs', []))} "
+            f"llm_run={len(detail.get('llm_runs', []))} logs={technical_logs.get('status', '-')}"
+        )
+        if technical_logs.get("message"):
+            typer.echo(f"    log_detail={technical_logs['message']}")
+        for row in detail.get("fetch_logs", []):
+            typer.echo(
+                f"    fetch_log id={row['id']} stage={row['stage_id'] or '-'} "
+                f"source={row['source_id']} status={row['status']}"
+            )
+        for row in detail.get("llm_runs", []):
+            typer.echo(
+                f"    llm_run id={row['id']} stage={row['stage_id'] or '-'} "
+                f"mode={row['mode']} status={row['status']} prompt={row['prompt_name']}@{row['prompt_version']}"
+            )
+        for file_detail in technical_logs.get("files", []):
+            for match in file_detail["matches"]:
+                typer.echo(
+                    f"    log {file_detail['path']}:{match['line']} "
+                    f"stage={match['stage_id'] or '-'} {match['text']}"
+                )
 
 
 @app.command("fetch-log")
