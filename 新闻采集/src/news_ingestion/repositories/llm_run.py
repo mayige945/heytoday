@@ -9,6 +9,7 @@ from __future__ import annotations
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from ..audit.context import current_audit_link
 from ..ids import new_id
 from ..models import LlmRun
 from ..timeutil import utcnow
@@ -40,6 +41,7 @@ class LlmRunRepository:
         model_provider: str = "kimi_coding_anthropic",
         model_name: str = "kimi-for-coding",
     ) -> LlmRun:
+        audit_task_id, audit_stage_id = current_audit_link()
         run = LlmRun(
             id=new_id("llm"),
             article_id=article_id,
@@ -53,6 +55,8 @@ class LlmRunRepository:
             input_hash=input_hash,
             status="pending",
             requested_at=utcnow(),
+            audit_task_id=audit_task_id,
+            audit_stage_id=audit_stage_id,
         )
         self.session.add(run)
         self.session.flush()

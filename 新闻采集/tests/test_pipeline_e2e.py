@@ -183,6 +183,7 @@ def test_run_without_llm_credentials_degrades_and_exits_7(session_factory, monke
     )
     assert result.exit_code == 7
     assert result.llm_configured is False
+    assert (result.execution_status, result.design_status) == ("partial_success", "compliant")
     # 非 LLM 数据保留
     with session_factory() as session:
         articles = ArticleRepository(session).list_since(None)

@@ -35,7 +35,7 @@ def _to_candidate(article: NewsArticle, filters: FiltersConfig) -> DedupCandidat
 
 def run_dedup(session_factory: sessionmaker, *, since_hours: float | None, filters: FiltersConfig) -> dict:
     """执行去重；返回统计 {checked, duplicates, by_basis}。"""
-    stats = {"checked": 0, "duplicates": 0, "by_basis": {}}
+    stats = {"checked": 0, "duplicates": 0, "retained": 0, "by_basis": {}}
     with session_factory() as session:
         repo = ArticleRepository(session)
         targets = repo.list_since(since_hours, not_duplicate=True)
@@ -65,5 +65,6 @@ def run_dedup(session_factory: sessionmaker, *, since_hours: float | None, filte
                 current.content_hash = candidate.content_hash
             canonical.append(candidate)
         session.commit()
+    stats["retained"] = stats["checked"] - stats["duplicates"]
     _LOG.info("去重完成：%s", stats)
     return stats

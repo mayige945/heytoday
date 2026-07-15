@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import os
+from datetime import date
 from pathlib import Path
 
 # 本文件位于 新闻采集/src/news_ingestion/paths.py
@@ -40,6 +41,34 @@ def lock_path() -> Path:
 def log_file() -> Path:
     override = os.environ.get("NEWS_LOG_FILE")
     return Path(override).resolve() if override else LOGS_DIR / "news-ingestion.log"
+
+
+def log_files(
+    *,
+    rotated_dates: set[date] | None = None,
+    include_current: bool = True,
+) -> list[Path]:
+    """返回当前日志及 ``TimedRotatingFileHandler`` 轮转文件。"""
+    current = log_file()
+
+    def relevant(path: Path) -> bool:
+        if not path.is_file():
+            return False
+        if path == current:
+            return include_current
+        if rotated_dates is None:
+            return True
+        suffix = path.name.removeprefix(f"{current.name}.")
+        try:
+            return date.fromisoformat(suffix) in rotated_dates
+        except ValueError:
+            return False
+
+    return sorted(
+        (path for path in current.parent.glob(f"{current.name}*") if relevant(path)),
+        key=lambda path: path.name,
+        reverse=True,
+    )
 
 
 def output_dir() -> Path:

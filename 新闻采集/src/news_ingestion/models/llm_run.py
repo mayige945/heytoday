@@ -7,7 +7,7 @@ Schema 校验成功的结果。``raw_response``、脱敏错误与文件日志保
 
 from __future__ import annotations
 
-from sqlalchemy import JSON, Float, String, Text
+from sqlalchemy import JSON, CheckConstraint, Float, ForeignKeyConstraint, Index, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from ..ids import new_id
@@ -17,6 +17,17 @@ from .base import Base, UTCDateTime
 
 class LlmRun(Base):
     __tablename__ = "llm_run"
+    __table_args__ = (
+        CheckConstraint("(audit_task_id is null) = (audit_stage_id is null)", name="ck_llm_run_audit_link_pair"),
+        ForeignKeyConstraint(
+            ["audit_stage_id", "audit_task_id"],
+            ["business_task_stage.id", "business_task_stage.task_id"],
+            name="fk_llm_run_audit_stage_task",
+            ondelete="RESTRICT",
+            match="FULL",
+        ),
+        Index("ix_llm_run_audit_stage_task", "audit_stage_id", "audit_task_id"),
+    )
 
     id: Mapped[str] = mapped_column(String(64), primary_key=True, default=lambda: new_id("llm"))
     article_id: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
@@ -40,6 +51,8 @@ class LlmRun(Base):
     token_usage: Mapped[dict] = mapped_column(JSON, default=dict)
     estimated_cost: Mapped[float | None] = mapped_column(Float, nullable=True)
     error_message: Mapped[str | None] = mapped_column(String(1024), nullable=True)
+    audit_task_id: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+    audit_stage_id: Mapped[str | None] = mapped_column(String(64), nullable=True)
 
     def __repr__(self) -> str:  # pragma: no cover
         return f"<LlmRun {self.id} {self.mode} {self.status}>"

@@ -111,6 +111,32 @@ class FetchLogStatus(_Vocab):
     FAILED = "failed"
 
 
+class AuditExecutionStatus(_Vocab):
+    REQUESTED = "requested"
+    RUNNING = "running"
+    SUCCEEDED = "succeeded"
+    PARTIAL_SUCCESS = "partial_success"
+    FAILED = "failed"
+    BLOCKED = "blocked"
+    ABANDONED = "abandoned"
+
+
+class AuditDesignStatus(_Vocab):
+    PENDING = "pending"
+    COMPLIANT = "compliant"
+    DEVIATION = "deviation"
+    INCOMPLETE = "incomplete"
+
+
+class AuditStageStatus(_Vocab):
+    REQUESTED = "requested"
+    RUNNING = "running"
+    SUCCEEDED = "succeeded"
+    FAILED = "failed"
+    BLOCKED = "blocked"
+    ABANDONED = "abandoned"
+
+
 class ReviewStatus(_Vocab):
     PENDING = "pending"
     APPROVED = "approved"

@@ -151,5 +151,5 @@ def test_score_service_excludes_events_published_before_window(session_factory, 
         since_hours=24,
     )
 
-    assert stats == {"scored": 0, "failed": 0, "skipped": 0}
+    assert stats == {"input": 0, "scored": 0, "failed": 0, "skipped": 0}
     assert client.calls == []

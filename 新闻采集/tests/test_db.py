@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+import runpy
+
 import pytest
 import sqlalchemy as sa
 from alembic import command
+from sqlalchemy.orm import Session
 
 from news_ingestion.db import current_revision, head_revision, is_at_head, make_engine, needs_init_or_upgrade, run_upgrade
 from news_ingestion.db.alembic import _make_config
@@ -105,3 +108,128 @@ def test_downgrade_0003_removes_runtime_schema_additions(tmp_path):
     assert "identity_url" not in {
         column["name"] for column in inspector.get_columns("news_article")
     }
+
+
+def test_business_audit_schema_and_nullable_detail_links_present(tmp_path):
+    eng = make_engine(tmp_path / "audit.sqlite3")
+    run_upgrade(eng)
+    inspector = sa.inspect(eng)
+
+    assert {"business_task", "business_task_stage"} <= set(inspector.get_table_names())
+    task_columns = {column["name"] for column in inspector.get_columns("business_task")}
+    assert {"execution_status", "design_status", "expected_stages_snapshot"} <= task_columns
+    stage_indexes = {index["name"] for index in inspector.get_indexes("business_task_stage")}
+    assert {"ix_business_task_stage_task_id", "ix_business_task_stage_task_status"} <= stage_indexes
+    stage_uniques = {constraint["name"] for constraint in inspector.get_unique_constraints("business_task_stage")}
+    assert {
+        "uq_business_task_stage_id_task",
+        "uq_business_task_stage_actual_sequence",
+        "uq_business_task_stage_attempt",
+    } <= stage_uniques
+    for table in ("fetch_log", "llm_run"):
+        columns = {column["name"]: column for column in inspector.get_columns(table)}
+        assert columns["audit_task_id"]["nullable"] is True
+        assert columns["audit_stage_id"]["nullable"] is True
+        foreign_keys = {foreign_key["name"]: foreign_key for foreign_key in inspector.get_foreign_keys(table)}
+        assert foreign_keys[f"fk_{table}_audit_stage_task"]["constrained_columns"] == [
+            "audit_stage_id",
+            "audit_task_id",
+        ]
+
+
+def test_postgres_audit_ddl_uses_match_full_and_supabase_security() -> None:
+    from pathlib import Path
+
+    from sqlalchemy.dialects import postgresql
+    from sqlalchemy.schema import CreateTable
+
+    from news_ingestion.models import LlmRun
+
+    ddl = str(CreateTable(LlmRun.__table__).compile(dialect=postgresql.dialect()))
+    assert "MATCH FULL ON DELETE RESTRICT" in ddl
+    migration = (Path(__file__).parents[1] / "migrations" / "versions" / "0005_business_task_audit.py").read_text(encoding="utf-8")
+    assert "from news_ingestion.models" not in migration
+    assert 'op.create_table("business_task"' in migration
+    assert 'op.create_table("business_task_stage"' in migration
+    assert "enable row level security" in migration
+    assert "revoke all on table" in migration
+    assert "grant select, insert, update on table" in migration
+    assert "to service_role" in migration
+    assert "autocommit_block" in migration
+    assert "postgresql_concurrently=True" in migration
+    assert "pg_index.indisvalid" in migration
+
+
+def test_postgres_detail_index_classification_rebuilds_only_invalid_or_missing() -> None:
+    from pathlib import Path
+
+    migration = runpy.run_path(
+        Path(__file__).parents[1] / "migrations" / "versions" / "0005_business_task_audit.py"
+    )
+    definitions = [
+        ("ix_fetch_log_audit_task_id", "fetch_log", ["audit_task_id"]),
+        ("ix_fetch_log_audit_stage_task", "fetch_log", ["audit_stage_id", "audit_task_id"]),
+        ("ix_llm_run_audit_task_id", "llm_run", ["audit_task_id"]),
+    ]
+
+    invalid, pending = migration["_classify_postgres_detail_indexes"](
+        definitions,
+        {
+            "ix_fetch_log_audit_task_id": True,
+            "ix_fetch_log_audit_stage_task": False,
+        },
+    )
+
+    assert invalid == [("ix_fetch_log_audit_stage_task", "fetch_log")]
+    assert pending == definitions[1:]
+
+
+def test_upgrade_and_round_trip_preserve_existing_business_rows(tmp_path):
+    eng = make_engine(tmp_path / "audit-roundtrip.sqlite3")
+    config = _make_config(str(eng.url))
+    command.upgrade(config, "0004")
+    before_audit = sa.inspect(eng)
+    assert not before_audit.has_table("business_task")
+    assert not before_audit.has_table("business_task_stage")
+    for table in ("fetch_log", "llm_run"):
+        assert not {
+            "audit_task_id",
+            "audit_stage_id",
+        } & {column["name"] for column in before_audit.get_columns(table)}
+    from news_ingestion.models import NewsSource
+
+    with Session(eng) as session:
+        session.add(
+            NewsSource(
+                id="s1",
+                code="s1",
+                unit_code="U1",
+                name="source",
+                homepage_url="https://example.test/",
+                language="en",
+                source_category="science",
+                source_role=["fact_source"],
+                acquisition_method="rss",
+            )
+        )
+        session.commit()
+    baseline = _business_baseline(eng)
+
+    command.upgrade(config, "0005")
+    assert _business_baseline(eng) == baseline
+    command.downgrade(config, "0004")
+    assert _business_baseline(eng) == baseline
+    after_downgrade = sa.inspect(eng)
+    assert not after_downgrade.has_table("business_task")
+    for table in ("fetch_log", "llm_run"):
+        assert not {
+            "audit_task_id",
+            "audit_stage_id",
+        } & {column["name"] for column in after_downgrade.get_columns(table)}
+    command.upgrade(config, "0005")
+    assert _business_baseline(eng) == baseline
+
+
+def _business_baseline(engine):
+    with engine.connect() as conn:
+        return conn.execute(sa.text("select id, code, unit_code, name, homepage_url from news_source order by id")).all()

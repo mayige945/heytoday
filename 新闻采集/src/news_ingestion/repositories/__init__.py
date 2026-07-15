@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from .article import ArticleRepository
+from .audit import AuditRepository
 from .cluster_forbid import ClusterForbidRepository
 from .event import EventRepository
 from .fact_check import FactCheckRepository
@@ -13,6 +14,7 @@ from .source import SourceRepository
 
 __all__ = [
     "ArticleRepository",
+    "AuditRepository",
     "ClusterForbidRepository",
     "EventRepository",
     "FactCheckRepository",

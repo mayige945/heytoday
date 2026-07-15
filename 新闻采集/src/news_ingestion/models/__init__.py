@@ -6,6 +6,9 @@ from .base import Base, UTCDateTime
 from .enums import (
     AccessReviewStatus,
     AcquisitionMethod,
+    AuditDesignStatus,
+    AuditExecutionStatus,
+    AuditStageStatus,
     AgeBand,
     Eligibility,
     EventLlmStatus,
@@ -24,6 +27,8 @@ from .enums import (
     SourceRole,
 )
 from .event_review import EventReview
+from .audit_stage import BusinessTaskStage
+from .audit_task import BusinessTask
 from .cluster_forbid_pair import ClusterForbidPair
 from .fact_check_record import FactCheckRecord
 from .fetch_log import FetchLog
@@ -35,6 +40,8 @@ from .news_source import NewsSource
 __all__ = [
     "Base",
     "UTCDateTime",
+    "BusinessTask",
+    "BusinessTaskStage",
     "NewsSource",
     "NewsArticle",
     "NewsEvent",
@@ -46,6 +53,9 @@ __all__ = [
     # enums
     "AccessReviewStatus",
     "AcquisitionMethod",
+    "AuditDesignStatus",
+    "AuditExecutionStatus",
+    "AuditStageStatus",
     "AgeBand",
     "Eligibility",
     "EventLlmStatus",

@@ -52,7 +52,7 @@ def run_score_full(
     retry_failed: bool = False,
     since_hours: float | None = None,
 ) -> dict:
-    stats = {"scored": 0, "failed": 0, "skipped": 0}
+    stats = {"input": 0, "scored": 0, "failed": 0, "skipped": 0}
     resolved = _resolve_client(client)
     if resolved is None and strict:
         raise LlmNotConfiguredError("未配置 LLM 凭据，无法执行二级评分")
@@ -91,5 +91,6 @@ def run_score_full(
                 evt_repo.mark_llm_failed(current, model=resolved.model, prompt_version=run.prompt_version)
                 stats["failed"] += 1
             session.commit()
+    stats["input"] = stats["scored"] + stats["failed"] + stats["skipped"]
     _LOG.info("二级评分完成：%s", stats)
     return stats

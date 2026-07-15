@@ -18,7 +18,7 @@ _DEFAULTS: dict[str, Any] = {
     "level": "INFO",
     "file_level": "INFO",
     "console_level": "WARNING",
-    "format": "%(asctime)s %(levelname)s [%(name)s] %(message)s",
+    "format": "%(asctime)s %(levelname)s [%(name)s] [task=%(task_id)s stage=%(stage_id)s module=%(audit_module)s operation=%(audit_operation)s] %(message)s",
     "datefmt": "%Y-%m-%dT%H:%M:%S%z",
 }
 
@@ -61,16 +61,19 @@ def setup_logging(*, force: bool = False) -> None:
         "backupCount": 30,
         "encoding": "utf-8",
         "utc": False,
+        "filters": ["audit_context"],
     }
     full_config = {
         "version": 1,
         "disable_existing_loggers": False,
         "formatters": {"default": {"format": cfg["format"], "datefmt": cfg["datefmt"]}},
+        "filters": {"audit_context": {"()": "news_ingestion.audit.context.AuditLogFilter"}},
         "handlers": {
             "console": {
                 "class": "logging.StreamHandler",
                 "level": cfg["console_level"],
                 "formatter": "default",
+                "filters": ["audit_context"],
             },
             "file": file_handler_config,
         },
@@ -79,7 +82,12 @@ def setup_logging(*, force: bool = False) -> None:
     try:
         logging.config.dictConfig(full_config)
     except (ValueError, OSError, FileNotFoundError):
-        logging.basicConfig(level=cfg["level"], format=cfg["format"], datefmt=cfg["datefmt"])
+        from .audit.context import AuditLogFilter
+
+        handler = logging.StreamHandler()
+        handler.addFilter(AuditLogFilter())
+        handler.setFormatter(logging.Formatter(cfg["format"], cfg["datefmt"]))
+        logging.basicConfig(level=cfg["level"], handlers=[handler], force=True)
     _CONFIGURED = True
 
 
