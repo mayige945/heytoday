@@ -3,15 +3,16 @@
 from __future__ import annotations
 
 import re
-from datetime import timedelta
+from datetime import date, timedelta
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ..models import BusinessTask, BusinessTaskStage, FetchLog, LlmRun
 from ..paths import log_files
-from ..timeutil import utcnow
+from ..timeutil import to_shanghai, utcnow
 from .contracts import StageDefinition, WorkflowDefinition
+from .sanitization import redact_secrets
 
 
 NEWS_INGESTION_WORKFLOW = WorkflowDefinition(
@@ -30,24 +31,30 @@ NEWS_INGESTION_WORKFLOW = WorkflowDefinition(
 )
 
 _LOG_RETENTION_DAYS = 30
-_SECRET_PATTERNS = (
-    re.compile(r"(?i)(authorization\s*[:=]\s*)(?:bearer\s+)?[^\s,\]]+"),
-    re.compile(r"(?i)(x-api-key\s*[:=]\s*)[^\s,\]]+"),
-    re.compile(r"(?i)(cookie\s*[:=]\s*)[^\s,\]]+"),
-    re.compile(r"(?i)((?:api[\s_-]?key)\s*[:=]\s*)[^\s,\]]+"),
-)
-
-
 def _redact_log_line(line: str) -> str:
-    for pattern in _SECRET_PATTERNS:
-        line = pattern.sub(r"\1[REDACTED]", line)
-    return line.rstrip("\r\n")
+    return (redact_secrets(line) or "").rstrip("\r\n")
+
+
+def _task_log_dates(task: BusinessTask) -> set[date]:
+    started = to_shanghai(task.created_at)
+    finished = to_shanghai(task.finished_at or utcnow())
+    current = started.date()
+    end = max(current, finished.date())
+    dates: set[date] = set()
+    while current <= end:
+        dates.add(current)
+        current += timedelta(days=1)
+    return dates
 
 
 def _technical_logs(task: BusinessTask, task_id: str) -> dict:
     matches: list[dict] = []
     task_marker = re.compile(rf"(?:^|[\s\[])task={re.escape(task_id)}(?=[\s\]])")
-    for path in log_files():
+    expired = task.created_at < utcnow() - timedelta(days=_LOG_RETENTION_DAYS)
+    for path in log_files(
+        rotated_dates=_task_log_dates(task),
+        include_current=not expired,
+    ):
         excerpts: list[dict] = []
         try:
             with path.open("r", encoding="utf-8", errors="replace") as handle:
@@ -69,7 +76,6 @@ def _technical_logs(task: BusinessTask, task_id: str) -> dict:
             matches.append({"path": str(path), "matches": excerpts})
     if matches:
         return {"status": "available", "retention_days": _LOG_RETENTION_DAYS, "files": matches}
-    expired = task.created_at < utcnow() - timedelta(days=_LOG_RETENTION_DAYS)
     return {
         "status": "expired" if expired else "unavailable",
         "retention_days": _LOG_RETENTION_DAYS,
@@ -113,31 +119,62 @@ def resolve_news_ingestion_details(
         .where(LlmRun.audit_task_id == task_id)
         .order_by(LlmRun.requested_at)
     ).all()
+    fetch_details = [
+        {
+            "id": row.id,
+            "stage_id": row.audit_stage_id,
+            "source_id": row.source_id,
+            "status": row.status,
+            "items_found": row.items_found,
+            "items_created": row.items_created,
+            "errors_count": row.errors_count,
+        }
+        for row in fetch_logs
+    ]
+    llm_details = [
+        {
+            "id": row.id,
+            "stage_id": row.audit_stage_id,
+            "mode": row.mode,
+            "status": row.status,
+            "model_name": row.model_name,
+            "prompt_name": row.prompt_name,
+            "prompt_version": row.prompt_version,
+        }
+        for row in llm_runs
+    ]
+    technical_logs = _technical_logs(task, task_id)
+    lines = []
+    if technical_logs.get("message"):
+        lines.append(f"log_detail={technical_logs['message']}")
+    lines.extend(
+        f"fetch_log id={row['id']} stage={row['stage_id'] or '-'} "
+        f"source={row['source_id']} status={row['status']}"
+        for row in fetch_details
+    )
+    lines.extend(
+        f"llm_run id={row['id']} stage={row['stage_id'] or '-'} "
+        f"mode={row['mode']} status={row['status']} "
+        f"prompt={row['prompt_name']}@{row['prompt_version']}"
+        for row in llm_details
+    )
+    for file_detail in technical_logs.get("files", []):
+        lines.extend(
+            f"log {file_detail['path']}:{match['line']} "
+            f"stage={match['stage_id'] or '-'} {match['text']}"
+            for match in file_detail["matches"]
+        )
     return {
         "kind": "news_ingestion",
-        "fetch_logs": [
-            {
-                "id": row.id,
-                "stage_id": row.audit_stage_id,
-                "source_id": row.source_id,
-                "status": row.status,
-                "items_found": row.items_found,
-                "items_created": row.items_created,
-                "errors_count": row.errors_count,
-            }
-            for row in fetch_logs
-        ],
-        "llm_runs": [
-            {
-                "id": row.id,
-                "stage_id": row.audit_stage_id,
-                "mode": row.mode,
-                "status": row.status,
-                "model_name": row.model_name,
-                "prompt_name": row.prompt_name,
-                "prompt_version": row.prompt_version,
-            }
-            for row in llm_runs
-        ],
-        "technical_logs": _technical_logs(task, task_id),
+        "fetch_logs": fetch_details,
+        "llm_runs": llm_details,
+        "technical_logs": technical_logs,
+        "display": {
+            "section": "news_ingestion",
+            "summary": (
+                f"fetch_log={len(fetch_details)} llm_run={len(llm_details)} "
+                f"logs={technical_logs.get('status', '-')}"
+            ),
+            "lines": lines,
+        },
     }

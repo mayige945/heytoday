@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from sqlalchemy import JSON, CheckConstraint, Integer, String, Text
+from sqlalchemy import JSON, CheckConstraint, Index, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from ..ids import new_id
@@ -27,6 +27,12 @@ class BusinessTask(Base):
         CheckConstraint("finished_at is null or finished_at >= started_at", name="ck_business_task_time_order"),
         CheckConstraint("design_status <> 'deviation' or exit_code = 9", name="ck_business_task_deviation_exit"),
         CheckConstraint("execution_status <> 'succeeded' or design_status <> 'compliant' or exit_code = 0", name="ck_business_task_success_result"),
+        Index(
+            "ix_business_task_recovery",
+            "lock_domain",
+            "execution_status",
+            "created_at",
+        ),
     )
 
     id: Mapped[str] = mapped_column(String(64), primary_key=True, default=lambda: new_id("task"))

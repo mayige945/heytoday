@@ -105,11 +105,12 @@ Go/No-Go 与回滚条件见 plan v0.8 §20–22。
 uv run pytest
 uv run alembic check
 $env:NEWS_TEST_POSTGRES_URL='<temporary-postgres-url>'
+$env:NEWS_TEST_POSTGRES_ISOLATED='1'  # 仅在确认该库可丢弃且与生产隔离后设置
 uv run pytest -m live tests/test_audit_postgres.py
 ```
 
 默认禁真实网络与真实 LLM。PostgreSQL gate 必须使用 Supabase-shaped 临时/隔离库，且不得等于生产
-`SUPABASE_DB_URL`；它验证真实行锁、终态竞争、复合外键和 RLS。来源/Kimi live smoke 仍另行执行并记录日期。
+`SUPABASE_DB_URL`；测试会规范化比较两者的用户、主机、端口与数据库名，并在未显式确认隔离时失败。它验证真实行锁、终态竞争、复合外键，以及客户端拒绝和 `service_role` 最小读写权限。来源/Kimi live smoke 仍另行执行并记录日期。
 
 日常默认先执行 `uv run news-ingestion run`，它完成采集、去重、聚类和两级 LLM 识别后停在人工复核队列；事实核验、人工批准和导出继续分步手工执行。首次接入 Feed 时，超出 `--since` 时间窗的历史条目仍会保存并参与去重，但不会调用 LLM。
 

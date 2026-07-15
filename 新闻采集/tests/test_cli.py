@@ -14,7 +14,7 @@ from news_ingestion.audit import StageDefinition, WorkflowDefinition
 from news_ingestion.db import default_engine, make_session_factory
 from news_ingestion.models import BusinessTask
 from news_ingestion.services.audit_service import AuditLifecycleService, TaskOutcome
-from news_ingestion.timeutil import utcnow
+from news_ingestion.timeutil import to_shanghai, utcnow
 
 runner = CliRunner()
 
@@ -86,7 +86,8 @@ def test_task_show_json_and_missing_error_keep_stdout_clean(isolated_env):
 def test_task_show_human_renders_correlated_rotated_log_without_prefix_collision(isolated_env):
     runner.invoke(app, ["db", "upgrade"])
     _session_factory, task_id = _seed_cli_task(module="news_ingestion")
-    rotated = isolated_env / "logs" / "test.log.2026-07-14"
+    task_date = to_shanghai(utcnow()).date().isoformat()
+    rotated = isolated_env / "logs" / f"test.log.{task_date}"
     rotated.parent.mkdir(parents=True, exist_ok=True)
     rotated.write_text(
         f"INFO task={task_id}2 stage=stage-wrong prefix-only\n"
@@ -112,6 +113,31 @@ def test_task_show_human_explains_expired_logs(isolated_env):
     assert result.exit_code == 0
     assert "logs=expired" in result.stdout
     assert "详情已过期" in result.stdout
+
+
+def test_task_show_human_uses_generic_detail_display_contract(isolated_env, monkeypatch):
+    runner.invoke(app, ["db", "upgrade"])
+    _session_factory, task_id = _seed_cli_task(module="documents")
+
+    def resolve_documents(_session, resolved_task_id, _stages):
+        return {
+            "kind": "documents",
+            "records": [{"document_id": "doc-1"}],
+            "display": {
+                "section": "文档处理",
+                "summary": "records=1",
+                "lines": [f"document id=doc-1 task={resolved_task_id}"],
+            },
+        }
+
+    monkeypatch.setattr("news_ingestion.cli.resolve_news_ingestion_details", resolve_documents)
+    result = runner.invoke(app, ["task", "show", task_id])
+
+    assert result.exit_code == 0
+    assert "详情 文档处理：records=1" in result.stdout
+    assert f"document id=doc-1 task={task_id}" in result.stdout
+    assert "fetch_log=" not in result.stdout
+    assert "llm_run=" not in result.stdout
 
 
 def test_run_without_enabled_sources_returns_2(isolated_env, monkeypatch):

@@ -5,6 +5,7 @@ from __future__ import annotations
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from ..audit.sanitization import redact_secrets, sanitize_audit_value
 from ..ids import new_id
 from ..models import BusinessTask, BusinessTaskStage
 
@@ -40,9 +41,9 @@ class AuditRepository:
             workflow_version=workflow_version,
             lock_domain=lock_domain,
             executor_instance=executor_instance,
-            expected_stages_snapshot=dict(expected_stages),
-            scope_snapshot=dict(scope or {"schema_version": "audit-scope/v1"}),
-            reason=reason,
+            expected_stages_snapshot=sanitize_audit_value(expected_stages),
+            scope_snapshot=sanitize_audit_value(scope or {"schema_version": "audit-scope/v1"}),
+            reason=redact_secrets(reason),
         )
         self.session.add(task)
         self.session.flush()
@@ -77,7 +78,10 @@ class AuditRepository:
             unit=unit,
             input_count=input_count,
             output_count=output_count,
-            prerequisite_evidence=dict(prerequisite_evidence or {"schema_version": "audit-prerequisites/v1", "items": []}),
+            prerequisite_evidence=sanitize_audit_value(
+                prerequisite_evidence
+                or {"schema_version": "audit-prerequisites/v1", "items": []}
+            ),
         )
         self.session.add(stage)
         self.session.flush()
@@ -86,4 +90,3 @@ class AuditRepository:
     def list_stages(self, task_id: str) -> list[BusinessTaskStage]:
         stmt = select(BusinessTaskStage).where(BusinessTaskStage.task_id == task_id).order_by(BusinessTaskStage.actual_sequence)
         return list(self.session.scalars(stmt))
-

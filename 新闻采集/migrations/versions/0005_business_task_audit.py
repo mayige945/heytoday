@@ -65,6 +65,11 @@ def _create_business_task() -> None:
     )
     for column in ("module", "operation", "trigger_type", "path_type", "execution_status", "design_status", "created_at"):
         op.create_index(f"ix_business_task_{column}", "business_task", [column])
+    op.create_index(
+        "ix_business_task_recovery",
+        "business_task",
+        ["lock_domain", "execution_status", "created_at"],
+    )
 
 
 def _create_business_task_stage() -> None:
@@ -135,8 +140,103 @@ def _add_detail_links(table: str) -> None:
                 ["audit_stage_id", "audit_task_id"], ["id", "task_id"],
                 ondelete="RESTRICT", match="FULL",
             )
-    op.create_index(f"ix_{table}_audit_task_id", table, ["audit_task_id"])
-    op.create_index(f"ix_{table}_audit_stage_task", table, ["audit_stage_id", "audit_task_id"])
+
+
+def _create_detail_indexes() -> None:
+    bind = op.get_bind()
+    definitions = [
+        (name, table, columns)
+        for table in _DETAIL_TABLES
+        for name, columns in (
+            (f"ix_{table}_audit_task_id", ["audit_task_id"]),
+            (f"ix_{table}_audit_stage_task", ["audit_stage_id", "audit_task_id"]),
+        )
+    ]
+    if bind.dialect.name == "postgresql":
+        validity: dict[str, bool] = {}
+        for table in _DETAIL_TABLES:
+            names = [name for name, candidate_table, _columns in definitions if candidate_table == table]
+            statement = sa.text(
+                "select index_class.relname, pg_index.indisvalid "
+                "from pg_catalog.pg_index "
+                "join pg_catalog.pg_class as index_class on index_class.oid = pg_index.indexrelid "
+                "join pg_catalog.pg_class as table_class on table_class.oid = pg_index.indrelid "
+                "join pg_catalog.pg_namespace as namespace on namespace.oid = table_class.relnamespace "
+                "where namespace.nspname = current_schema() "
+                "and table_class.relname = :table "
+                "and index_class.relname in :index_names"
+            ).bindparams(sa.bindparam("index_names", expanding=True))
+            validity.update(
+                {
+                    name: bool(is_valid)
+                    for name, is_valid in bind.execute(
+                        statement,
+                        {"table": table, "index_names": names},
+                    )
+                }
+            )
+        invalid, pending = _classify_postgres_detail_indexes(definitions, validity)
+        if not pending:
+            return
+        # PostgreSQL 的普通 CREATE INDEX 会阻塞既有详情表写入；并发建索引需离开事务。
+        with op.get_context().autocommit_block():
+            for name, table in invalid:
+                op.drop_index(
+                    sa.sql.quoted_name(name, quote=True),
+                    table_name=sa.sql.quoted_name(table, quote=True),
+                    postgresql_concurrently=True,
+                )
+            for name, table, columns in pending:
+                op.create_index(
+                    sa.sql.quoted_name(name, quote=True),
+                    sa.sql.quoted_name(table, quote=True),
+                    columns,
+                    postgresql_concurrently=True,
+                )
+        return
+    pending = [
+        definition
+        for definition in definitions
+        if definition[0]
+        not in {index["name"] for index in sa.inspect(bind).get_indexes(definition[1])}
+    ]
+    for name, table, columns in pending:
+        op.create_index(name, table, columns)
+
+
+def _classify_postgres_detail_indexes(
+    definitions: list[tuple[str, str, list[str]]],
+    validity: dict[str, bool],
+) -> tuple[list[tuple[str, str]], list[tuple[str, str, list[str]]]]:
+    invalid = [(name, table) for name, table, _columns in definitions if validity.get(name) is False]
+    pending = [definition for definition in definitions if validity.get(definition[0]) is not True]
+    return invalid, pending
+
+
+def _drop_detail_indexes() -> None:
+    bind = op.get_bind()
+    existing = [
+        (index_name, table)
+        for table in _DETAIL_TABLES
+        for index_name in (
+            f"ix_{table}_audit_stage_task",
+            f"ix_{table}_audit_task_id",
+        )
+        if index_name in {index["name"] for index in sa.inspect(bind).get_indexes(table)}
+    ]
+    if not existing:
+        return
+    if bind.dialect.name == "postgresql":
+        with op.get_context().autocommit_block():
+            for index_name, table in existing:
+                op.drop_index(
+                    index_name,
+                    table_name=table,
+                    postgresql_concurrently=True,
+                )
+        return
+    for index_name, table in existing:
+        op.drop_index(index_name, table_name=table)
 
 
 def _drop_detail_links(table: str) -> None:
@@ -144,10 +244,6 @@ def _drop_detail_links(table: str) -> None:
     columns = {column["name"] for column in sa.inspect(bind).get_columns(table)}
     if not {"audit_task_id", "audit_stage_id"} <= columns:
         return
-    indexes = {index["name"] for index in sa.inspect(bind).get_indexes(table)}
-    for index in (f"ix_{table}_audit_stage_task", f"ix_{table}_audit_task_id"):
-        if index in indexes:
-            op.drop_index(index, table_name=table)
     if bind.dialect.name == "postgresql":
         op.drop_constraint(f"fk_{table}_audit_stage_task", table, type_="foreignkey")
         op.drop_constraint(f"ck_{table}_audit_link_pair", table, type_="check")
@@ -202,10 +298,12 @@ def upgrade() -> None:
         _add_detail_links(table)
     if bind.dialect.name == "postgresql":
         _secure_postgres_tables()
+    _create_detail_indexes()
 
 
 def downgrade() -> None:
     bind = op.get_bind()
+    _drop_detail_indexes()
     for table in _DETAIL_TABLES:
         _drop_detail_links(table)
     inspector = sa.inspect(bind)
@@ -214,4 +312,3 @@ def downgrade() -> None:
     inspector = sa.inspect(bind)
     if inspector.has_table("business_task"):
         op.drop_table("business_task")
-

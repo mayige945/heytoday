@@ -12,13 +12,18 @@ import pytest
 from sqlalchemy import func, select
 from typer.testing import CliRunner
 
-from news_ingestion.cli import AUDITED_COMMANDS, EXCLUDED_COMMANDS, app
+from news_ingestion.cli import AUDITED_COMMANDS, EXCLUDED_COMMANDS, _require_ready, app
 from news_ingestion.db import default_engine, make_session_factory
-from news_ingestion.models import BusinessTask, BusinessTaskStage
-from news_ingestion.errors import AuditPersistenceError, LlmNotConfiguredError, LockBusyError
+from news_ingestion.models import BusinessTask, BusinessTaskStage, NewsArticle, NewsEvent
+from news_ingestion.errors import (
+    AuditPersistenceError,
+    BusinessPreconditionError,
+    LlmNotConfiguredError,
+    LockBusyError,
+)
 from news_ingestion.audit import StageDefinition, WorkflowDefinition
 from news_ingestion.errors import ConfigError
-from news_ingestion.services import AuditedCommandResult, AuditLifecycleService
+from news_ingestion.services import AuditedCommandResult, AuditedCommandSpec, AuditLifecycleService
 from news_ingestion.services.run_service import RunResult
 from news_ingestion.timeutil import utcnow
 
@@ -56,6 +61,71 @@ def test_command_registry_covers_every_write_and_explicit_exclusion() -> None:
     assert set(AUDITED_COMMANDS) == AUDITED
     assert set(EXCLUDED_COMMANDS) == EXCLUDED
     assert AUDITED.isdisjoint(EXCLUDED)
+
+
+def test_command_specs_require_and_separate_explicit_lock_domains() -> None:
+    with pytest.raises(TypeError):
+        AuditedCommandSpec("demo", "write")
+
+    news_domains = {
+        spec.lock_domain for spec in AUDITED_COMMANDS.values() if spec.module == "news_ingestion"
+    }
+    operations_domains = {
+        spec.lock_domain for spec in AUDITED_COMMANDS.values() if spec.module == "operations"
+    }
+    assert news_domains == {"news-ingestion"}
+    assert operations_domains == {"operations"}
+
+
+def test_readiness_rejects_articles_outside_operation_window(session_factory, seeded_sources) -> None:
+    source_id = next(iter(seeded_sources)).strip()
+    with session_factory() as session:
+        session.add(
+            NewsArticle(
+                source_id=source_id,
+                url="https://example.com/old",
+                title="窗口外旧文章",
+                discovered_at=utcnow() - timedelta(hours=25),
+                relevance_status="pending",
+            )
+        )
+        session.commit()
+
+    with pytest.raises(BusinessPreconditionError):
+        _require_ready(session_factory, "dedup", since_hours=24)
+    with pytest.raises(BusinessPreconditionError):
+        _require_ready(session_factory, "classify", since_hours=24)
+
+
+def test_cluster_readiness_rejects_old_published_article(session_factory, seeded_sources) -> None:
+    source_id = next(iter(seeded_sources)).strip()
+    with session_factory() as session:
+        session.add(
+            NewsArticle(
+                source_id=source_id,
+                url="https://example.com/old-published",
+                title="发布时间超窗文章",
+                discovered_at=utcnow(),
+                published_at=utcnow() - timedelta(hours=73),
+                relevance_status="relevant",
+            )
+        )
+        session.commit()
+
+    with pytest.raises(BusinessPreconditionError):
+        _require_ready(session_factory, "cluster", since_hours=72)
+
+
+def test_score_readiness_respects_retry_failed_and_target_status(session_factory) -> None:
+    with session_factory() as session:
+        event = NewsEvent(event_title="失败待重试事件", llm_status="failed")
+        session.add(event)
+        session.commit()
+        event_id = event.id
+
+    with pytest.raises(BusinessPreconditionError):
+        _require_ready(session_factory, "score", target_id=event_id, retry_failed=False)
+    _require_ready(session_factory, "score", target_id=event_id, retry_failed=True)
 
 
 @pytest.mark.parametrize(
@@ -266,7 +336,7 @@ def test_runner_recovers_old_same_domain_task_after_lock_but_not_other_domain(cl
     factory = make_session_factory(default_engine())
     workflow = WorkflowDefinition("old.operation", "1", (StageDefinition("work", 1),))
     lifecycle = AuditLifecycleService(factory)
-    old_same = lifecycle.start_task(module="old", operation="same", workflow=workflow, lock_domain="news-ingestion")
+    old_same = lifecycle.start_task(module="old", operation="same", workflow=workflow, lock_domain="operations")
     lifecycle.mark_running(old_same)
     old_other = lifecycle.start_task(module="old", operation="other", workflow=workflow, lock_domain="other-domain")
     lifecycle.mark_running(old_other)

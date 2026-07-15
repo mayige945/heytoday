@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import inspect
-from datetime import timedelta
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 import pytest
 from sqlalchemy import select
@@ -114,6 +115,10 @@ def test_detail_resolver_registration_and_generic_import_boundary(session_factor
 def test_news_resolver_links_details_and_sanitizes_rotated_logs(session_factory, seeded_sources, monkeypatch, tmp_path):
     task_id, stage_id = _completed_task(session_factory, module="news_ingestion")
     with session_factory() as session:
+        task = session.get(BusinessTask, task_id)
+        task.created_at = datetime(2026, 7, 14, 15, 59, tzinfo=timezone.utc)
+        task.started_at = task.created_at
+        task.finished_at = datetime(2026, 7, 14, 16, 1, tzinfo=timezone.utc)
         source_id = session.scalars(select(NewsSource.id).limit(1)).one()
         session.add(
             FetchLog(
@@ -131,6 +136,7 @@ def test_news_resolver_links_details_and_sanitizes_rotated_logs(session_factory,
         session.commit()
     log = tmp_path / "news-ingestion.log"
     rotated = tmp_path / "news-ingestion.log.2026-07-14"
+    unrelated = tmp_path / "news-ingestion.log.2026-07-10"
     monkeypatch.setenv("NEWS_LOG_FILE", str(log))
     log.write_text(
         f"INFO task={task_id} stage={stage_id} current-log\n",
@@ -138,20 +144,51 @@ def test_news_resolver_links_details_and_sanitizes_rotated_logs(session_factory,
     )
     rotated.write_text(
         f"INFO task={task_id}2 stage={stage_id} prefix-must-not-match\n"
-        f"INFO task={task_id} stage={stage_id} Authorization: Bearer secret-token Cookie=session-secret x-api-key=key-secret API key=space-secret\n",
+        f"INFO task={task_id} stage={stage_id} Authorization: Bearer bearer-secret Cookie=session-secret; second=second-cookie-secret x-api-key=key-secret API key=space-secret\n"
+        f"INFO task={task_id} stage={stage_id} Authorization: Basic basic-secret basic-visible\n"
+        f'INFO task={task_id} stage={stage_id} Authorization: Digest username="demo", nonce="nonce-secret", response="digest-secret"\n'
+        f"INFO task={task_id} stage={stage_id} Set-Cookie: sid=set-cookie-secret; Path=/, prefs=second-set-cookie-secret\n",
         encoding="utf-8",
     )
+    unrelated.write_text(
+        f"INFO task={task_id} stage={stage_id} must-not-be-read\n",
+        encoding="utf-8",
+    )
+    opened: list[Path] = []
+    original_open = Path.open
+
+    def tracking_open(path: Path, *args, **kwargs):
+        opened.append(path)
+        return original_open(path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "open", tracking_open)
     shown = AuditViewService(session_factory, detail_resolvers=(resolve_news_ingestion_details,)).show_task(task_id)
     news = shown["details"][0]
     assert news["fetch_logs"][0]["id"] == "fetch-view-1"
     assert news["llm_runs"][0]["id"] == "llm-view-1"
     assert news["technical_logs"]["status"] == "available"
     assert len(news["technical_logs"]["files"]) == 2
-    assert sum(len(item["matches"]) for item in news["technical_logs"]["files"]) == 2
+    assert sum(len(item["matches"]) for item in news["technical_logs"]["files"]) == 5
     assert "prefix-must-not-match" not in str(news["technical_logs"])
+    assert unrelated not in opened
+    assert "must-not-be-read" not in str(news["technical_logs"])
     assert news["technical_logs"]["files"][0]["matches"][0]["stage_id"] == stage_id
     text = str(news["technical_logs"])
-    assert all(secret not in text for secret in ("secret-token", "session-secret", "key-secret", "space-secret"))
+    assert all(
+        secret not in text
+        for secret in (
+            "bearer-secret",
+            "session-secret",
+            "second-cookie-secret",
+            "key-secret",
+            "space-secret",
+            "basic-secret",
+            "nonce-secret",
+            "digest-secret",
+            "set-cookie-secret",
+            "second-set-cookie-secret",
+        )
+    )
 
 
 def test_old_task_without_logs_is_explicitly_expired_but_ledger_remains_valid(session_factory, monkeypatch, tmp_path):

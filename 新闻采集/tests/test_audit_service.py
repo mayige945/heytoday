@@ -1,13 +1,28 @@
 from __future__ import annotations
 
+import json
 from datetime import timedelta
 
 import pytest
+from sqlalchemy import event
 
 from news_ingestion.audit import StageDefinition, WorkflowDefinition
 from news_ingestion.errors import AuditPersistenceError
-from news_ingestion.models import BusinessTask, BusinessTaskStage
-from news_ingestion.services.audit_service import AuditLifecycleService, TaskOutcome
+from news_ingestion.models import (
+    AuditDesignStatus,
+    AuditExecutionStatus,
+    AuditStageStatus,
+    BusinessTask,
+    BusinessTaskStage,
+)
+from news_ingestion.services.audit_service import (
+    NONTERMINAL_STAGE_STATUSES,
+    NONTERMINAL_TASK_STATUSES,
+    TERMINAL_STAGE_STATUSES,
+    TERMINAL_TASK_STATUSES,
+    AuditLifecycleService,
+    TaskOutcome,
+)
 from news_ingestion.timeutil import utcnow
 
 
@@ -23,6 +38,31 @@ WORKFLOW = WorkflowDefinition(
 
 def _service(session_factory):
     return AuditLifecycleService(session_factory)
+
+
+def test_audit_service_status_sets_are_derived_from_public_enums() -> None:
+    assert NONTERMINAL_TASK_STATUSES == {
+        AuditExecutionStatus.REQUESTED.value,
+        AuditExecutionStatus.RUNNING.value,
+    }
+    assert TERMINAL_TASK_STATUSES == {
+        status.value
+        for status in AuditExecutionStatus
+        if status.value not in NONTERMINAL_TASK_STATUSES
+    }
+    assert NONTERMINAL_STAGE_STATUSES == {
+        AuditStageStatus.REQUESTED.value,
+        AuditStageStatus.RUNNING.value,
+    }
+    assert TERMINAL_STAGE_STATUSES == {
+        status.value for status in AuditStageStatus if status.value not in NONTERMINAL_STAGE_STATUSES
+    }
+    assert {status.value for status in AuditDesignStatus} >= {
+        "pending",
+        "compliant",
+        "deviation",
+        "incomplete",
+    }
 
 
 def test_lifecycle_uses_committed_short_transactions_and_actual_sequence(session_factory):
@@ -98,13 +138,98 @@ def test_recovery_is_scoped_old_and_never_infers_success(session_factory):
                 task.started_at = cutoff - timedelta(seconds=1)
         session.commit()
 
-    recovered = service.recover_stale(lock_domain="same", cutoff=cutoff, current_task_id=current, recovered_by="test")
+    recovered = service.recover_stale(
+        lock_domain="same",
+        cutoff=cutoff,
+        current_task_id=current,
+        recovered_by="Authorization: Basic recovery-secret",
+    )
     assert set(recovered) == {old_running, old_requested}
     with session_factory() as session:
         for task_id in recovered:
             task = session.get(BusinessTask, task_id)
             assert (task.execution_status, task.design_status) == ("abandoned", "incomplete")
+            recovery = task.summary_snapshot["recovery"]
+            assert recovery["recovered_by"] == "Authorization: [REDACTED]"
         assert session.get(BusinessTask, other_domain).execution_status == "requested"
+        assert session.get(BusinessTask, current).execution_status == "requested"
+
+
+def test_recovery_batches_tasks_stages_queries_and_commits(session_factory, monkeypatch):
+    import news_ingestion.services.audit_service as audit_service_module
+
+    service = _service(session_factory)
+    cutoff = utcnow() - timedelta(minutes=30)
+    stale_ids: list[str] = []
+    stage_ids: list[str] = []
+    for _index in range(5):
+        task_id = service.start_task(
+            module="demo",
+            operation="publish",
+            workflow=WORKFLOW,
+            lock_domain="batch",
+        )
+        service.mark_running(task_id)
+        stage_id = service.start_stage(task_id, WORKFLOW.stages[0])
+        stale_ids.append(task_id)
+        stage_ids.append(stage_id)
+    current = service.start_task(
+        module="demo",
+        operation="publish",
+        workflow=WORKFLOW,
+        lock_domain="batch",
+    )
+    with session_factory() as session:
+        for index, task_id in enumerate(stale_ids):
+            task = session.get(BusinessTask, task_id)
+            task.created_at = cutoff - timedelta(seconds=10 - index)
+        session.commit()
+
+    monkeypatch.setattr(audit_service_module, "STALE_RECOVERY_BATCH_SIZE", 2)
+    commits = 0
+    original_commit = service._commit
+
+    def counting_commit(session):
+        nonlocal commits
+        commits += 1
+        original_commit(session)
+
+    monkeypatch.setattr(service, "_commit", counting_commit)
+    selects = {"task": 0, "stage": 0}
+    engine = session_factory.kw["bind"]
+
+    def count_selects(_connection, _cursor, statement, _parameters, _context, _many):
+        normalized = " ".join(statement.lower().split())
+        if not normalized.startswith("select"):
+            return
+        if " from business_task_stage " in normalized:
+            selects["stage"] += 1
+        elif " from business_task " in normalized:
+            selects["task"] += 1
+
+    event.listen(engine, "before_cursor_execute", count_selects)
+    try:
+        recovered = service.recover_stale(
+            lock_domain="batch",
+            cutoff=cutoff,
+            current_task_id=current,
+            recovered_by="batch-test",
+        )
+    finally:
+        event.remove(engine, "before_cursor_execute", count_selects)
+
+    assert recovered == stale_ids
+    assert commits == 3
+    assert selects == {"task": 4, "stage": 3}
+    with session_factory() as session:
+        assert all(
+            session.get(BusinessTask, task_id).execution_status == "abandoned"
+            for task_id in stale_ids
+        )
+        assert all(
+            session.get(BusinessTaskStage, stage_id).status == "abandoned"
+            for stage_id in stage_ids
+        )
         assert session.get(BusinessTask, current).execution_status == "requested"
 
 
@@ -171,3 +296,81 @@ def test_explicit_business_failure_cannot_claim_completed_design_validation(sess
     service.finish_task(task_id, TaskOutcome(execution_status="failed", design_status="compliant", exit_code=9))
     with session_factory() as session:
         assert session.get(BusinessTask, task_id).design_status == "incomplete"
+
+
+def test_all_persisted_audit_snapshots_and_reason_are_recursively_sanitized(session_factory):
+    service = _service(session_factory)
+    secrets = {
+        "reason-secret",
+        "scope-secret",
+        "prerequisite-secret",
+        "route-secret",
+        "reason-detail-secret",
+        "metric-secret",
+        "validation-secret",
+        "summary-secret",
+        "task-validation-secret",
+    }
+    task_id = service.start_task(
+        module="demo",
+        operation="publish",
+        workflow=WORKFLOW,
+        reason="retry Authorization: Basic reason-secret",
+        scope={
+            "schema_version": "audit-scope/v1",
+            "headers": {"Authorization": "Basic scope-secret"},
+        },
+    )
+    service.mark_running(task_id)
+    stage_id = service.start_stage(
+        task_id,
+        WORKFLOW.stages[0],
+        prerequisite_evidence={"Cookie": "session=prerequisite-secret; other=value"},
+    )
+    service.finish_stage(
+        task_id,
+        stage_id,
+        status="succeeded",
+        input_count=1,
+        output_count=1,
+        routes={"schema_version": "audit-routes/v1", "routes": [], "Set-Cookie": "sid=route-secret"},
+        reasons={"schema_version": "audit-reasons/v1", "reasons": {}, "detail": "api key=reason-detail-secret"},
+        metrics={"schema_version": "audit-metrics/v1", "metrics": {}, "x_api_key": "metric-secret"},
+        validation={
+            "schema_version": "audit-validation/v1",
+            "status": "compliant",
+            "results": [{"message": "Authorization: Digest response=validation-secret"}],
+        },
+    )
+    service.finish_task(
+        task_id,
+        TaskOutcome(
+            "succeeded",
+            "compliant",
+            0,
+            summary={"nested": [{"api-key": "summary-secret"}]},
+            validation={"results": [{"message": "Cookie: sid=task-validation-secret; theme=dark"}]},
+        ),
+    )
+
+    with session_factory() as session:
+        task = session.get(BusinessTask, task_id)
+        stage = session.get(BusinessTaskStage, stage_id)
+        persisted = json.dumps(
+            {
+                "reason": task.reason,
+                "expected": task.expected_stages_snapshot,
+                "scope": task.scope_snapshot,
+                "summary": task.summary_snapshot,
+                "task_validation": task.design_validation_snapshot,
+                "prerequisites": stage.prerequisite_evidence,
+                "routes": stage.routes_snapshot,
+                "reasons": stage.reason_breakdown,
+                "metrics": stage.metrics_snapshot,
+                "stage_validation": stage.validation_snapshot,
+            },
+            ensure_ascii=False,
+        )
+
+    assert "[REDACTED]" in persisted
+    assert not any(secret in persisted for secret in secrets)

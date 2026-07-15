@@ -10,10 +10,32 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session, sessionmaker
 
 from ..audit.contracts import StageDefinition, WorkflowDefinition
+from ..audit.sanitization import sanitize_audit_value
 from ..errors import AuditPersistenceError
-from ..models import BusinessTask, BusinessTaskStage
+from ..models import (
+    AuditDesignStatus,
+    AuditExecutionStatus,
+    AuditStageStatus,
+    BusinessTask,
+    BusinessTaskStage,
+)
 from ..repositories import AuditRepository
 from ..timeutil import utcnow
+
+
+NONTERMINAL_TASK_STATUSES = frozenset(
+    {AuditExecutionStatus.REQUESTED.value, AuditExecutionStatus.RUNNING.value}
+)
+TERMINAL_TASK_STATUSES = frozenset(
+    status.value for status in AuditExecutionStatus if status.value not in NONTERMINAL_TASK_STATUSES
+)
+NONTERMINAL_STAGE_STATUSES = frozenset(
+    {AuditStageStatus.REQUESTED.value, AuditStageStatus.RUNNING.value}
+)
+TERMINAL_STAGE_STATUSES = frozenset(
+    status.value for status in AuditStageStatus if status.value not in NONTERMINAL_STAGE_STATUSES
+)
+STALE_RECOVERY_BATCH_SIZE = 100
 
 
 @dataclass(frozen=True, slots=True)
@@ -26,17 +48,46 @@ class TaskOutcome:
 
     @classmethod
     def blocked(cls, *, exit_code: int, summary: dict[str, Any] | None = None) -> "TaskOutcome":
-        return cls("blocked", "compliant", exit_code, summary or {})
+        return cls(
+            AuditExecutionStatus.BLOCKED.value,
+            AuditDesignStatus.COMPLIANT.value,
+            exit_code,
+            summary or {},
+        )
 
     def normalized(self) -> "TaskOutcome":
-        if self.execution_status == "blocked":
-            return TaskOutcome("blocked", "compliant", self.exit_code, self.summary, self.validation)
-        if self.execution_status == "abandoned":
-            return TaskOutcome("abandoned", "incomplete", self.exit_code, self.summary, self.validation)
-        if self.design_status == "deviation":
-            return TaskOutcome(self.execution_status, "deviation", 9, self.summary, self.validation)
-        if self.execution_status == "failed":
-            return TaskOutcome("failed", "incomplete", self.exit_code, self.summary, self.validation)
+        if self.execution_status == AuditExecutionStatus.BLOCKED.value:
+            return TaskOutcome(
+                AuditExecutionStatus.BLOCKED.value,
+                AuditDesignStatus.COMPLIANT.value,
+                self.exit_code,
+                self.summary,
+                self.validation,
+            )
+        if self.execution_status == AuditExecutionStatus.ABANDONED.value:
+            return TaskOutcome(
+                AuditExecutionStatus.ABANDONED.value,
+                AuditDesignStatus.INCOMPLETE.value,
+                self.exit_code,
+                self.summary,
+                self.validation,
+            )
+        if self.design_status == AuditDesignStatus.DEVIATION.value:
+            return TaskOutcome(
+                self.execution_status,
+                AuditDesignStatus.DEVIATION.value,
+                9,
+                self.summary,
+                self.validation,
+            )
+        if self.execution_status == AuditExecutionStatus.FAILED.value:
+            return TaskOutcome(
+                AuditExecutionStatus.FAILED.value,
+                AuditDesignStatus.INCOMPLETE.value,
+                self.exit_code,
+                self.summary,
+                self.validation,
+            )
         return self
 
 
@@ -108,9 +159,9 @@ class AuditLifecycleService:
         try:
             with self.session_factory() as session:
                 task = self._locked_task(session, task_id)
-                if task.execution_status != "requested":
+                if task.execution_status != AuditExecutionStatus.REQUESTED.value:
                     raise RuntimeError("task state conflict: expected requested")
-                task.execution_status = "running"
+                task.execution_status = AuditExecutionStatus.RUNNING.value
                 task.started_at = utcnow()
                 self._commit(session)
         except BaseException as exc:
@@ -126,16 +177,20 @@ class AuditLifecycleService:
         try:
             with self.session_factory() as session:
                 task = self._locked_task(session, task_id)
-                if task.execution_status != "running":
+                if task.execution_status != AuditExecutionStatus.RUNNING.value:
                     raise RuntimeError("task state conflict: expected running")
                 stages = AuditRepository(session).list_stages(task_id)
-                succeeded = {stage.stage_key for stage in stages if stage.status == "succeeded"}
+                succeeded = {
+                    stage.stage_key
+                    for stage in stages
+                    if stage.status == AuditStageStatus.SUCCEEDED.value
+                }
                 missing = set(definition.prerequisites) - succeeded
                 if missing:
                     raise ValueError(f"prerequisite not satisfied: {sorted(missing)}")
                 active_same_stage = any(
                     stage.stage_key == definition.key
-                    and stage.status not in {"failed", "blocked", "abandoned"}
+                    and stage.status in NONTERMINAL_STAGE_STATUSES
                     for stage in stages
                 )
                 if active_same_stage:
@@ -176,7 +231,7 @@ class AuditLifecycleService:
         validation: dict[str, Any] | None = None,
         business_commit_state: str = "committed",
     ) -> None:
-        if status not in {"succeeded", "failed", "blocked", "abandoned"}:
+        if status not in TERMINAL_STAGE_STATUSES:
             raise ValueError(f"invalid terminal stage status: {status}")
         try:
             with self.session_factory() as session:
@@ -186,15 +241,28 @@ class AuditLifecycleService:
                     .where(BusinessTaskStage.id == stage_id, BusinessTaskStage.task_id == task_id)
                     .with_for_update()
                 ).one_or_none()
-                if stage is None or stage.status != "running":
+                if stage is None or stage.status != AuditStageStatus.RUNNING.value:
                     raise RuntimeError("stage state conflict: expected running")
                 stage.status = status
                 stage.input_count = input_count
                 stage.output_count = output_count
-                stage.routes_snapshot = dict(routes or {"schema_version": "audit-routes/v1", "routes": []})
-                stage.reason_breakdown = dict(reasons or {"schema_version": "audit-reasons/v1", "reasons": {}})
-                stage.metrics_snapshot = dict(metrics or {"schema_version": "audit-metrics/v1", "metrics": {}})
-                stage.validation_snapshot = dict(validation or {"schema_version": "audit-validation/v1", "status": "incomplete", "results": []})
+                stage.routes_snapshot = sanitize_audit_value(
+                    routes or {"schema_version": "audit-routes/v1", "routes": []}
+                )
+                stage.reason_breakdown = sanitize_audit_value(
+                    reasons or {"schema_version": "audit-reasons/v1", "reasons": {}}
+                )
+                stage.metrics_snapshot = sanitize_audit_value(
+                    metrics or {"schema_version": "audit-metrics/v1", "metrics": {}}
+                )
+                stage.validation_snapshot = sanitize_audit_value(
+                    validation
+                    or {
+                        "schema_version": "audit-validation/v1",
+                        "status": AuditDesignStatus.INCOMPLETE.value,
+                        "results": [],
+                    }
+                )
                 stage.finished_at = utcnow()
                 self._commit(session)
         except BaseException as exc:
@@ -213,12 +281,12 @@ class AuditLifecycleService:
         business_commit_state: str = "committed",
     ) -> None:
         outcome = outcome.normalized()
-        if outcome.execution_status not in {"succeeded", "partial_success", "failed", "blocked", "abandoned"}:
+        if outcome.execution_status not in TERMINAL_TASK_STATUSES:
             raise ValueError(f"invalid terminal task status: {outcome.execution_status}")
         try:
             with self.session_factory() as session:
                 task = self._locked_task(session, task_id)
-                if task.execution_status not in {"requested", "running"}:
+                if task.execution_status not in NONTERMINAL_TASK_STATUSES:
                     raise RuntimeError("task state conflict: expected requested or running")
                 now = utcnow()
                 task.execution_status = outcome.execution_status
@@ -226,16 +294,20 @@ class AuditLifecycleService:
                 task.exit_code = outcome.exit_code
                 task.started_at = task.started_at or now
                 task.finished_at = now
-                task.summary_snapshot = {
-                    "schema_version": "audit-summary/v1",
-                    **outcome.summary,
-                }
-                task.design_validation_snapshot = {
-                    "schema_version": "audit-validation/v1",
-                    "status": outcome.design_status,
-                    "results": [],
-                    **outcome.validation,
-                }
+                task.summary_snapshot = sanitize_audit_value(
+                    {
+                        "schema_version": "audit-summary/v1",
+                        **outcome.summary,
+                    }
+                )
+                task.design_validation_snapshot = sanitize_audit_value(
+                    {
+                        "schema_version": "audit-validation/v1",
+                        "status": outcome.design_status,
+                        "results": [],
+                        **outcome.validation,
+                    }
+                )
                 self._commit(session)
         except BaseException as exc:
             raise self._error(
@@ -256,55 +328,83 @@ class AuditLifecycleService:
         """在调用方已取得同一 ``lock_domain`` 锁后收敛旧非终态。"""
         recovered: list[str] = []
         try:
-            with self.session_factory() as session:
-                candidates = list(
-                    session.scalars(
-                        select(BusinessTask.id).where(
-                            BusinessTask.lock_domain == lock_domain,
-                            BusinessTask.id != current_task_id,
-                            BusinessTask.created_at < cutoff,
-                            BusinessTask.execution_status.in_(("requested", "running")),
+            while True:
+                with self.session_factory() as session:
+                    candidates = list(
+                        session.scalars(
+                            select(BusinessTask)
+                            .where(
+                                BusinessTask.lock_domain == lock_domain,
+                                BusinessTask.id != current_task_id,
+                                BusinessTask.created_at < cutoff,
+                                BusinessTask.execution_status.in_(
+                                    tuple(NONTERMINAL_TASK_STATUSES)
+                                ),
+                            )
+                            .order_by(BusinessTask.created_at, BusinessTask.id)
+                            .limit(STALE_RECOVERY_BATCH_SIZE)
+                            .with_for_update()
                         )
                     )
-                )
-            for task_id in candidates:
-                with self.session_factory() as session:
-                    task = self._locked_task(session, task_id)
-                    if (
-                        task.execution_status not in {"requested", "running"}
-                        or task.lock_domain != lock_domain
-                        or task.id == current_task_id
-                        or task.created_at >= cutoff
-                    ):
-                        continue
-                    original = task.execution_status
-                    now = utcnow()
-                    for stage in AuditRepository(session).list_stages(task.id):
-                        if stage.status in {"requested", "running"}:
-                            stage.status = "abandoned"
-                            stage.started_at = stage.started_at or task.started_at or task.created_at
-                            stage.finished_at = now
-                    task.execution_status = "abandoned"
-                    task.design_status = "incomplete"
-                    task.exit_code = 6
-                    task.started_at = task.started_at or task.created_at
-                    task.finished_at = now
-                    task.summary_snapshot = {
-                        "schema_version": "audit-summary/v1",
-                        "recovery": {
-                            "recovered_by": recovered_by,
-                            "recovered_at": now.isoformat(),
-                            "original_status": original,
-                            "reason": "stale_non_terminal_after_lock_acquisition",
-                        },
+                    if not candidates:
+                        break
+
+                    task_ids = [task.id for task in candidates]
+                    stages_by_task: dict[str, list[BusinessTaskStage]] = {
+                        task_id: [] for task_id in task_ids
                     }
-                    task.design_validation_snapshot = {
-                        "schema_version": "audit-validation/v1",
-                        "status": "incomplete",
-                        "results": [],
-                    }
+                    stages = session.scalars(
+                        select(BusinessTaskStage)
+                        .where(BusinessTaskStage.task_id.in_(task_ids))
+                        .order_by(BusinessTaskStage.task_id, BusinessTaskStage.actual_sequence)
+                        .with_for_update()
+                    )
+                    for stage in stages:
+                        stages_by_task[stage.task_id].append(stage)
+
+                    for task in candidates:
+                        # 锁等待期间任务可能已被迟到终结者更新，写入前必须复核。
+                        if (
+                            task.execution_status not in NONTERMINAL_TASK_STATUSES
+                            or task.lock_domain != lock_domain
+                            or task.id == current_task_id
+                            or task.created_at >= cutoff
+                        ):
+                            continue
+                        original = task.execution_status
+                        now = utcnow()
+                        for stage in stages_by_task[task.id]:
+                            if stage.status in NONTERMINAL_STAGE_STATUSES:
+                                stage.status = AuditStageStatus.ABANDONED.value
+                                stage.started_at = (
+                                    stage.started_at or task.started_at or task.created_at
+                                )
+                                stage.finished_at = now
+                        task.execution_status = AuditExecutionStatus.ABANDONED.value
+                        task.design_status = AuditDesignStatus.INCOMPLETE.value
+                        task.exit_code = 6
+                        task.started_at = task.started_at or task.created_at
+                        task.finished_at = now
+                        task.summary_snapshot = sanitize_audit_value(
+                            {
+                                "schema_version": "audit-summary/v1",
+                                "recovery": {
+                                    "recovered_by": recovered_by,
+                                    "recovered_at": now.isoformat(),
+                                    "original_status": original,
+                                    "reason": "stale_non_terminal_after_lock_acquisition",
+                                },
+                            }
+                        )
+                        task.design_validation_snapshot = sanitize_audit_value(
+                            {
+                                "schema_version": "audit-validation/v1",
+                                "status": AuditDesignStatus.INCOMPLETE.value,
+                                "results": [],
+                            }
+                        )
+                        recovered.append(task.id)
                     self._commit(session)
-                    recovered.append(task_id)
             return recovered
         except BaseException as exc:
             raise self._error(exc, phase="stale_recovery", task_id=current_task_id, business_commit_state="not_started") from exc

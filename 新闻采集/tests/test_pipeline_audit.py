@@ -4,8 +4,14 @@ import pytest
 
 from news_ingestion.audit.news_ingestion import NEWS_INGESTION_WORKFLOW
 from news_ingestion.config import FiltersConfig, RuntimeConfig, SourceConfig
+from news_ingestion.errors import DbInfraError
 from news_ingestion.models import BusinessTask, BusinessTaskStage, FetchLog, LlmRun
-from news_ingestion.services.audit_service import AuditLifecycleService
+from news_ingestion.services import (
+    AuditedCommandResult,
+    AuditedCommandSpec,
+    TriggerContext,
+    run_audited_command,
+)
 from news_ingestion.services.run_service import run_pipeline
 
 from conftest import make_discovered
@@ -44,37 +50,53 @@ def _items():
     }
 
 
-def _start_task(service: AuditLifecycleService) -> str:
-    return service.start_task(
-        module="news_ingestion",
-        operation="run",
-        workflow=NEWS_INGESTION_WORKFLOW,
-        lock_domain="news_ingestion.run",
-    )
+@pytest.fixture(autouse=True)
+def _isolated_process_lock(tmp_path, monkeypatch):
+    monkeypatch.setenv("NEWS_LOCK_PATH", str(tmp_path / "pipeline-audit.lock"))
 
 
-def _run(session_factory, fake_llm, service, task_id):
-    return run_pipeline(
+def _run(engine, session_factory, fake_llm):
+    def execute(audit, task_id):
+        result = run_pipeline(
+            session_factory,
+            enabled_sources=[_source()],
+            runtime=RuntimeConfig(),
+            filters=FiltersConfig(),
+            user_agent="test-ua",
+            client=fake_llm(),
+            collector_for=_fake_collector(_items()),
+            content_fetcher=_fake_content(),
+            audit_lifecycle=audit,
+            task_id=task_id,
+        )
+        return AuditedCommandResult(
+            result,
+            exit_code=result.exit_code,
+            execution_status=result.execution_status,
+            design_status=result.design_status,
+            summary=result.summary,
+        )
+
+    return run_audited_command(
+        engine,
         session_factory,
-        enabled_sources=[_source()],
-        runtime=RuntimeConfig(),
-        filters=FiltersConfig(),
-        user_agent="test-ua",
-        client=fake_llm(),
-        collector_for=_fake_collector(_items()),
-        content_fetcher=_fake_content(),
-        audit_lifecycle=service,
-        task_id=task_id,
+        spec=AuditedCommandSpec(
+            "news_ingestion",
+            "run",
+            lock_domain="news-ingestion",
+            workflow=NEWS_INGESTION_WORKFLOW,
+            stages_managed_by_callback=True,
+        ),
+        trigger=TriggerContext("test", "pytest"),
+        callback=execute,
     )
 
 
 def test_audited_pipeline_records_eight_ordered_stages_and_detail_links(
-    session_factory, fake_llm
+    engine, session_factory, fake_llm
 ):
-    service = AuditLifecycleService(session_factory)
-    task_id = _start_task(service)
-
-    result = _run(session_factory, fake_llm, service, task_id)
+    result = _run(engine, session_factory, fake_llm).value
+    task_id = result.run_id
 
     assert result.run_id == task_id
     assert (result.execution_status, result.design_status, result.exit_code) == (
@@ -116,12 +138,11 @@ def test_audited_pipeline_records_eight_ordered_stages_and_detail_links(
         }
 
 
-def test_repeated_audited_pipeline_uses_a_new_explicit_task(session_factory, fake_llm):
-    service = AuditLifecycleService(session_factory)
-    first_task_id = _start_task(service)
-    first = _run(session_factory, fake_llm, service, first_task_id)
-    second_task_id = _start_task(service)
-    second = _run(session_factory, fake_llm, service, second_task_id)
+def test_repeated_audited_pipeline_uses_a_new_explicit_task(engine, session_factory, fake_llm):
+    first = _run(engine, session_factory, fake_llm).value
+    second = _run(engine, session_factory, fake_llm).value
+    first_task_id = first.run_id
+    second_task_id = second.run_id
 
     assert first.run_id != second.run_id
     assert {first.run_id, second.run_id} == {first_task_id, second_task_id}
@@ -133,12 +154,10 @@ def test_repeated_audited_pipeline_uses_a_new_explicit_task(session_factory, fak
 
 
 def test_funnel_deviation_stops_later_stages_and_finishes_with_exit_nine(
-    session_factory, fake_llm, monkeypatch
+    engine, session_factory, fake_llm, monkeypatch
 ):
     from news_ingestion.services import run_service
 
-    service = AuditLifecycleService(session_factory)
-    task_id = _start_task(service)
     content_called = False
 
     def inconsistent_classify(*_args, **_kwargs):
@@ -159,7 +178,8 @@ def test_funnel_deviation_stops_later_stages_and_finishes_with_exit_nine(
     monkeypatch.setattr(run_service, "run_classify_light", inconsistent_classify)
     monkeypatch.setattr(run_service, "fetch_contents", content_must_not_run)
 
-    result = _run(session_factory, fake_llm, service, task_id)
+    result = _run(engine, session_factory, fake_llm).value
+    task_id = result.run_id
 
     assert content_called is False
     assert (result.execution_status, result.design_status, result.exit_code) == (
@@ -244,9 +264,7 @@ def test_invalid_workflow_mapping_fails_before_business_execution(
     assert collector_called is False
 
 
-def test_partial_source_failure_is_compliant_exit_four(session_factory, fake_llm):
-    service = AuditLifecycleService(session_factory)
-    task_id = _start_task(service)
+def test_partial_source_failure_is_compliant_exit_four(engine, session_factory, fake_llm):
     item = make_discovered(
         source_id="source_ok",
         url="https://example.com/partial/1",
@@ -262,18 +280,42 @@ def test_partial_source_failure_is_compliant_exit_four(session_factory, fake_llm
     def collector_for(code):
         return FailingCollector() if code == "source_failed" else successful(code)
 
-    result = run_pipeline(
+    def execute(audit, task_id):
+        result = run_pipeline(
+            session_factory,
+            enabled_sources=[_source("source_ok"), _source("source_failed")],
+            runtime=RuntimeConfig(),
+            filters=FiltersConfig(),
+            user_agent="test-ua",
+            client=fake_llm(),
+            collector_for=collector_for,
+            content_fetcher=_fake_content(),
+            audit_lifecycle=audit,
+            task_id=task_id,
+        )
+        return AuditedCommandResult(
+            result,
+            exit_code=result.exit_code,
+            execution_status=result.execution_status,
+            design_status=result.design_status,
+            summary=result.summary,
+        )
+
+    audited = run_audited_command(
+        engine,
         session_factory,
-        enabled_sources=[_source("source_ok"), _source("source_failed")],
-        runtime=RuntimeConfig(),
-        filters=FiltersConfig(),
-        user_agent="test-ua",
-        client=fake_llm(),
-        collector_for=collector_for,
-        content_fetcher=_fake_content(),
-        audit_lifecycle=service,
-        task_id=task_id,
+        spec=AuditedCommandSpec(
+            "news_ingestion",
+            "run",
+            lock_domain="news-ingestion",
+            workflow=NEWS_INGESTION_WORKFLOW,
+            stages_managed_by_callback=True,
+        ),
+        trigger=TriggerContext("test", "pytest"),
+        callback=execute,
     )
+    result = audited.value
+    task_id = result.run_id
 
     assert (result.execution_status, result.design_status, result.exit_code) == (
         "partial_success",
@@ -290,3 +332,31 @@ def test_partial_source_failure_is_compliant_exit_four(session_factory, fake_llm
             "compliant",
             4,
         )
+
+
+def test_pipeline_db_failure_leaves_failed_stage_and_runner_records_exit_six(
+    engine, session_factory, fake_llm, monkeypatch
+):
+    from news_ingestion.services import run_service
+
+    def fail_classify(*_args, **_kwargs):
+        raise DbInfraError("database unavailable")
+
+    monkeypatch.setattr(run_service, "run_classify_light", fail_classify)
+
+    with pytest.raises(DbInfraError, match="database unavailable"):
+        _run(engine, session_factory, fake_llm)
+
+    with session_factory() as session:
+        task = session.query(BusinessTask).one()
+        stages = list(
+            session.query(BusinessTaskStage)
+            .filter_by(task_id=task.id)
+            .order_by(BusinessTaskStage.actual_sequence)
+        )
+        assert (task.execution_status, task.design_status, task.exit_code) == (
+            "failed",
+            "incomplete",
+            6,
+        )
+        assert [stage.status for stage in stages] == ["succeeded", "succeeded", "failed"]

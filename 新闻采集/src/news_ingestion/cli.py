@@ -12,11 +12,11 @@ import os
 import re
 import getpass
 from contextlib import contextmanager
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import typer
-from sqlalchemy import select
+from sqlalchemy import or_, select
 from sqlalchemy.exc import SQLAlchemyError
 
 from .config import load_filters, load_runtime, load_sources, load_source_by_code
@@ -32,6 +32,7 @@ from .errors import (
     SchemaValidationError,
 )
 from .logging_setup import get_logger, setup_logging
+from .timeutil import utcnow
 from .audit.news_ingestion import NEWS_INGESTION_WORKFLOW, resolve_news_ingestion_details
 from .models import NewsArticle, NewsEvent
 from .services import (
@@ -80,20 +81,26 @@ app.add_typer(supabase_app, name="supabase")
 app.add_typer(task_app, name="task")
 
 AUDITED_COMMANDS: dict[str, AuditedCommandSpec] = {
-    "run": AuditedCommandSpec("news_ingestion", "run", workflow=NEWS_INGESTION_WORKFLOW, pipeline_managed=True),
-    "fetch": AuditedCommandSpec("news_ingestion", "fetch"),
-    "event.review": AuditedCommandSpec("news_ingestion", "event.review"),
-    "event.fact-check": AuditedCommandSpec("news_ingestion", "event.fact-check"),
-    "export": AuditedCommandSpec("news_ingestion", "export"),
-    "supabase.sync": AuditedCommandSpec("news_ingestion", "supabase.sync"),
-    "dedup": AuditedCommandSpec("news_ingestion", "dedup", path_type="non_standard", reason_required=True),
-    "cluster": AuditedCommandSpec("news_ingestion", "cluster", path_type="non_standard", reason_required=True),
-    "classify": AuditedCommandSpec("news_ingestion", "classify", path_type="non_standard", reason_required=True),
-    "score": AuditedCommandSpec("news_ingestion", "score", path_type="non_standard", reason_required=True),
-    "llm.retry": AuditedCommandSpec("news_ingestion", "llm.retry", path_type="non_standard", reason_required=True),
-    "article.refetch": AuditedCommandSpec("news_ingestion", "article.refetch", path_type="non_standard", reason_required=True),
-    "retention.prune": AuditedCommandSpec("operations", "retention.prune", path_type="operations"),
-    "pool-index": AuditedCommandSpec("operations", "pool-index", path_type="operations"),
+    "run": AuditedCommandSpec(
+        "news_ingestion",
+        "run",
+        lock_domain="news-ingestion",
+        workflow=NEWS_INGESTION_WORKFLOW,
+        stages_managed_by_callback=True,
+    ),
+    "fetch": AuditedCommandSpec("news_ingestion", "fetch", lock_domain="news-ingestion"),
+    "event.review": AuditedCommandSpec("news_ingestion", "event.review", lock_domain="news-ingestion"),
+    "event.fact-check": AuditedCommandSpec("news_ingestion", "event.fact-check", lock_domain="news-ingestion"),
+    "export": AuditedCommandSpec("news_ingestion", "export", lock_domain="news-ingestion"),
+    "supabase.sync": AuditedCommandSpec("news_ingestion", "supabase.sync", lock_domain="news-ingestion"),
+    "dedup": AuditedCommandSpec("news_ingestion", "dedup", lock_domain="news-ingestion", path_type="non_standard", reason_required=True),
+    "cluster": AuditedCommandSpec("news_ingestion", "cluster", lock_domain="news-ingestion", path_type="non_standard", reason_required=True),
+    "classify": AuditedCommandSpec("news_ingestion", "classify", lock_domain="news-ingestion", path_type="non_standard", reason_required=True),
+    "score": AuditedCommandSpec("news_ingestion", "score", lock_domain="news-ingestion", path_type="non_standard", reason_required=True),
+    "llm.retry": AuditedCommandSpec("news_ingestion", "llm.retry", lock_domain="news-ingestion", path_type="non_standard", reason_required=True),
+    "article.refetch": AuditedCommandSpec("news_ingestion", "article.refetch", lock_domain="news-ingestion", path_type="non_standard", reason_required=True),
+    "retention.prune": AuditedCommandSpec("operations", "retention.prune", lock_domain="operations", path_type="operations"),
+    "pool-index": AuditedCommandSpec("operations", "pool-index", lock_domain="operations", path_type="operations"),
 }
 EXCLUDED_COMMANDS = frozenset({
     "db.upgrade", "db.status", "source.list", "source.validate", "event.list",
@@ -216,28 +223,48 @@ def _run_audited(
     )
 
 
-def _require_ready(session_factory, operation: str, *, target_id: str | None = None, stale: bool = False) -> None:
+def _require_ready(
+    session_factory,
+    operation: str,
+    *,
+    target_id: str | None = None,
+    stale: bool = False,
+    since_hours: float | None = None,
+    retry_failed: bool = False,
+) -> None:
+    cutoff = utcnow() - timedelta(hours=since_hours) if since_hours is not None else None
     with session_factory() as session:
-        if operation == "score" and target_id:
-            if session.get(NewsEvent, target_id) is None:
-                raise BusinessPreconditionError(f"评分事件不存在：{target_id}")
-            return
-        if operation == "llm.retry":
-            exists = session.scalar(select(NewsEvent.id).where(NewsEvent.llm_status == "failed").limit(1))
-        elif operation == "score":
-            exists = session.scalar(select(NewsEvent.id).where(NewsEvent.llm_status.in_(("pending", "failed"))).limit(1))
+        if operation in {"score", "llm.retry"}:
+            statuses = ("pending", "failed") if retry_failed else ("pending",)
+            statement = select(NewsEvent.id).where(NewsEvent.llm_status.in_(statuses))
+            if target_id is not None:
+                statement = statement.where(NewsEvent.id == target_id)
+            exists = session.scalar(statement.limit(1))
         elif operation == "cluster":
-            exists = session.scalar(
-                select(NewsArticle.id).where(
-                    NewsArticle.relevance_status.in_(("relevant", "uncertain")),
-                    NewsArticle.duplicate_of.is_(None),
-                ).limit(1)
+            statement = select(NewsArticle.id).where(
+                NewsArticle.relevance_status.in_(("relevant", "uncertain")),
+                NewsArticle.duplicate_of.is_(None),
             )
+            if cutoff is not None:
+                statement = statement.where(
+                    NewsArticle.discovered_at >= cutoff,
+                    or_(NewsArticle.published_at.is_(None), NewsArticle.published_at >= cutoff),
+                )
+            exists = session.scalar(statement.limit(1))
         elif operation == "classify":
             desired = "irrelevant" if stale else "pending"
-            exists = session.scalar(select(NewsArticle.id).where(NewsArticle.relevance_status == desired).limit(1))
+            statement = select(NewsArticle.id).where(
+                NewsArticle.relevance_status == desired,
+                NewsArticle.duplicate_of.is_(None),
+            )
+            if cutoff is not None:
+                statement = statement.where(NewsArticle.discovered_at >= cutoff)
+            exists = session.scalar(statement.limit(1))
         else:
-            exists = session.scalar(select(NewsArticle.id).limit(1))
+            statement = select(NewsArticle.id).where(NewsArticle.duplicate_of.is_(None))
+            if cutoff is not None:
+                statement = statement.where(NewsArticle.discovered_at >= cutoff)
+            exists = session.scalar(statement.limit(1))
         if exists is None:
             raise BusinessPreconditionError(f"{operation} 当前数据前置未满足，没有可处理对象")
 
@@ -374,7 +401,7 @@ def run_cmd(
 def dedup_cmd(since: str = typer.Option("24h", "--since"), reason: str | None = typer.Option(None, "--reason")) -> None:
     since_hours = _parse_since(since, 24)
     with app_context() as (engine, session_factory):
-        audited = _run_audited(engine, session_factory, "dedup", lambda *_: AuditedCommandResult(run_dedup(session_factory, since_hours=since_hours, filters=load_filters())), reason=reason, precondition=lambda: _require_ready(session_factory, "dedup"))
+        audited = _run_audited(engine, session_factory, "dedup", lambda *_: AuditedCommandResult(run_dedup(session_factory, since_hours=since_hours, filters=load_filters())), reason=reason, precondition=lambda: _require_ready(session_factory, "dedup", since_hours=since_hours))
     stats = audited.value
     typer.echo(f"去重：checked={stats['checked']} duplicates={stats['duplicates']} by_basis={stats['by_basis']}")
 
@@ -383,7 +410,7 @@ def dedup_cmd(since: str = typer.Option("24h", "--since"), reason: str | None = 
 def cluster_cmd(since: str = typer.Option("72h", "--since"), reason: str | None = typer.Option(None, "--reason")) -> None:
     since_hours = _parse_since(since, 72)
     with app_context() as (engine, session_factory):
-        audited = _run_audited(engine, session_factory, "cluster", lambda *_: AuditedCommandResult(run_cluster(session_factory, since_hours=since_hours, filters=load_filters())), reason=reason, precondition=lambda: _require_ready(session_factory, "cluster"))
+        audited = _run_audited(engine, session_factory, "cluster", lambda *_: AuditedCommandResult(run_cluster(session_factory, since_hours=since_hours, filters=load_filters())), reason=reason, precondition=lambda: _require_ready(session_factory, "cluster", since_hours=since_hours))
     typer.echo(f"聚类：{audited.value}")
 
 
@@ -395,7 +422,7 @@ def classify_cmd(
 ) -> None:
     since_hours = _parse_since(since, 24)
     with app_context() as (engine, session_factory):
-        audited = _run_audited(engine, session_factory, "classify", lambda *_: AuditedCommandResult(run_classify_light(session_factory, since_hours=since_hours, runtime=load_runtime(), strict=True, stale=stale)), reason=reason, precondition=lambda: _require_ready(session_factory, "classify", stale=stale))
+        audited = _run_audited(engine, session_factory, "classify", lambda *_: AuditedCommandResult(run_classify_light(session_factory, since_hours=since_hours, runtime=load_runtime(), strict=True, stale=stale)), reason=reason, precondition=lambda: _require_ready(session_factory, "classify", stale=stale, since_hours=since_hours))
     typer.echo(f"一级识别：{audited.value}")
 
 
@@ -406,7 +433,7 @@ def score_cmd(
     reason: str | None = typer.Option(None, "--reason"),
 ) -> None:
     with app_context() as (engine, session_factory):
-        audited = _run_audited(engine, session_factory, "score", lambda *_: AuditedCommandResult(run_score_full(session_factory, runtime=load_runtime(), strict=True, event_id=event_id, retry_failed=retry_failed)), reason=reason, precondition=lambda: _require_ready(session_factory, "score", target_id=event_id), scope={"schema_version": "audit-scope/v1", "event_id": event_id})
+        audited = _run_audited(engine, session_factory, "score", lambda *_: AuditedCommandResult(run_score_full(session_factory, runtime=load_runtime(), strict=True, event_id=event_id, retry_failed=retry_failed)), reason=reason, precondition=lambda: _require_ready(session_factory, "score", target_id=event_id, retry_failed=retry_failed), scope={"schema_version": "audit-scope/v1", "event_id": event_id})
     typer.echo(f"二级评分：{audited.value}")
 
 
@@ -415,7 +442,7 @@ def llm_retry(status: str = typer.Option("failed", "--status"), reason: str | No
     """重试失败的 LLM 评分。"""
     with app_context() as (engine, session_factory):
         retry = status == "failed"
-        audited = _run_audited(engine, session_factory, "llm.retry", lambda *_: AuditedCommandResult(run_score_full(session_factory, runtime=load_runtime(), strict=True, retry_failed=retry)), reason=reason, precondition=lambda: _require_ready(session_factory, "llm.retry"))
+        audited = _run_audited(engine, session_factory, "llm.retry", lambda *_: AuditedCommandResult(run_score_full(session_factory, runtime=load_runtime(), strict=True, retry_failed=retry)), reason=reason, precondition=lambda: _require_ready(session_factory, "llm.retry", retry_failed=retry))
     typer.echo(f"LLM 重试：{audited.value}")
 
 
@@ -662,29 +689,10 @@ def task_show_cmd(
                 f"delta={deviation.get('delta')} message={deviation.get('message') or '-'}"
             )
     for detail in model["details"]:
-        technical_logs = detail.get("technical_logs", {})
-        typer.echo(
-            f"  详情 {detail['kind']}：fetch_log={len(detail.get('fetch_logs', []))} "
-            f"llm_run={len(detail.get('llm_runs', []))} logs={technical_logs.get('status', '-')}"
-        )
-        if technical_logs.get("message"):
-            typer.echo(f"    log_detail={technical_logs['message']}")
-        for row in detail.get("fetch_logs", []):
-            typer.echo(
-                f"    fetch_log id={row['id']} stage={row['stage_id'] or '-'} "
-                f"source={row['source_id']} status={row['status']}"
-            )
-        for row in detail.get("llm_runs", []):
-            typer.echo(
-                f"    llm_run id={row['id']} stage={row['stage_id'] or '-'} "
-                f"mode={row['mode']} status={row['status']} prompt={row['prompt_name']}@{row['prompt_version']}"
-            )
-        for file_detail in technical_logs.get("files", []):
-            for match in file_detail["matches"]:
-                typer.echo(
-                    f"    log {file_detail['path']}:{match['line']} "
-                    f"stage={match['stage_id'] or '-'} {match['text']}"
-                )
+        display = detail["display"]
+        typer.echo(f"  详情 {display['section']}：{display['summary']}")
+        for line in display["lines"]:
+            typer.echo(f"    {line}")
 
 
 @app.command("fetch-log")

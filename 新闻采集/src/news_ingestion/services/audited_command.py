@@ -20,7 +20,6 @@ from ..errors import (
     LockBusyError,
     SchemaValidationError,
 )
-from ..models import BusinessTask
 from ..timeutil import utcnow
 from .audit_service import AuditLifecycleService, TaskOutcome
 from .lock import DatabaseLock, ProcessLock
@@ -37,11 +36,11 @@ class TriggerContext:
 class AuditedCommandSpec:
     module: str
     operation: str
+    lock_domain: str
     path_type: str = "standard"
     reason_required: bool = False
-    pipeline_managed: bool = False
+    stages_managed_by_callback: bool = False
     workflow: WorkflowDefinition | None = None
-    lock_domain: str = "news-ingestion"
 
     def resolved_workflow(self) -> WorkflowDefinition:
         return self.workflow or WorkflowDefinition(
@@ -106,31 +105,29 @@ def run_audited_command(
                 raise BusinessPreconditionError("非标准补跑必须通过 --reason 或 NEWS_AUDIT_REASON 提供原因")
             if precondition is not None:
                 precondition()
-            if spec.pipeline_managed:
+            if spec.stages_managed_by_callback:
                 result = callback(audit, task_id)
-                if _task_is_nonterminal(session_factory, task_id):
-                    audit.finish_task(task_id, result.outcome(), business_commit_state="committed")
-                return result
-
-            audit.mark_running(task_id)
-            definition = workflow.stages[0]
-            stage_id = audit.start_stage(task_id, definition)
-            with audit_log_context(
-                task_id=task_id,
-                stage_id=stage_id,
-                audit_module=spec.module,
-                audit_operation=spec.operation,
-            ):
-                result = callback(audit, task_id)
+            else:
+                audit.mark_running(task_id)
+                definition = workflow.stages[0]
+                stage_id = audit.start_stage(task_id, definition)
+                with audit_log_context(
+                    task_id=task_id,
+                    stage_id=stage_id,
+                    audit_module=spec.module,
+                    audit_operation=spec.operation,
+                ):
+                    result = callback(audit, task_id)
             outcome = result.outcome()
-            audit.finish_stage(
-                task_id,
-                stage_id,
-                status="failed" if outcome.execution_status == "failed" else "succeeded",
-                input_count=1,
-                output_count=0 if outcome.execution_status == "failed" else 1,
-                business_commit_state="committed",
-            )
+            if stage_id is not None:
+                audit.finish_stage(
+                    task_id,
+                    stage_id,
+                    status="failed" if outcome.execution_status == "failed" else "succeeded",
+                    input_count=1,
+                    output_count=0 if outcome.execution_status == "failed" else 1,
+                    business_commit_state="committed",
+                )
             audit.finish_task(task_id, outcome, business_commit_state="committed")
             return result
     except AuditPersistenceError:
@@ -164,15 +161,8 @@ def run_audited_command(
         _finish_failed(audit, task_id, stage_id, exit_code=6, business_commit_state="unknown")
         raise
     except BaseException:
-        if not spec.pipeline_managed or _task_is_nonterminal(session_factory, task_id):
-            _finish_failed(audit, task_id, stage_id, exit_code=6, business_commit_state="unknown")
+        _finish_failed(audit, task_id, stage_id, exit_code=6, business_commit_state="unknown")
         raise
-
-
-def _task_is_nonterminal(session_factory: sessionmaker[Session], task_id: str) -> bool:
-    with session_factory() as session:
-        task = session.get(BusinessTask, task_id)
-        return task is not None and task.execution_status in {"requested", "running"}
 
 
 def _finish_failed(

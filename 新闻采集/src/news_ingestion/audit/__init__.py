@@ -8,6 +8,7 @@ from .contracts import (
     ValidationConclusion,
     WorkflowDefinition,
 )
+from .sanitization import redact_secrets, sanitize_audit_value
 from .validation import validate_funnel, validate_workflow
 
 __all__ = [
@@ -17,7 +18,8 @@ __all__ = [
     "UnitConversion",
     "ValidationConclusion",
     "WorkflowDefinition",
+    "redact_secrets",
+    "sanitize_audit_value",
     "validate_funnel",
     "validate_workflow",
 ]
-

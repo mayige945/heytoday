@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import runpy
+
 import pytest
 import sqlalchemy as sa
 from alembic import command
@@ -153,12 +155,47 @@ def test_postgres_audit_ddl_uses_match_full_and_supabase_security() -> None:
     assert "revoke all on table" in migration
     assert "grant select, insert, update on table" in migration
     assert "to service_role" in migration
+    assert "autocommit_block" in migration
+    assert "postgresql_concurrently=True" in migration
+    assert "pg_index.indisvalid" in migration
+
+
+def test_postgres_detail_index_classification_rebuilds_only_invalid_or_missing() -> None:
+    from pathlib import Path
+
+    migration = runpy.run_path(
+        Path(__file__).parents[1] / "migrations" / "versions" / "0005_business_task_audit.py"
+    )
+    definitions = [
+        ("ix_fetch_log_audit_task_id", "fetch_log", ["audit_task_id"]),
+        ("ix_fetch_log_audit_stage_task", "fetch_log", ["audit_stage_id", "audit_task_id"]),
+        ("ix_llm_run_audit_task_id", "llm_run", ["audit_task_id"]),
+    ]
+
+    invalid, pending = migration["_classify_postgres_detail_indexes"](
+        definitions,
+        {
+            "ix_fetch_log_audit_task_id": True,
+            "ix_fetch_log_audit_stage_task": False,
+        },
+    )
+
+    assert invalid == [("ix_fetch_log_audit_stage_task", "fetch_log")]
+    assert pending == definitions[1:]
 
 
 def test_upgrade_and_round_trip_preserve_existing_business_rows(tmp_path):
     eng = make_engine(tmp_path / "audit-roundtrip.sqlite3")
     config = _make_config(str(eng.url))
     command.upgrade(config, "0004")
+    before_audit = sa.inspect(eng)
+    assert not before_audit.has_table("business_task")
+    assert not before_audit.has_table("business_task_stage")
+    for table in ("fetch_log", "llm_run"):
+        assert not {
+            "audit_task_id",
+            "audit_stage_id",
+        } & {column["name"] for column in before_audit.get_columns(table)}
     from news_ingestion.models import NewsSource
 
     with Session(eng) as session:
@@ -182,6 +219,13 @@ def test_upgrade_and_round_trip_preserve_existing_business_rows(tmp_path):
     assert _business_baseline(eng) == baseline
     command.downgrade(config, "0004")
     assert _business_baseline(eng) == baseline
+    after_downgrade = sa.inspect(eng)
+    assert not after_downgrade.has_table("business_task")
+    for table in ("fetch_log", "llm_run"):
+        assert not {
+            "audit_task_id",
+            "audit_stage_id",
+        } & {column["name"] for column in after_downgrade.get_columns(table)}
     command.upgrade(config, "0005")
     assert _business_baseline(eng) == baseline
 

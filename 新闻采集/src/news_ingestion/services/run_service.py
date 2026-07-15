@@ -21,7 +21,7 @@ from ..models import NewsEvent
 from ..repositories import FetchLogRepository
 from ..timeutil import utcnow
 from ..types import FetchOutcome
-from .audit_service import AuditLifecycleService, TaskOutcome
+from .audit_service import AuditLifecycleService
 from .classify_service import run_classify_light
 from .cluster_service import run_cluster
 from .content_service import fetch_contents
@@ -117,20 +117,6 @@ def _summary(result: RunResult) -> dict[str, Any]:
         "events_scored": result.score.get("scored", 0),
         "llm_configured": result.llm_configured,
     }
-
-
-def _finish_task(audit: AuditLifecycleService | None, task_id: str | None, result: RunResult) -> None:
-    if audit is None or task_id is None:
-        return
-    audit.finish_task(
-        task_id,
-        TaskOutcome(
-            execution_status=result.execution_status,
-            design_status=result.design_status,
-            exit_code=result.exit_code,
-            summary=result.summary,
-        ),
-    )
 
 
 def run_pipeline(
@@ -361,10 +347,6 @@ def run_pipeline(
                         "results": [],
                     },
                 )
-                audit_lifecycle.finish_task(
-                    task_id,
-                    TaskOutcome("failed", "incomplete", 9, summary=_summary(result)),
-                )
             raise
 
         validation = validate_funnel(report.funnel)
@@ -395,7 +377,6 @@ def run_pipeline(
             result.exit_code = 9
             result.summary = _summary(result)
             result.finished_at = utcnow()
-            _finish_task(audit_lifecycle, task_id, result)
             _LOG.error("run 在阶段 %s 检出设计偏差，停止后续阶段", definition.key)
             return result
 
@@ -414,6 +395,5 @@ def run_pipeline(
 
     result.summary = _summary(result)
     result.finished_at = utcnow()
-    _finish_task(audit_lifecycle, task_id, result)
     _LOG.info("run 完成：%s", result.summary)
     return result
