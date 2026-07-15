@@ -61,6 +61,7 @@ def setup_logging(*, force: bool = False) -> None:
         "backupCount": 30,
         "encoding": "utf-8",
         "utc": False,
+        "filters": ["audit_context"],
     }
     full_config = {
         "version": 1,
@@ -79,7 +80,6 @@ def setup_logging(*, force: bool = False) -> None:
         "root": {"level": cfg["level"], "handlers": ["console", "file"]},
     }
     try:
-        file_handler_config["filters"] = ["audit_context"]
         logging.config.dictConfig(full_config)
     except (ValueError, OSError, FileNotFoundError):
         from .audit.context import AuditLogFilter

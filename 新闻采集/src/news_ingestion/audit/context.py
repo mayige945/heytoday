@@ -7,18 +7,18 @@ from contextlib import contextmanager
 from contextvars import ContextVar
 from typing import Iterator
 
-_task_id: ContextVar[str] = ContextVar("audit_task_id", default="-")
-_stage_id: ContextVar[str] = ContextVar("audit_stage_id", default="-")
-_module: ContextVar[str] = ContextVar("audit_module", default="-")
-_operation: ContextVar[str] = ContextVar("audit_operation", default="-")
+_task_id: ContextVar[str | None] = ContextVar("audit_task_id", default=None)
+_stage_id: ContextVar[str | None] = ContextVar("audit_stage_id", default=None)
+_module: ContextVar[str | None] = ContextVar("audit_module", default=None)
+_operation: ContextVar[str | None] = ContextVar("audit_operation", default=None)
 
 
 def current_audit_context() -> dict[str, str]:
     return {
-        "task_id": _task_id.get(),
-        "stage_id": _stage_id.get(),
-        "audit_module": _module.get(),
-        "audit_operation": _operation.get(),
+        "task_id": _task_id.get() or "-",
+        "stage_id": _stage_id.get() or "-",
+        "audit_module": _module.get() or "-",
+        "audit_operation": _operation.get() or "-",
     }
 
 
@@ -26,8 +26,8 @@ def current_audit_link() -> tuple[str | None, str | None]:
     """返回详情记录关联；上下文必须同时具备任务与阶段。"""
     task_id = _task_id.get()
     stage_id = _stage_id.get()
-    task_present = task_id != "-"
-    stage_present = stage_id != "-"
+    task_present = task_id is not None
+    stage_present = stage_id is not None
     if task_present != stage_present:
         raise RuntimeError("audit task/stage context must be both present or both absent")
     if not task_present:

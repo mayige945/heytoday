@@ -133,12 +133,11 @@ class AuditLifecycleService:
                 missing = set(definition.prerequisites) - succeeded
                 if missing:
                     raise ValueError(f"prerequisite not satisfied: {sorted(missing)}")
-                active_same_stage = [
-                    stage
-                    for stage in stages
-                    if stage.stage_key == definition.key
+                active_same_stage = any(
+                    stage.stage_key == definition.key
                     and stage.status not in {"failed", "blocked", "abandoned"}
-                ]
+                    for stage in stages
+                )
                 if active_same_stage:
                     raise RuntimeError(f"stage state conflict: {definition.key} already started")
                 actual_sequence = max((stage.actual_sequence for stage in stages), default=0) + 1

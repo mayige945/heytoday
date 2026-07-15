@@ -377,10 +377,7 @@ def run_pipeline(
                 output_count=report.funnel.output_count,
                 routes={
                     "schema_version": "audit-routes/v1",
-                    "routes": [
-                        {"key": key, "count": count}
-                        for key, count in report.funnel.routes
-                    ],
+                    "routes": report.funnel.snapshot()["routes"],
                 },
                 reasons={
                     "schema_version": "audit-reasons/v1",
