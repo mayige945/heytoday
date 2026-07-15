@@ -87,12 +87,32 @@ def resolve_news_ingestion_details(
     task = session.get(BusinessTask, task_id)
     if task is None or task.module != "news_ingestion":
         return None
-    fetch_logs = list(
-        session.scalars(select(FetchLog).where(FetchLog.audit_task_id == task_id).order_by(FetchLog.started_at))
-    )
-    llm_runs = list(
-        session.scalars(select(LlmRun).where(LlmRun.audit_task_id == task_id).order_by(LlmRun.requested_at))
-    )
+    fetch_logs = session.execute(
+        select(
+            FetchLog.id,
+            FetchLog.audit_stage_id,
+            FetchLog.source_id,
+            FetchLog.status,
+            FetchLog.items_found,
+            FetchLog.items_created,
+            FetchLog.errors_count,
+        )
+        .where(FetchLog.audit_task_id == task_id)
+        .order_by(FetchLog.started_at)
+    ).all()
+    llm_runs = session.execute(
+        select(
+            LlmRun.id,
+            LlmRun.audit_stage_id,
+            LlmRun.mode,
+            LlmRun.status,
+            LlmRun.model_name,
+            LlmRun.prompt_name,
+            LlmRun.prompt_version,
+        )
+        .where(LlmRun.audit_task_id == task_id)
+        .order_by(LlmRun.requested_at)
+    ).all()
     return {
         "kind": "news_ingestion",
         "fetch_logs": [

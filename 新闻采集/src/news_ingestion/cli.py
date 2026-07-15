@@ -203,6 +203,7 @@ def _run_audited(
     precondition=None,
     scope: dict | None = None,
 ) -> AuditedCommandResult:
+    stale_after_minutes = load_runtime().stale_run_recovery_minutes
     return run_audited_command(
         engine,
         session_factory,
@@ -211,6 +212,7 @@ def _run_audited(
         callback=callback,
         precondition=precondition,
         scope=scope,
+        stale_after_minutes=stale_after_minutes,
     )
 
 

@@ -42,7 +42,6 @@ class AuditedCommandSpec:
     pipeline_managed: bool = False
     workflow: WorkflowDefinition | None = None
     lock_domain: str = "news-ingestion"
-    stale_after_minutes: int = 30
 
     def resolved_workflow(self) -> WorkflowDefinition:
         return self.workflow or WorkflowDefinition(
@@ -77,6 +76,7 @@ def run_audited_command(
     callback: Callable[[AuditLifecycleService, str], AuditedCommandResult],
     precondition: Callable[[], None] | None = None,
     scope: dict[str, Any] | None = None,
+    stale_after_minutes: int = 30,
 ) -> AuditedCommandResult:
     """任务先落库，随后取锁、校验前置、执行业务并提交审计终态。"""
     audit = AuditLifecycleService(session_factory)
@@ -98,7 +98,7 @@ def run_audited_command(
         with ProcessLock(), DatabaseLock(engine, lock_domain=spec.lock_domain):
             audit.recover_stale(
                 lock_domain=spec.lock_domain,
-                cutoff=utcnow() - timedelta(minutes=spec.stale_after_minutes),
+                cutoff=utcnow() - timedelta(minutes=stale_after_minutes),
                 current_task_id=task_id,
                 recovered_by=f"{trigger.trigger_type}:{trigger.operator}",
             )

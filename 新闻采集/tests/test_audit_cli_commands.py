@@ -273,8 +273,12 @@ def test_runner_recovers_old_same_domain_task_after_lock_but_not_other_domain(cl
     with factory() as session:
         for task_id in (old_same, old_other):
             task = session.get(BusinessTask, task_id)
-            task.created_at = utcnow() - timedelta(minutes=31)
+            task.created_at = utcnow() - timedelta(minutes=6)
         session.commit()
+    monkeypatch.setattr(
+        "news_ingestion.cli.load_runtime",
+        lambda: SimpleNamespace(stale_run_recovery_minutes=5),
+    )
     monkeypatch.setattr("news_ingestion.cli.prune", lambda *_args, **_kwargs: {})
 
     result = runner.invoke(app, ["retention", "prune"])
