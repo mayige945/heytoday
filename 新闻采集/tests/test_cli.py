@@ -97,6 +97,7 @@ def test_export_empty_returns_0(isolated_env):
 
 
 def test_supabase_sync_reports_result(isolated_env, monkeypatch, tmp_path):
+    runner.invoke(app, ["db", "upgrade"])
     material = tmp_path / "material.json"
     material.write_text("{}", encoding="utf-8")
     monkeypatch.setattr(
@@ -115,6 +116,8 @@ def test_classify_without_llm_creds_returns_7(isolated_env, monkeypatch):
     runner.invoke(app, ["db", "upgrade"])
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
     monkeypatch.delenv("ANTHROPIC_BASE_URL", raising=False)
+    monkeypatch.setenv("NEWS_AUDIT_REASON", "验证未配置 LLM 的退出码")
+    monkeypatch.setattr("news_ingestion.cli._require_ready", lambda *_args, **_kwargs: None)
     result = runner.invoke(app, ["classify", "--since", "24h"])
     assert result.exit_code == 7
 
