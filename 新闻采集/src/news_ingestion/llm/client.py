@@ -44,7 +44,10 @@ class LlmCallError(NewsIngestionError):
 
 
 def credentials_present() -> bool:
-    return bool(os.getenv("ANTHROPIC_API_KEY", "").strip()) and bool(os.getenv("ANTHROPIC_BASE_URL", "").strip())
+    # 优先 ANTHROPIC_API_KEY；部分部署环境（如内部 Anthropic 中转）只提供
+    # ANTHROPIC_AUTH_TOKEN，作为 fallback 同样视为已配置（探测确认 x-api-key 用同值可用）。
+    key = (os.getenv("ANTHROPIC_API_KEY") or os.getenv("ANTHROPIC_AUTH_TOKEN") or "").strip()
+    return bool(key) and bool(os.getenv("ANTHROPIC_BASE_URL", "").strip())
 
 
 def sanitize_text(text: str | None) -> str | None:
@@ -74,13 +77,16 @@ class LlmClient:
         self._client = anthropic.Anthropic(base_url=base_url, api_key=api_key, max_retries=0)
 
     @classmethod
-    def from_env(cls, *, model: str = DEFAULT_MODEL, max_retries: int | None = None) -> "LlmClient":
+    def from_env(cls, *, model: str | None = None, max_retries: int | None = None) -> "LlmClient":
         if not credentials_present():
-            raise LlmNotConfiguredError("未配置 ANTHROPIC_API_KEY / ANTHROPIC_BASE_URL")
+            raise LlmNotConfiguredError("未配置 ANTHROPIC_API_KEY/ANTHROPIC_AUTH_TOKEN / ANTHROPIC_BASE_URL")
+        key = (os.getenv("ANTHROPIC_API_KEY") or os.getenv("ANTHROPIC_AUTH_TOKEN") or "").strip()
+        # model 可由调用方传入；否则读 LLM_MODEL（部署可覆盖，如内部中转用 claude-sonnet-5），
+        # 再退回默认 DEFAULT_MODEL（kimi-for-coding）。
         return cls(
             base_url=os.environ["ANTHROPIC_BASE_URL"].strip(),
-            api_key=os.environ["ANTHROPIC_API_KEY"].strip(),
-            model=model,
+            api_key=key,
+            model=model or os.getenv("LLM_MODEL") or DEFAULT_MODEL,
             max_retries=max_retries,
         )
 

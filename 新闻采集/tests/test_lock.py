@@ -128,3 +128,41 @@ def test_database_lock_clears_acquisition_time_for_non_postgres():
     assert isinstance(lock.acquired_at, datetime)
     lock.release()
     assert lock.acquired_at is None
+
+
+def test_database_lock_exit_swallows_release_exception(monkeypatch):
+    """release 抛异常（如隧道抖动）时 __exit__ 降级为 warning，不污染业务退出码；
+    advisory lock 随连接 close 自动释放，故忽略 release 异常是安全的。"""
+    engine = _FakeEngine(acquired=True)
+    lock = DatabaseLock(engine)
+    lock.acquire()
+
+    def boom(*_a, **_k):
+        raise RuntimeError("tunnel broke during unlock")
+
+    monkeypatch.setattr(engine.connection, "execute", boom)
+    warnings = []
+    monkeypatch.setattr(lock_module._LOG, "warning", lambda *a, **k: warnings.append(a))
+
+    lock.__exit__(None, None, None)  # 不得抛
+
+    assert any("释放失败" in str(args) for args in warnings)
+    assert engine.connection.closed is True  # release 的 finally 仍 close
+
+
+def test_process_lock_exit_swallows_release_exception(tmp_path, monkeypatch):
+    """ProcessLock.release 抛异常时 __exit__ 同样降级为 warning；fcntl 锁随进程退出自动释放。"""
+    lock = ProcessLock(tmp_path / "news-ingestion.lock")
+    lock.acquire()
+
+    def boom(*_a, **_k):
+        raise OSError("release broke")
+
+    backend = lock_module.msvcrt if os.name == "nt" else lock_module.fcntl
+    monkeypatch.setattr(backend, "locking" if os.name == "nt" else "flock", boom)
+    warnings = []
+    monkeypatch.setattr(lock_module._LOG, "warning", lambda *a, **k: warnings.append(a))
+
+    lock.__exit__(None, None, None)  # 不得抛
+
+    assert any("释放失败" in str(args) for args in warnings)

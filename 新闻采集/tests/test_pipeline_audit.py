@@ -360,3 +360,77 @@ def test_pipeline_db_failure_leaves_failed_stage_and_runner_records_exit_six(
             6,
         )
         assert [stage.status for stage in stages] == ["succeeded", "succeeded", "failed"]
+
+
+def test_cleanup_exception_after_success_keeps_succeeded_terminal_state(
+    engine, session_factory, monkeypatch
+):
+    """锁 __exit__ 在业务成功 finish 之后抛异常时，成功终态必须保留，
+    不得触发假的 task/stage state conflict。
+
+    复现隧道部署场景：DatabaseLock.release 经 PG 隧道抖动抛异常，落入
+    except BaseException 后 _finish_failed 二次 finish 已终态 task/stage → 假冲突。
+    修复后业务已 finish（finished=True），跳过补偿，原始清理异常原样上抛。
+    """
+    from news_ingestion.services import audited_command as ac
+
+    class _ExitExplodingLock:
+        def __init__(self, *_args, **_kwargs):
+            pass
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_exc):
+            raise RuntimeError("release failed (tunnel flakiness)")
+
+    class _NoopLock:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_exc):
+            return None
+
+    monkeypatch.setattr(ac, "ProcessLock", _NoopLock)
+    monkeypatch.setattr(ac, "DatabaseLock", _ExitExplodingLock)
+
+    def callback(_audit, _task_id):
+        return AuditedCommandResult(
+            value="ok", exit_code=0, execution_status="succeeded", design_status="compliant"
+        )
+
+    # with 退出时内层 DatabaseLock.__exit__ 抛 RuntimeError；修复后不再 _finish_failed，
+    # 上抛的是原始清理异常（RuntimeError），而非 AuditPersistenceError。
+    with pytest.raises(RuntimeError, match="release failed"):
+        run_audited_command(
+            engine,
+            session_factory,
+            spec=AuditedCommandSpec("news_ingestion", "cleanup_test", lock_domain="news-ingestion"),
+            trigger=TriggerContext("test", "pytest"),
+            callback=callback,
+        )
+
+    with session_factory() as session:
+        task = session.query(BusinessTask).one()
+        assert (task.execution_status, task.exit_code) == ("succeeded", 0)
+
+
+def test_callback_generic_exception_still_finishes_failed(engine, session_factory):
+    """finished 标志不得破坏失败路径：callback 抛通用异常（落 BaseException 分支）时，
+    仍须 _finish_failed 把 task 标 failed/exit 6。"""
+
+    def callback(_audit, _task_id):
+        raise RuntimeError("business blew up")
+
+    with pytest.raises(RuntimeError, match="business blew up"):
+        run_audited_command(
+            engine,
+            session_factory,
+            spec=AuditedCommandSpec("news_ingestion", "fail_test", lock_domain="news-ingestion"),
+            trigger=TriggerContext("test", "pytest"),
+            callback=callback,
+        )
+
+    with session_factory() as session:
+        task = session.query(BusinessTask).one()
+        assert (task.execution_status, task.exit_code) == ("failed", 6)

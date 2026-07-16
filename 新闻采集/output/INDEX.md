@@ -4,6 +4,7 @@
 
 | 时间（Asia/Shanghai） | schema | 结果 | 事件数 | 首条标题 | 文件 |
 |---|---|---|---|---|---|
+| 2026-07-15T19:07:30 | news-material/v1 | populated | 33 | 欧盟考虑限制青少年使用社交媒体 | `20260715_190730_news_material` |
 | 2026-07-13T18:19:11 | news-material/v1 | populated | 109 | ‘Beautiful blobs’: can scienti | `20260713_181911_news_material` |
 | 2026-07-12T11:02:01 | news-material/v1 | populated | 111 | 父母的手机上瘾影响与子女的关系 | `20260712_110201_news_material` |
 | 2026-07-11T17:43:35 | news-material/v1 | populated | 76 | 父母的手机上瘾影响与子女的关系 | `20260711_174335_news_material` |

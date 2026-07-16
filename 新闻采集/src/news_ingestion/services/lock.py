@@ -25,6 +25,10 @@ from ..errors import LockBusyError
 from ..paths import lock_path
 from ..timeutil import utcnow
 
+from ..logging_setup import get_logger
+
+_LOG = get_logger(__name__)
+
 
 class ProcessLock:
     def __init__(self, path: Path | None = None) -> None:
@@ -79,7 +83,12 @@ class ProcessLock:
         return self
 
     def __exit__(self, exc_type, exc, tb) -> None:
-        self.release()
+        # 锁随进程退出 / PG 连接关闭自动释放；release 本身的异常（如隧道抖动）
+        # 不影响正确性，降级为 warning，避免污染已成功的业务退出码。
+        try:
+            self.release()
+        except Exception as exc:
+            _LOG.warning("%s 释放失败（已忽略：锁随进程/连接退出自动释放）：%s", type(self).__name__, exc)
 
 
 class DatabaseLock:
@@ -147,4 +156,9 @@ class DatabaseLock:
         return self
 
     def __exit__(self, exc_type, exc, tb) -> None:
-        self.release()
+        # 锁随进程退出 / PG 连接关闭自动释放；release 本身的异常（如隧道抖动）
+        # 不影响正确性，降级为 warning，避免污染已成功的业务退出码。
+        try:
+            self.release()
+        except Exception as exc:
+            _LOG.warning("%s 释放失败（已忽略：锁随进程/连接退出自动释放）：%s", type(self).__name__, exc)

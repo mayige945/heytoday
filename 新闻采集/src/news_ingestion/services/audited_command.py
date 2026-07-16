@@ -93,6 +93,7 @@ def run_audited_command(
         reason=reason,
     )
     stage_id: str | None = None
+    finished = False
     try:
         with ProcessLock(), DatabaseLock(engine, lock_domain=spec.lock_domain):
             audit.recover_stale(
@@ -129,6 +130,7 @@ def run_audited_command(
                     business_commit_state="committed",
                 )
             audit.finish_task(task_id, outcome, business_commit_state="committed")
+            finished = True
             return result
     except AuditPersistenceError:
         raise
@@ -161,7 +163,10 @@ def run_audited_command(
         _finish_failed(audit, task_id, stage_id, exit_code=6, business_commit_state="unknown")
         raise
     except BaseException:
-        _finish_failed(audit, task_id, stage_id, exit_code=6, business_commit_state="unknown")
+        # 业务已成功 finish 后，清理阶段（如锁释放）的异常不应回滚成功终态；
+        # 否则 _finish_failed 会二次 finish 已终态的 task/stage，触发假 state conflict。
+        if not finished:
+            _finish_failed(audit, task_id, stage_id, exit_code=6, business_commit_state="unknown")
         raise
 
 
