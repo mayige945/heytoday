@@ -20,7 +20,10 @@ def _make_config(url: str | None = None) -> Config:
     cfg = Config()
     cfg.set_main_option("script_location", str(MIGRATIONS_DIR))
     if url:
-        cfg.set_main_option("sqlalchemy.url", url)
+        # alembic Config 基于 ConfigParser，会对 % 做插值；连接串/密码里的 %
+        # （如 URL 编码的 %40/%21）会触发 "invalid interpolation syntax"。
+        # 转义为 %%，get_main_option 时会被还原回 %。
+        cfg.set_main_option("sqlalchemy.url", url.replace("%", "%%"))
     return cfg
 
 
@@ -49,7 +52,10 @@ def needs_init_or_upgrade(engine: Engine) -> bool:
 
 
 def _url_for(engine: Engine) -> str:
-    return str(engine.url)
+    # str(engine.url) 会把密码 mask 成 ***，env.py 据此重建 engine 时会用 ***
+    # 当密码导致 PG 认证失败（OperationalError）。这里仅在进程内向 alembic
+    # 配置传递连接串，必须保留真实密码（不写日志、不持久化、不出进程）。
+    return engine.url.render_as_string(hide_password=False)
 
 
 def run_upgrade(engine: Engine) -> None:
