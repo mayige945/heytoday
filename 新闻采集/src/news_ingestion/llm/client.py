@@ -81,8 +81,8 @@ class LlmClient:
         if not credentials_present():
             raise LlmNotConfiguredError("未配置 ANTHROPIC_API_KEY/ANTHROPIC_AUTH_TOKEN / ANTHROPIC_BASE_URL")
         key = (os.getenv("ANTHROPIC_API_KEY") or os.getenv("ANTHROPIC_AUTH_TOKEN") or "").strip()
-        # model 可由调用方传入；否则读 LLM_MODEL（部署可覆盖，如内部中转用 claude-sonnet-5），
-        # 再退回默认 DEFAULT_MODEL（kimi-for-coding）。
+        # model 可由调用方传入；否则读 LLM_MODEL（部署可显式锁定），再退回 DEFAULT_MODEL（kimi-for-coding）。
+        # 注意：LLM 中转按 API key 分账户组，model 必须与凭据同组，否则返回 model_not_found。
         return cls(
             base_url=os.environ["ANTHROPIC_BASE_URL"].strip(),
             api_key=key,
