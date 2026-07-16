@@ -140,6 +140,8 @@ def app_context(*, lock: bool = False, gate: bool = True):
             f"business_commit_state={exc.business_commit_state} error={exc}",
             err=True,
         )
+        if exc.__cause__ is not None:
+            typer.echo(f"  原始异常：{type(exc.__cause__).__name__}: {exc.__cause__}", err=True)
         raise typer.Exit(6)
     except DbInfraError as exc:
         typer.echo(f"数据库错误：{exc}", err=True)
