@@ -1,0 +1,856 @@
+{
+  "model": "speech-2.8-hd",
+  "endpoint": "https://api.minimaxi.com/v1/t2a_v2",
+  "endpoint_candidates": [
+    "https://api.minimaxi.com/v1/t2a_v2"
+  ],
+  "mode": "line_concat",
+  "voice_ids": {
+    "爸爸": "Chinese ..._Adult",
+    "孩子": "Chinese ...ed_Boy"
+  },
+  "payload_features": {
+    "text_pause_tag": "<#x#>",
+    "paragraph_marker": "\\n",
+    "native_tags": [
+      "breath",
+      "burps",
+      "chuckle",
+      "clear-throat",
+      "coughs",
+      "emm",
+      "exhale",
+      "gasps",
+      "groans",
+      "hissing",
+      "humming",
+      "inhale",
+      "laughs",
+      "lip-smacking",
+      "pant",
+      "sighs",
+      "sneezes",
+      "sniffs",
+      "snorts"
+    ],
+    "pronunciation_dict": [
+      "Pando/(pan1)(duo1)",
+      "MiniMax/(mi2)(ni3)(mai4)(ke4)(si1)",
+      "一只只数/(yi4)(zhi1)(zhi1)(shu3)",
+      "一只一只数/(yi4)(zhi1)(yi4)(zhi1)(shu3)",
+      "数虫子/(shu3)(chong2)(zi5)",
+      "认真数/(ren4)(zhen1)(shu3)",
+      "数完/(shu3)(wan2)",
+      "数清楚/(shu3)(qing1)(chu3)",
+      "数不清/(shu3)(bu4)(qing1)",
+      "数不完/(shu3)(bu4)(wan2)",
+      "锆石/(gao4)(shi2)",
+      "乌哈卡蒂克/(wu1)(ha1)(ka3)(di4)(ke4)",
+      "奥辛斯基/(ao4)(xin1)(si1)(ji1)",
+      "若埃尔/(ruo4)(ai1)(er3)",
+      "拉普安特/(la1)(pu3)(an1)(te4)",
+      "冲击锥/(chong1)(ji1)(zhui1)",
+      "冲击熔融岩/(chong1)(ji1)(rong2)(rong2)(yan2)"
+    ],
+    "language_boost": "Chinese",
+    "subtitle_enable": false,
+    "subtitle_type": "sentence"
+  },
+  "turn_count": 56,
+  "dad_turns": 29,
+  "kid_turns": 27,
+  "pause_same_ms": 250,
+  "pause_switch_ms": 450,
+  "turns": [
+    {
+      "speaker": "爸爸",
+      "chars": 48,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0,
+        "emotion": "calm"
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "今天这期，咱们先看一张没有宝藏叉号的藏宝图。地图中间只有一个大圆圈。你觉得，一个圆圈能藏住什么？",
+      "cache_reused": true
+    },
+    {
+      "speaker": "孩子",
+      "chars": 37,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "要是它在森林里，我先猜是湖。或者火山口。再夸张一点，是外星飞船停过的地方。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 44,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0,
+        "emotion": "happy"
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "(chuckle)(laughs)第三个猜法很会抢镜。可如果你只能先留一个，你会留哪个？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 23,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "湖。地图上的圆圈嘛，最普通的答案通常比较靠谱。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 52,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "这个圆圈在加拿大魁北克东北部，直径大约二十五公里。不是二十五米，是从城市一头到另一头那么大的二十五公里。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 24,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0,
+        "emotion": "surprised"
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "(gasps)那我把“小湖”收回。它里面有水吗？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 80,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "有湖，也有森林和岩石。二零二四年，一位叫若埃尔·拉普安特的业余天文爱好者，正用谷歌地图找露营路线。他看见这片圆形地貌，脑子里冒出一个猜测：会不会是陨石撞出来的？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 35,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "等一下。他不是在天文台里看星星，是在家里找露营地，就顺手发现了陨石坑？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 20,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "听起来像这样。可“我觉得它像”算发现吗？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 23,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "不算。云还像恐龙呢，总不能说天上真的飘着恐龙。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 9,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "那第一关该查什么？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 40,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "先看看别人是不是早就发现了。要不然我指着长城说“我发现一堵超长的墙”，就挺尴尬。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 39,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "拉普安特查了已有的撞击坑资料，没有找到这个圆圈。他把线索发给研究撞击坑的专家。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 23,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "专家一看地图，是不是马上说：“天才，就是它！”",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 56,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "恰恰相反。研究撞击坑的地质学家戈登·奥辛斯基起初很怀疑。因为他平时收到的“我发现陨石坑了”报告，多数最后都不是。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 11,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "那圆圈还能怎么长出来？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 60,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "火山、地下岩石塌陷、冰川活动，甚至不同岩层被风雨磨出一圈，都可能。只看形状，嫌疑人太多了。你是小侦探的话，下一步要什么？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 21,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "我要去现场。地图只能看脸，得看看它的骨头。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 57,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "二零二五年十月，研究团队真的去了。那里地形崎岖，路很难走，虫子还特别多。第一天过去，没有“欢迎来到陨石坑”的牌子。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 19,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.18,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "第二天呢？新闻故事一般第二天会来证据。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 48,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 0.88,
+        "vol": 1.0,
+        "pitch": -2
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "第二天，他们在岩石上找到了一种奇怪的锥形裂纹。像有人把一把石头折扇从顶端撑开，一道道纹路向外散。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 11,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "这就是陨石留下的指纹？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 48,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "它叫“冲击锥”。岩石突然挨到极强的冲击波时，才容易留下这种纹路。普通风吹雨打很难做出一样的结构。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 19,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "那案子破了？有冲击锥，就一定是陨石坑？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 31,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "你愿意只凭一枚指纹就结案吗？如果样品来自别处，或者判断错了呢？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 26,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "不愿意。还得找第二件物证，而且最好能解释这个大圆圈。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 47,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "他们又看到大片很厚的岩层，有的地方露出几十米高的岩壁。里面夹着许多碎块，像一锅刚凝固的石头粥。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 9,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "石头怎么会熔成粥？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 69,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "一颗高速天体撞上地面时，压力和热量能在一瞬间让部分岩石熔化。冷却以后，就留下“冲击熔融岩”。研究团队认为，这片岩层最厚可能达到五十米左右。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 36,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.18,
+        "pitch": 2,
+        "emotion": "happy"
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "一个冲击锥，一大片熔过的岩石，再加地图上的圆圈。三个证据开始互相对上了。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 35,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "可你刚才还问了一个问题：它是什么时候形成的？石头又不会戴手表，怎么查？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 25,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "看年轮？不对，石头没有年轮。看里面有没有恐龙骨头？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 65,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "研究者检查了岩石保存的古老磁场方向，也初步分析了熔融岩里的锆石。两条线索都把时间指向大约三亿九千万年前，上下还会有几千万年的误差。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 27,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0,
+        "emotion": "surprised"
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "(gasps)这个误差也太大了吧！几千万年叫“上下”？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 82,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "放在人一天的时间里当然巨大。可面对几亿年前的岩石，这已经像在一本被雨泡烂的旧书里，努力认出它属于哪一章。你觉得这里该说“正好三亿九千万年”，还是“约三亿九千万年”？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 29,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "一定要说“约”。不然听起来像陨石撞下来的时候有人按了秒表。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 64,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "研究团队在二零二六年的国际陨石学会议摘要里写道：现场数据确认这里是一次高速撞击形成的结构，直径约二十五公里，年龄约三亿九千万年。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 18,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "所以拉普安特真的发现了一个新陨石坑？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 66,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "现在的证据很强，会议摘要也用了“确认”这个词。不过完整研究还要继续发表、讨论和检查。科学里的“确认”，是不是等于从此没人能再问问题？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 37,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "应该不是。只是目前这套解释，比“普通湖”“火山口”更能把三件物证一起讲通。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 64,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 0.88,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "还有一件小事。研究团队没有直接用最初地图上的湖名，而是在和当地埃库阿尼奇特因努委员会商量后，把这个撞击构造命名为“乌哈卡蒂克”。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 22,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "发现一个地方的人，不一定就能随便给它起名字？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 45,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "如果一块土地早已有人生活、使用和命名，科学家带来的新解释，应该怎样和当地人的历史放在一起？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 18,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "这个问题比“叫超级陨石大坑”难多了。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 70,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "地球上已经确认的撞击坑大约只有两百个。加拿大特别多，不一定是陨石更爱往加拿大掉，而是那里有大片古老、稳定的岩石，能把很久以前的痕迹留到今天。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 37,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "也就是说，别的地方可能也被撞过，只是证据早被海水、泥土或者地壳活动擦掉了。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 25,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "如果证据被擦掉了，我们能说“那里一定没发生过”吗？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 45,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "不能。最多说“目前没找到”。这跟刚开始看地图一样：一个圆圈不是答案，只是一个值得查的地方。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 61,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "那位业余天文爱好者做对的，也许不是他第一眼就猜中了，而是他没有把猜测直接当结论。他查资料，再把问题交给能去现场找证据的人。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 26,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "专家做对的也不是马上相信他，而是先怀疑，再真的去看。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 30,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "如果专家因为一百次误报，就把第一百零一次也直接扔掉，会怎样？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 39,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "可能省下很多时间，也可能错过那个真的。可如果每个圆圈都出发考察，又会忙不过来。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 37,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "那该把门槛放在哪里？一张地图、一个形状、几块样品，还是更多互相独立的证据？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "孩子",
+      "chars": 53,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Pure-hearted_Boy",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "我现在反而更想知道：明天要是我也在地图上看到一条奇怪的线，我得找到什么证据，才能让别人愿意跟着我再看一眼？",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 12,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0,
+        "emotion": "calm"
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "这个问题，先留在地图上。",
+      "cache_reused": false
+    },
+    {
+      "speaker": "爸爸",
+      "chars": 13,
+      "voice_setting": {
+        "voice_id": "Chinese (Mandarin)_Sincere_Adult",
+        "speed": 1.0,
+        "vol": 1.0,
+        "pitch": 0
+      },
+      "voice_modify": null,
+      "timbre_weights": null,
+      "text": "今天这期新闻播客就到这里。",
+      "cache_reused": false
+    }
+  ]
+}
